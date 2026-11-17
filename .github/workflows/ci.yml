@@ -1,0 +1,42 @@
+# The tool that audits CI has CI, and it is the gate the tool itself would ask
+# for: format, lint, test, and a real build of the component that ships.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: rust
+        run: rustup toolchain install stable --profile minimal --component rustfmt,clippy
+      - name: fmt
+        run: cargo fmt --all --check
+      - name: clippy
+        run: cargo clippy --features cli --all-targets -- -D warnings
+      - name: test
+        run: cargo test --features cli
+
+  component:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: rust
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup target add wasm32-wasip2
+      - name: build
+        run: cargo build --release --target wasm32-wasip2 --features cli --bin arborist
+      - name: the shipped module matches the source
+        run: |
+          built=target/wasm32-wasip2/release/arborist.wasm
+          if ! cmp -s "$built" bin/arborist.wasm; then
+            echo "bin/arborist.wasm is stale; rebuild and commit it:" >&2
+            echo "  cargo build --release --target wasm32-wasip2 --features cli --bin arborist" >&2
+            echo "  cp $built bin/arborist.wasm" >&2
+            exit 1
+          fi
