@@ -38,6 +38,15 @@ jobs:
       # anywhere is that what ships is a component: `\0asm` and the component
       # version, rather than a stale core module or a truncated copy.
       - name: the shipped module is a component
+        # Python rather than `od | tr | grep`: the header is eight bytes, and
+        # sed/od/grep formatting differs enough between macOS and the runner that
+        # the pipeline is a portability test dressed as a wasm check.
         run: |
-          head -c 8 bin/arborist.wasm | od -An -tx1 | tr -s ' ' | grep -q '^ 00 61 73 6d 0d 00 01 00 $' \
-            || { echo "bin/arborist.wasm is not a wasm component" >&2; exit 1; }
+          python3 - <<'PY'
+          import pathlib, sys
+          expected = b"\x00asm\x0d\x00\x01\x00"
+          head = pathlib.Path("bin/arborist.wasm").read_bytes()[:8]
+          if head != expected:
+              sys.exit(f"bin/arborist.wasm is not a wasm component: {head!r}")
+          print("bin/arborist.wasm is a component")
+          PY
