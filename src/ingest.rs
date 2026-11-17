@@ -91,6 +91,21 @@ impl Collector {
                         .unwrap_or_default(),
                     latest_run: None,
                     links: None,
+                    readme: node.readme.map(|blob| match blob {
+                        None => crate::Readme {
+                            present: false,
+                            bytes: 0,
+                            badges: Vec::new(),
+                        },
+                        Some(blob) => {
+                            let text = blob.text.unwrap_or_default();
+                            crate::Readme {
+                                present: true,
+                                bytes: blob.byte_size.max(text.len() as u32),
+                                badges: crate::badge::extract(&text),
+                            }
+                        }
+                    }),
                     exempt: BTreeMap::new(),
                 },
             );
@@ -202,6 +217,33 @@ struct Node {
     branches: Option<Count>,
     #[serde(default)]
     workflows: Option<Tree>,
+    // `Option<Option<_>>` on purpose, through `double_option`: a field the page
+    // never asked for is `None`, and a field it asked for and got `null` back is
+    // `Some(None)` — a README that is definitely absent. Collapsing the two
+    // would turn "not collected" into "missing" and fail a repository nobody
+    // read.
+    #[serde(default, deserialize_with = "double_option")]
+    readme: Option<Option<Blob>>,
+}
+
+fn double_option<'de, D, T>(deserializer: D) -> Result<Option<Option<T>>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    Option::<T>::deserialize(deserializer).map(Some)
+}
+
+/// A file at a revision. `None` for the whole field means the file is not
+/// there, which is why the README answer can be a `fail` rather than an
+/// `unknown`.
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct Blob {
+    #[serde(default)]
+    byte_size: u32,
+    #[serde(default)]
+    text: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]

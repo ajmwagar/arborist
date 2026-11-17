@@ -1,0 +1,24 @@
+# The gate this repository is willing to be judged by.
+#
+# Three checks, because three is what a reviewer actually reads: does it build
+# clean, does it format, do the tests assert anything.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: rust
+        run: rustup toolchain install stable --profile minimal --component rustfmt,clippy
+      - name: fmt
+        run: cargo fmt --all --check
+      - name: clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: test
+        run: cargo test

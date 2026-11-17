@@ -61,6 +61,11 @@ impl Status {
     pub fn is_unknown(&self) -> bool {
         matches!(self, Self::Unknown { .. })
     }
+
+    #[must_use]
+    pub fn is_pass(&self) -> bool {
+        matches!(self, Self::Pass)
+    }
 }
 
 /// A question the fleet is asked, once, in one place.
@@ -80,6 +85,10 @@ pub enum Check {
     CiGreen,
     /// The repository has shipped something.
     Release,
+    /// There is a README to read.
+    Readme,
+    /// Its badges point at something that still exists.
+    Badges,
     /// Somebody wrote one sentence about it.
     Description,
     /// The documentation links in the repository resolve.
@@ -94,11 +103,13 @@ pub enum Check {
 
 impl Check {
     /// Every check, in the order a report prints them.
-    pub const ALL: [Self; 9] = [
+    pub const ALL: [Self; 11] = [
         Self::License,
         Self::Ci,
         Self::CiGreen,
         Self::Release,
+        Self::Readme,
+        Self::Badges,
         Self::Description,
         Self::DocsLinks,
         Self::Active,
@@ -113,6 +124,8 @@ impl Check {
             Self::Ci => "ci",
             Self::CiGreen => "ci-green",
             Self::Release => "release",
+            Self::Readme => "readme",
+            Self::Badges => "badges",
             Self::Description => "description",
             Self::DocsLinks => "docs-links",
             Self::Active => "active",
@@ -124,8 +137,9 @@ impl Check {
     #[must_use]
     pub fn severity(self) -> Severity {
         match self {
-            Self::License | Self::Ci | Self::CiGreen => Severity::Critical,
-            Self::Release
+            Self::License | Self::Ci | Self::CiGreen | Self::Readme => Severity::Critical,
+            Self::Badges
+            | Self::Release
             | Self::Description
             | Self::DocsLinks
             | Self::Active
@@ -142,6 +156,8 @@ impl Check {
             Self::Ci => "is there a workflow under .github/workflows",
             Self::CiGreen => "did the last run on the default branch pass",
             Self::Release => "has it ever cut a release",
+            Self::Readme => "is there a README a stranger could start from",
+            Self::Badges => "do its badges point at something that still exists",
             Self::Description => "does the forge description say what it is",
             Self::DocsLinks => "do the documentation links resolve",
             Self::Active => "was it pushed to inside the staleness window",
@@ -155,9 +171,11 @@ impl Check {
     pub fn remedy(self) -> &'static str {
         match self {
             Self::License => "add LICENSE (and set it in spore.toml / Cargo.toml / package.json)",
-            Self::Ci => "add .github/workflows/ci.yml, or adopt the fleet workflow",
+            Self::Ci => "start from `arborist template ci`",
             Self::CiGreen => "fix the failing run, or remove the workflow that fails",
             Self::Release => "cut a release, or delete the release workflow if it is unused",
+            Self::Readme => "start from `arborist template readme`",
+            Self::Badges => "point the badge at a workflow that exists: `arborist template readme`",
             Self::Description => "set the repository description",
             Self::DocsLinks => "fix or remove the dead link",
             Self::Active => "archive it, or push the work that is sitting locally",

@@ -12,6 +12,8 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
+use crate::badge::Badge;
+
 /// The snapshot schema this build reads and writes.
 pub const SCHEMA: u32 = 1;
 
@@ -60,6 +62,10 @@ pub struct RepoState {
     pub latest_run: Option<Run>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub links: Option<Vec<Link>>,
+    /// The README's shape, not its text. Storing the prose would make a
+    /// snapshot megabytes wide to answer a question about four URLs.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub readme: Option<Readme>,
     /// Checks this repository does not need, and why. Reviewed like a grant:
     /// intent is written down, so `license: "proprietary, see legal"` is a
     /// decision instead of a hole the report cannot see.
@@ -100,6 +106,25 @@ pub struct Link {
     /// The transport error, when there was one instead of a status.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub error: Option<String>,
+}
+
+/// What a README has, once somebody has read it.
+///
+/// `None` on [`RepoState`] means nobody looked. That is different from a
+/// README that is definitely absent, which is `Some` with `present: false` —
+/// the difference between a check that answers `unknown` and one that answers
+/// `fail`.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Readme {
+    /// Whether a README file exists on the default branch.
+    pub present: bool,
+    /// Its size in bytes, which is how a stub is told from a document.
+    #[serde(default)]
+    pub bytes: u32,
+    /// Every image it embeds, in order.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub badges: Vec<Badge>,
 }
 
 /// Everything one collection pass produced.

@@ -1,5 +1,7 @@
 # arborist
 
+[![ci](https://github.com/ajmwagar/arborist/actions/workflows/ci.yml/badge.svg)](https://github.com/ajmwagar/arborist/actions/workflows/ci.yml)
+
 Fleet health for source code: what every repository is missing, and what has rotted.
 
 A fleet does not rot all at once. It rots one small thing at a time — a licence
@@ -30,6 +32,8 @@ whole reason a check is written once instead of twice.
 | `ci` | critical | is there a workflow under `.github/workflows` |
 | `ci-green` | critical | did the last run on the default branch pass |
 | `release` | advisory | has it ever cut a release |
+| `readme` | critical | is there a README a stranger could start from |
+| `badges` | advisory | do its badges point at something that still exists |
 | `description` | advisory | does the forge description say what it is |
 | `docs-links` | advisory | do the documentation links resolve |
 | `active` | advisory | was it pushed to inside the staleness window |
@@ -51,6 +55,8 @@ license          119        -   ████████████████
 ci                98        -   ████████████              65%
 ci-green           0      150                              0%
 release          145        -   ███████████████████████   97%
+readme            26        -   ████                      17%
+badges           135       13   ██████████████████████    90%
 docs-links         0      150                              0%
 active            46        -   ███████                   31%
 branches           4        -   █                          3%
@@ -61,7 +67,34 @@ branches           4        -   █                          3%
 
 Those numbers are one real run over a 150-repository fleet (42 more were skipped
 as archived or forks). 79% of repositories had no licence a forge could name, 65%
-had no workflow, 97% had never cut a release.
+had no workflow, 97% had never cut a release, and 90% had a README with no status
+badge on it.
+
+## The badges check
+
+A badge is a promise that something is being watched. A badge pointing at a
+workflow file that was deleted six months ago is not a promise, it is a broken
+image — and it is the most common way a README starts lying, because nothing in
+the repository notices when the workflow it advertises goes away.
+
+So `badges` reads the README's images and classifies each one. It fails when a
+badge watches a service that no longer exists (`travis-ci.org`), when there is no
+CI badge at all, and when an Actions badge names a workflow file that is not in
+`.github/workflows`. Everything else — crates, docs, licence, coverage — is
+ignored, because none of it is CI.
+
+## Fix it, not just find it
+
+Every remedy names a file you can have:
+
+```sh
+arborist template readme   # a README whose badge points at a workflow that exists
+arborist template ci       # the workflow that badge points at
+```
+
+The templates are compiled into the component, so a shell with no filesystem can
+still print one, and the file a remedy names is the file that shipped rather than
+a copy that drifted.
 
 ## Use it
 
@@ -120,3 +153,7 @@ what lets it run in a sandbox that grants nothing at all.
 ## Licence
 
 MIT.
+
+---
+
+For granddad.

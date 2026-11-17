@@ -11,7 +11,7 @@ schema = 1
 [spore]
 id = "dev.fungos.arborist"
 name = "arborist"
-version = "0.1.0"
+version = "0.2.0"
 license = "MIT"
 summary = "What every repository in the fleet is missing, and what has rotted"
 description = "Reads a fleet snapshot and answers: which repositories have no licence, no CI, no release, no description, no documentation whose links still resolve, and which are drifting. The checks are one vocabulary and the thresholds are one policy, so the shell command, CI, and a view all see the same answer."
@@ -23,6 +23,7 @@ usage = [
   "arborist report < snapshot.json",
   "arborist explain OWNER/NAME < snapshot.json",
   "arborist checks",
+  "arborist template readme",
 ]
 man = "docs/man.md"
 

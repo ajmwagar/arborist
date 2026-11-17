@@ -14,7 +14,7 @@
 set -eu
 
 if [ "$#" -eq 0 ]; then
-  echo "usage: collect.sh ORG... [--limit N]" >&2
+  echo "usage: collect.sh ORG..." >&2
   exit 2
 fi
 

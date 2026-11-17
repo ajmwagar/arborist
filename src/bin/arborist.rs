@@ -31,6 +31,10 @@ USAGE
   # the vocabulary, and how to read it
   arborist checks
 
+  # the fix, ready to paste
+  arborist template readme
+  arborist template ci
+
 OPTIONS
   --json          print the report as JSON instead of text
   --all           list every repository with findings, not just the worst
@@ -74,6 +78,7 @@ fn run(args: &[String]) -> Result<ExitCode, String> {
         "report" => Ok(report(&args[1..])),
         "ingest" => ingest(&args[1..]),
         "checks" => checks(&args[1..]),
+        "template" => template(&args[1..]),
         "explain" => explain(&args[1..]),
         // A bare pipeline with flags and no verb is a report; that is the
         // common case and it should not need a word.
@@ -268,6 +273,30 @@ fn checks(args: &[String]) -> Result<ExitCode, String> {
         );
     }
     Ok(ExitCode::SUCCESS)
+}
+
+/// Print a starter file. The remedy a check names is the file this prints, so a
+/// finding always arrives with something to do.
+fn template(args: &[String]) -> Result<ExitCode, String> {
+    let Some(name) = args.first().filter(|arg| !arg.starts_with('-')) else {
+        println!("templates: {}", arborist::template::NAMES.join(", "));
+        println!("  arborist template readme   a README with a badge that points at a workflow");
+        println!("  arborist template ci       the workflow that badge points at");
+        return Ok(ExitCode::SUCCESS);
+    };
+    match arborist::template::get(name) {
+        Some(text) => {
+            print!("{text}");
+            if !text.ends_with('\n') {
+                println!();
+            }
+            Ok(ExitCode::SUCCESS)
+        }
+        None => Err(format!(
+            "no template named {name:?}. Try one of: {}",
+            arborist::template::NAMES.join(", ")
+        )),
+    }
 }
 
 fn explain(args: &[String]) -> Result<ExitCode, String> {

@@ -43,7 +43,10 @@ fn the_three_repositories_land_in_the_three_states() {
     let report = evaluate(&snapshot());
     assert_eq!(report.summary.checked, 2, "the archived one is not scored");
     assert_eq!(report.summary.skipped, 1);
-    assert_eq!(report.summary.critical, 1, "bare fails licence and ci");
+    assert_eq!(
+        report.summary.critical, 1,
+        "bare fails licence, ci and readme"
+    );
     assert_eq!(report.summary.advisory, 0, "healthy fails nothing");
     // `clean` is stricter than `worst_fail().is_none()` on purpose: healthy has
     // no failing check and two unmeasured ones, so it is not clean, it is
@@ -57,6 +60,16 @@ fn the_three_repositories_land_in_the_three_states() {
         .find(|repo| repo.name == "healthy")
         .expect("healthy is scored");
     assert!(healthy.worst_fail().is_none(), "{healthy:?}");
+    let badges = healthy
+        .findings
+        .iter()
+        .find(|finding| finding.check == Check::Badges)
+        .expect("badges is evaluated");
+    assert!(
+        badges.status.is_pass(),
+        "the README badge points at ci.yml, which is in the workflow list: {:?}",
+        badges.status
+    );
 
     let bare = report
         .repos
@@ -66,6 +79,11 @@ fn the_three_repositories_land_in_the_three_states() {
     let failed: Vec<&str> = bare.fails().map(|finding| finding.check.id()).collect();
     assert!(failed.contains(&Check::License.id()), "{failed:?}");
     assert!(failed.contains(&Check::Ci.id()), "{failed:?}");
+    assert!(failed.contains(&Check::Readme.id()), "{failed:?}");
+    assert!(
+        !failed.contains(&Check::Badges.id()),
+        "with no README the badges check has nothing to read, so it is unknown"
+    );
     assert!(
         !failed.contains(&Check::Branches.id()),
         "three branches is not a problem"

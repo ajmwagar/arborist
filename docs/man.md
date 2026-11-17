@@ -12,6 +12,8 @@ arborist — what every repository in the fleet is missing, and what has rotted
 
 `arborist checks [--json]`
 
+`arborist template [readme|ci]`
+
 # DESCRIPTION
 
 A fleet rots in ways nobody notices one repository at a time: a licence that was
@@ -60,6 +62,8 @@ failing test instead of a silently empty column.
 | `ci` | critical | is there a workflow under `.github/workflows` |
 | `ci-green` | critical | did the last run on the default branch pass |
 | `release` | advisory | has it ever cut a release |
+| `readme` | critical | is there a README a stranger could start from |
+| `badges` | advisory | do its badges point at something that still exists |
 | `description` | advisory | does the forge description say what it is |
 | `docs-links` | advisory | do the documentation links resolve |
 | `active` | advisory | was it pushed to inside the staleness window |
@@ -68,6 +72,36 @@ failing test instead of a silently empty column.
 
 `arborist checks` prints the same table with the remedy for each, and `--json`
 prints it for a tool.
+
+# BADGES
+
+A badge is a promise that something is being watched. The check reads every
+image in the README and classifies it: a GitHub Actions status badge, a live CI
+service (GitLab, CircleCI, Buildkite, Codecov), a service that has been shut
+down, or something else entirely (crates, docs, licence) that is not CI.
+
+It fails in three cases, in this order of how badly the README is lying:
+
+1. a badge watches a service that no longer exists, so it renders as a broken
+   image;
+2. there is no CI badge at all;
+3. an Actions badge names a workflow file that is not in `.github/workflows`,
+   which is what happens when the workflow is deleted and the badge is not.
+
+A repository with no README is `unknown` here rather than a second failure: the
+`readme` check already owns that absence, and reporting one absence twice makes
+a report harder to read, not more thorough.
+
+# TEMPLATES
+
+```sh
+arborist template readme
+arborist template ci
+```
+
+The two files a repository needs to stop failing `readme`, `badges` and `ci`.
+They are compiled into the component, so they are reachable from a shell with no
+filesystem, and the file a remedy names is the file that shipped.
 
 Three of these ask for evidence a batched collection does not have. `ci-green`
 and `docs-links` answer `unknown` until a collector fills `latest_run` and

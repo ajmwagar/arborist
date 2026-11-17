@@ -29,6 +29,10 @@ pub struct Policy {
     /// Whether a fork is skipped. A fork is somebody else's repository with a
     /// local ref, and auditing it says more about upstream than about us.
     pub check_forks: bool,
+    /// A README smaller than this is a placeholder. A title and a sentence fit
+    /// in 256 bytes; anything shorter is a file somebody created to stop the
+    /// forge complaining.
+    pub min_readme_bytes: u32,
 }
 
 impl Default for Policy {
@@ -39,6 +43,7 @@ impl Default for Policy {
             max_open_pulls: 10,
             check_archived: false,
             check_forks: false,
+            min_readme_bytes: 256,
         }
     }
 }
@@ -173,6 +178,29 @@ fn evaluate_one(
             0 => Finding::fail(check, "no releases"),
             _ => Finding::pass(check),
         },
+        Check::Readme => match &repo.readme {
+            None => Finding::unknown(check, "the README was not read"),
+            Some(readme) if !readme.present => {
+                Finding::fail(check, "no README on the default branch")
+            }
+            Some(readme) if readme.bytes < policy.min_readme_bytes => Finding::fail(
+                check,
+                format!(
+                    "the README is {} bytes, under the {} that says what it is",
+                    readme.bytes, policy.min_readme_bytes
+                ),
+            ),
+            Some(_) => Finding::pass(check),
+        },
+        Check::Badges => match &repo.readme {
+            None => Finding::unknown(check, "the README was not read"),
+            // A repository with no README already fails `readme`; failing here
+            // as well would report one absence twice.
+            Some(readme) if !readme.present => {
+                Finding::unknown(check, "there is no README to carry a badge")
+            }
+            Some(readme) => evaluate_badges(check, repo, &readme.badges),
+        },
         Check::Description => match repo.description.as_deref().map(str::trim) {
             Some(description) if !description.is_empty() => Finding::pass(check),
             _ => Finding::fail(check, "the forge description is empty"),
@@ -244,6 +272,76 @@ fn evaluate_one(
     }
 }
 
+/// A badge is only worth having if the thing it watches still exists.
+///
+/// The order is the order of how badly it lies: a dead service is a broken image
+/// on the front page, a missing CI badge means nothing is watched, and a badge
+/// pointing at a deleted workflow is a promise with no object.
+fn evaluate_badges(check: Check, repo: &RepoState, badges: &[crate::Badge]) -> Finding {
+    let mut dead: Vec<String> = Vec::new();
+    let mut live_ci = 0usize;
+    let mut missing_workflow: Vec<String> = Vec::new();
+
+    for badge in badges {
+        match crate::badge::classify(&badge.url) {
+            crate::badge::BadgeKind::Dead { host } => dead.push(host),
+            crate::badge::BadgeKind::Ci { .. } => live_ci += 1,
+            crate::badge::BadgeKind::Actions { workflow, legacy } => {
+                live_ci += 1;
+                if let Some(workflow) = workflow {
+                    if !legacy && !repo.workflows.contains(&workflow) {
+                        // A legacy badge names the workflow's title, not its
+                        // file, so there is nothing to compare it with.
+                        missing_workflow.push(workflow);
+                    }
+                }
+            }
+            crate::badge::BadgeKind::Other => {}
+        }
+    }
+
+    if !dead.is_empty() {
+        dead.sort_unstable();
+        dead.dedup();
+        return Finding::fail(
+            check,
+            format!(
+                "{} badge(s) watch a service that no longer exists: {}",
+                dead.len(),
+                dead.join(", ")
+            ),
+        );
+    }
+    if live_ci == 0 {
+        return Finding::fail(
+            check,
+            format!(
+                "no CI status badge; the README embeds {} other image(s)",
+                badges.len()
+            ),
+        );
+    }
+    if !missing_workflow.is_empty() {
+        return Finding::fail(
+            check,
+            format!(
+                "a badge points at {}, which is not in .github/workflows",
+                missing_workflow.join(", ")
+            ),
+        );
+    }
+    if repo.workflows.is_empty() {
+        // The badges name a workflow and the file listing has none: the listing
+        // and the README cannot both be right, and the README is the one that
+        // was written by hand.
+        return Finding::fail(
+            check,
+            "the README advertises CI and .github/workflows is empty",
+        );
+    }
+    Finding::pass(check)
+}
+
 fn link_ok(link: &crate::snapshot::Link) -> bool {
     link.error.is_none()
         && link
@@ -254,9 +352,10 @@ fn link_ok(link: &crate::snapshot::Link) -> bool {
 #[cfg(test)]
 mod tests {
     use super::{Finding, Policy, evaluate};
+    use crate::Badge;
     use crate::check::{Check, Status};
     use crate::report::SkipReason;
-    use crate::snapshot::{Link, RepoState, Run, Snapshot};
+    use crate::snapshot::{Link, Readme, RepoState, Run, Snapshot};
 
     fn repo() -> RepoState {
         RepoState {
@@ -422,6 +521,145 @@ mod tests {
         let report = evaluate(&snapshot);
         assert_eq!(report.repos.len(), 1);
         assert!(report.skipped.is_empty());
+    }
+
+    fn readme(bytes: u32, badges: &[(&str, &str)]) -> Readme {
+        Readme {
+            present: true,
+            bytes,
+            badges: badges
+                .iter()
+                .map(|(label, url)| Badge {
+                    label: (*label).into(),
+                    url: (*url).into(),
+                })
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn a_readme_nobody_read_is_unknown_and_one_that_is_missing_is_a_failure() {
+        let mut unread = repo();
+        unread.readme = None;
+        let report = evaluate(&snapshot(vec![unread]));
+        assert!(find(&report, Check::Readme).status.is_unknown());
+
+        let mut absent = repo();
+        absent.readme = Some(Readme {
+            present: false,
+            bytes: 0,
+            badges: vec![],
+        });
+        let report = evaluate(&snapshot(vec![absent]));
+        assert!(find(&report, Check::Readme).status.is_fail());
+    }
+
+    #[test]
+    fn a_stub_readme_fails_where_a_document_passes() {
+        let mut stub = repo();
+        stub.readme = Some(readme(15, &[]));
+        let report = evaluate(&snapshot(vec![stub]));
+        assert!(find(&report, Check::Readme).status.is_fail());
+
+        let mut document = repo();
+        document.readme = Some(readme(4096, &[]));
+        let report = evaluate(&snapshot(vec![document]));
+        assert!(find(&report, Check::Readme).status.is_pass());
+    }
+
+    #[test]
+    fn a_repository_with_no_readme_does_not_fail_twice() {
+        let mut absent = repo();
+        absent.readme = Some(Readme {
+            present: false,
+            bytes: 0,
+            badges: vec![],
+        });
+        let report = evaluate(&snapshot(vec![absent]));
+        assert!(find(&report, Check::Readme).status.is_fail());
+        assert!(
+            find(&report, Check::Badges).status.is_unknown(),
+            "the readme check owns that absence"
+        );
+    }
+
+    #[test]
+    fn a_readme_with_no_ci_badge_fails_even_when_it_has_others() {
+        let mut unbadged = repo();
+        unbadged.readme = Some(readme(
+            4096,
+            &[
+                ("crates", "https://img.shields.io/crates/v/bob.svg"),
+                ("docs", "https://docs.rs/bob/badge.svg"),
+            ],
+        ));
+        let report = evaluate(&snapshot(vec![unbadged]));
+        match &find(&report, Check::Badges).status {
+            Status::Fail { detail } => {
+                assert!(detail.contains("no CI status badge"), "{detail}");
+                assert!(detail.contains("2 other image"), "{detail}");
+            }
+            other => panic!("expected a failure, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_badge_pointing_at_a_deleted_workflow_fails() {
+        let mut stale = repo(); // the fixture has ci.yml only
+        stale.readme = Some(readme(
+            4096,
+            &[(
+                "tests",
+                "https://github.com/fpl/bob/actions/workflows/tests.yml/badge.svg",
+            )],
+        ));
+        let report = evaluate(&snapshot(vec![stale]));
+        match &find(&report, Check::Badges).status {
+            Status::Fail { detail } => {
+                assert!(detail.contains("tests.yml"), "{detail}");
+                assert!(detail.contains("not in .github/workflows"), "{detail}");
+            }
+            other => panic!("expected a failure, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_badge_from_a_service_that_is_gone_fails_before_the_others() {
+        let mut dead = repo();
+        dead.readme = Some(readme(
+            4096,
+            &[
+                (
+                    "ci",
+                    "https://github.com/fpl/bob/actions/workflows/ci.yml/badge.svg",
+                ),
+                ("build", "https://travis-ci.org/fpl/bob.svg?branch=main"),
+            ],
+        ));
+        let report = evaluate(&snapshot(vec![dead]));
+        match &find(&report, Check::Badges).status {
+            Status::Fail { detail } => {
+                assert!(
+                    detail.contains("no longer exists") && detail.contains("travis-ci.org"),
+                    "{detail}"
+                );
+            }
+            other => panic!("expected a failure, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_badge_pointing_at_a_workflow_that_exists_passes() {
+        let mut good = repo();
+        good.readme = Some(readme(
+            4096,
+            &[(
+                "ci",
+                "https://github.com/fpl/bob/actions/workflows/ci.yml/badge.svg?branch=main",
+            )],
+        ));
+        let report = evaluate(&snapshot(vec![good]));
+        assert_eq!(find(&report, Check::Badges).status, Status::Pass);
     }
 
     #[test]
