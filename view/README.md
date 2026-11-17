@@ -12,6 +12,8 @@ soil spore run . --surface frame --frame /tmp/arborist.png --size 1280x800
 `module.wasm` is built, not committed — 9.7 MB of GPUI and WebGPU that nothing
 consumes without a host that can present it.
 
+![the wall](preview/wall.png)
+
 ## What it draws
 
 The same `arborist::Report` the command prints, rendered once:
