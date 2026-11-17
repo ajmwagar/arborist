@@ -155,8 +155,9 @@ fn headline(report: &Report, by_check: &[CheckSlice]) -> String {
         .map(|entry| format!("{} {}", entry.check, entry.fail))
         .collect();
     format!(
-        "{} of {total} repositories have advisory finding{}: {}",
+        "{} of {total} repositories {} advisory finding{}: {}",
         summary.advisory,
+        if summary.advisory == 1 { "has an" } else { "have" },
         plural(summary.advisory),
         reasons.join(", ")
     )
@@ -320,6 +321,7 @@ mod tests {
         let d = digest(&report);
         assert!(d.failing);
         assert!(d.headline.contains("advisory"), "{}", d.headline);
+        assert!(d.headline.contains("has an advisory"), "{}", d.headline);
         assert!(!d.headline.contains("critical"), "{}", d.headline);
     }
 

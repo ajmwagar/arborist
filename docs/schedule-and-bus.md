@@ -43,18 +43,31 @@ everyone to ignore red.
 `myceliumd` owns the scheduler; the Pulse Spore and `mycelium pulse` are clients.
 
 ```sh
-mycelium pulse add \
-  --id arborist.scan \
-  --schedule "0 6 * * *" \
-  --command "/Users/ajmwagar/code/arborist/collector/scan.sh FuturePresentLabs mycelium-linux" \
-  --write
+mycelium pulse add --id arborist.scan --schedule "0 6 * * *" --write \
+  --command 'PATH=/Users/ajmwagar/.local/bin:$PATH \
+    ARBORIST_WASM=/Users/ajmwagar/code/arborist/bin/arborist.wasm \
+    /Users/ajmwagar/code/arborist/collector/scan.sh FuturePresentLabs mycelium-linux'
 ```
+
+**The daemon schedules in UTC.** `0 6 * * *` fires at 06:00 UTC — 22:00 the
+previous evening in Pacific time. `mycelium pulse list` shows `NEXT_AT_MS` as a
+Unix timestamp, which is the only way to be sure; convert it before trusting a
+schedule.
+
+The command runs through `sh -c`, so the `VAR=value` prefixes and `$PATH` are
+expanded by the daemon's shell, not by yours. Its stdout and stderr become the
+pulse run's `detail`, which is why the headline line is the last thing printed:
+`mycelium pulse runs arborist.scan` is where you read what the fleet said.
 
 Two constraints from `myceliumd/src/pulse.rs`, both of which shaped the script:
 
 - **`RUN_TIMEOUT` is 60 seconds.** `scan.sh` caps collection at `FLEET_DEADLINE`
   (default 50s) with `timeout(1)` and says so out loud when `timeout(1)` is
   missing, so a big fleet ends with a report rather than being killed with none.
+  A measured two-owner run (192 repositories, 13 GraphQL pages, wasm component)
+  takes **42 seconds**, which leaves less headroom than it looks: at that rate a
+  slower API day hits the 60-second wall before the deadline helps. Two owners is
+  the honest limit of one pulse today.
 - **The command is bounded at 8 KiB and is not a shell session.** It runs with
   the daemon's environment, so `ARBORIST_WASM`, `ARBORIST_REPORT` and
   `UNIBUS_CLIENT` must be set where the daemon runs, not in your shell.
