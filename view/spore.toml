@@ -1,0 +1,43 @@
+# arborist-view: the fleet wall, drawn by GPUI inside a Spore.
+schema = 1
+
+[spore]
+id = "dev.fungos.arborist.view"
+name = "arborist-view"
+title = "arborist"
+version = "0.1.0"
+license = "MIT"
+summary = "The fleet as one frame: what every repository is missing, and what has rotted"
+description = "Draws the report the arborist command prints — critical, advisory, clean and unmeasured per repository, the check table, and the repositories with findings ordered worst first. It computes nothing: the view renders the same Report type the gate uses, so the wall and the check cannot disagree."
+homepage = "https://github.com/ajmwagar/arborist"
+
+[engine]
+soil = ">=0.1"
+target = "wasm32-wasip2"
+abi = { present = "0.1.0" }
+
+[module]
+path = "module.wasm"
+
+# A GPUI Spore owns its view; only the presenter changes between hosts, so this
+# package declares no `[[surfaces]]` — native rendering is the default.
+[launch]
+default = "native"
+surfaces = ["native"]
+
+[grants]
+"soil:present" = "present one GPUI-rendered surface to the host compositor"
+"wasi:webgpu" = "render the interface offscreen at the extent the host reports"
+
+[denied]
+# The report arrives compiled in today. Fetching it is `soil:http` against a
+# served report, and that is a change to where the fixture is read rather than a
+# capability this view needs to draw one.
+"soil:http" = ["v0 draws a report compiled into the component"]
+"soil:records" = ["the wall reads a document, not a store"]
+host = ["process", "secrets", "environment", "raw-filesystem", "clock"]
+
+[presentation]
+badge = "Ar"
+color = "#a3be8c"
+mark = "../assets/icon.svg"

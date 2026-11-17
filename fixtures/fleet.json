@@ -1,0 +1,4316 @@
+{
+ "schema": 1,
+ "collected_at": "2026-11-17T11:50:40Z",
+ "repos": [
+  {
+   "org": "northwind",
+   "name": "amber-api",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-20T09:32:10Z",
+   "default_branch": "master",
+   "description": "License to Key...",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 2580
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "basalt-circuit",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-02T00:51:21Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "The Open Standard for Agent-to-Manufacturer RFQs - A structured JSON specification for AI agents to request manufacturing quotes",
+   "releases": 0,
+   "open_pulls": 5,
+   "branches": 7,
+   "readme": {
+    "present": true,
+    "bytes": 5013
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cedar-forge",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2025-09-22T13:17:11Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "A Juno-inspired dual oscillator",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "build.yml",
+    "docs.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 1220
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cobalt-ingot",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2025-06-03T09:03:32Z",
+   "default_branch": "master",
+   "description": "Software Development & Mechatronics Consultancy",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 72
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "copper-mesa",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-12T19:12:06Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Main engine of the IronCalc ecosystem",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 52,
+   "workflows": [
+    "build-test.yaml",
+    "docker.yml",
+    "npm.yml",
+    "publish-crates.yaml",
+    "pypi.yml",
+    "test-coverage.yaml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 5612
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "delta-pilot",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-28T00:16:32Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 26791
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ember-shard",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-09-30T16:52:29Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "Enhanced ChatGPT Clone: Features Agents, MCP, Skills, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 254,
+   "workflows": [
+    "a11y.yml",
+    "agents-integration-tests.yml",
+    "backend-review.yml",
+    "build.yml",
+    "cache-integration-tests.yml",
+    "client.yml",
+    "codegraph-e2e-votes.yml",
+    "codegraph-select.yml",
+    "data-provider.yml",
+    "data-schemas.yml",
+    "deploy.yml",
+    "dev-branch-images.yml",
+    "dev-images.yml",
+    "dev-staging-images.yml",
+    "docker-smoke.yml",
+    "frontend-review.yml",
+    "frontend-windows-nightly.yml",
+    "helmcharts.yml",
+    "langfuse-fanout.yml",
+    "locize-i18n-sync.yml",
+    "main-image-workflow.yml",
+    "playwright-bombadil.yml",
+    "playwright-mock.yml",
+    "retry-docker-builds.yml",
+    "static-checks.yml",
+    "sync-helm-chart-tags.yml",
+    "tag-images.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 16037,
+    "badges": [
+     {
+      "url": "https://img.shields.io/discord/1086345563026489514?label=&logo=discord&style=for-the-badge&logoWidth=20&logoColor=white&labelColor=000000&color=blueviolet"
+     },
+     {
+      "url": "https://img.shields.io/badge/YOUTUBE-red.svg?style=for-the-badge&logo=youtube&logoColor=white&labelColor=000000&logoWidth=20"
+     },
+     {
+      "url": "https://img.shields.io/badge/DOCS-blue.svg?style=for-the-badge&logo=read-the-docs&logoColor=white&labelColor=000000&logoWidth=20"
+     },
+     {
+      "url": "https://img.shields.io/badge/SPONSORS-brightgreen.svg?style=for-the-badge&logo=github-sponsors&logoColor=white&labelColor=000000&logoWidth=20"
+     },
+     {
+      "url": "https://railway.com/button.svg"
+     },
+     {
+      "url": "https://zeabur.com/button.svg"
+     },
+     {
+      "url": "https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/dynamic/json.svg?style=for-the-badge&color=2096F3&label=locize&query=%24.translatedPercentage&url=https://api.locize.app/badgedata/4cb2598b-ed4d-469c-9b04-2ed531a8cb45&suffix=%+translated"
+     },
+     {
+      "url": "https://api.star-history.com/chart?repos=danny-avila/LibreChat&type=date&legend=top-left&sealed_token=CXsk3L39t1nlibOv3pQloYwrz8R_yXxCAe1X3DG8sEnmu3PZvzSRZGf7JvisknF83yXqMwR6IcuKLolIQBulChAOseTYP1TDglfT6clOHXzspF-DJhmmsnGasrGpLfCeOEU56Bx761CJp9xDxza5rbyXW3F1GqWNtDf9pMroBq86vS70ilRWu16VyucF"
+     },
+     {
+      "url": "https://trendshift.io/api/badge/repositories/4685"
+     },
+     {
+      "url": "https://runacap.com/wp-content/uploads/2024/04/ROSS_badge_white_Q1_2024.svg"
+     },
+     {
+      "url": "https://contrib.rocks/image?repo=danny-avila/LibreChat"
+     },
+     {
+      "url": "https://github.com/user-attachments/assets/d6b70894-6064-475e-bb65-92a9e23e0077"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "falcon-vault",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-08-30T05:33:22Z",
+   "default_branch": "develop",
+   "license": "MIT",
+   "description": "Native Android & iOS client for LibreChat, built with Kotlin Multiplatform and Compose Multiplatform",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "appstore.yml",
+    "ci.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 12637,
+    "badges": [
+     {
+      "label": "LibreChat",
+      "url": "https://img.shields.io/badge/LibreChat-v0.8.4_\u2013_v0.8.8--rc1-blue"
+     },
+     {
+      "label": "Add to Obtainium",
+      "url": "https://img.shields.io/badge/Add%20to-Obtainium-1e88e5?logo=android&logoColor=white"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "flint-cascade",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2022-09-10T02:22:17Z",
+   "default_branch": "master",
+   "description": "Modular Synthesizer Panel Templates",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2496
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "garnet-fabric",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2025-01-30T16:09:45Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "A salty diode ladder filter",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "docs.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 1123
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "harbor-index",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:18:21Z",
+   "default_branch": "master",
+   "license": "Apache-2.0",
+   "description": "Ohm keyboard for the CAT S22 Flip, based on Traditional T9",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "build.yml",
+    "close-stale-issues.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 8491,
+    "badges": [
+     {
+      "label": "GitHub Downloads (latest release)",
+      "url": "https://img.shields.io/github/downloads/sspanak/tt9/latest/total"
+     },
+     {
+      "url": "https://stc.utdstc.com/img/mediakit/download-gio-big.png"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "indigo-matrix",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-07-21T02:23:11Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 1448
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ivory-pathway",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:17:19Z",
+   "default_branch": "main",
+   "description": "Auditable hybrid OpenSSH and Tailscale mesh toolkit for macOS, Linux, and Windows",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "verify.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4633
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "juniper-sentry",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-07-29T04:37:03Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "Unlimited OCR Works: Welcome the Era of One-shot Long-horizon Parsing.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 11585,
+    "badges": [
+     {
+      "url": "https://trendshift.io/api/badge/trendshift/repositories/62053/daily"
+     },
+     {
+      "url": "https://img.shields.io/badge/GitHub-Code-181717?logo=github&logoColor=white"
+     },
+     {
+      "url": "https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-ffc107?color=ffc107&logoColor=white"
+     },
+     {
+      "url": "https://img.shields.io/badge/arXiv-Unlimited"
+     },
+     {
+      "url": "https://img.shields.io/badge/Twitter-Baidu"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "kelp-summit",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2021-02-21T01:27:30Z",
+   "default_branch": "master",
+   "description": "Alpha Compute Kernel",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2452
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "lantern-canopy",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-10T16:18:03Z",
+   "default_branch": "main",
+   "description": "FPL company-scoped agent reference notebook",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 7922
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "larch-engine",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-03-20T08:48:30Z",
+   "default_branch": "master",
+   "description": "Monorepo for Future Present Labs agent skills",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3357
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "maple-haven",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-07-22T03:13:44Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "A Template for an Alchemy Labs firmware that calls out to Rust.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 9547
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "marble-loom",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T07:58:54Z",
+   "default_branch": "master",
+   "description": "Alfalfa \u2014 headless agent orchestration layer (AgentSmith product)",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "delivery.yml",
+    "pr-health.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 8399
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "meadow-panel",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-15T12:24:37Z",
+   "default_branch": "main",
+   "description": "AgentSmith (codename: Alfalfa) \u2014 architecture, economics, and strategy checkpoint docs. Private: contains pricing, COGS, and strategy.",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 1836
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "nickel-runner",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2020-05-12T02:09:57Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "A Rust library for interacting with Alpaca.markets",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "build.yml",
+    "publish.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 2042
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "nimbus-studio",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-08-28T02:13:16Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "Convert Word, PowerPoint, Excel, OpenDocument, RTF, EPUB, CSV, and PDF to clean Markdown. Built in Rust, with Node.js and Python bindings.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml",
+    "pages.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 16795,
+    "badges": [
+     {
+      "label": "Crates.io",
+      "url": "https://img.shields.io/crates/v/anydoc.svg"
+     },
+     {
+      "label": "npm",
+      "url": "https://img.shields.io/npm/v/@firecrawl/anydoc.svg"
+     },
+     {
+      "label": "PyPI",
+      "url": "https://img.shields.io/pypi/v/firecrawl-anydoc.svg"
+     },
+     {
+      "label": "License: MIT",
+      "url": "https://img.shields.io/badge/license-MIT-blue.svg"
+     },
+     {
+      "label": "skills.sh",
+      "url": "https://skills.sh/b/firecrawl/anydoc"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "oak-cache",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2021-01-24T17:38:52Z",
+   "default_branch": "master",
+   "license": "GPL-3.0",
+   "description": "A crate for interacting with the Alpaca API at alpaca.markets.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2402,
+    "badges": [
+     {
+      "label": "pipeline",
+      "url": "https://gitlab.com/d-e-s-o/apca/badges/master/pipeline.svg"
+     },
+     {
+      "label": "coverage",
+      "url": "https://gitlab.com/d-e-s-o/apca/badges/master/coverage.svg"
+     },
+     {
+      "label": "crates.io",
+      "url": "https://img.shields.io/crates/v/apca.svg"
+     },
+     {
+      "label": "Docs",
+      "url": "https://docs.rs/apca/badge.svg"
+     },
+     {
+      "label": "rustc",
+      "url": "https://img.shields.io/badge/rustc-1.44+-blue.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ochre-delta",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-04-16T08:31:01Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 8222
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "onyx-harbor",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-23T02:56:06Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 1267
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "opal-ledger",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-08-03T16:37:53Z",
+   "default_branch": "master",
+   "description": "Cross-repository bead aggregator and kanban bridge",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 1579
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "pebble-outpost",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-13T04:00:10Z",
+   "default_branch": "main",
+   "description": "OpenTofu deployment for self-hosted Beeper bridges on agora-one",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 4476
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "pine-relay",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-17T08:30:36Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "Unofficial, independent Rust client and server for the Beeper Desktop API protocol (not affiliated with Beeper Inc. or Automattic Inc.).",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 11471
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "quartz-station",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:42:04Z",
+   "default_branch": "master",
+   "description": "LLM Bridge",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 20,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 56885
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "quill-bridge",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2024-10-29T03:48:38Z",
+   "default_branch": "master",
+   "description": "Rust bindings for bitnet.cpp",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 45
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "raven-cradle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:41:48Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 5,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 5795
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "reef-grove",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2022-05-26T13:09:39Z",
+   "default_branch": "main",
+   "description": "blank patch.init() template",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ridge-lattice",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T11:05:06Z",
+   "default_branch": "main",
+   "releases": 4,
+   "open_pulls": 2,
+   "branches": 30,
+   "workflows": [
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 26421
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "river-orchard",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-05-01T18:24:52Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 5133
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "rowan-radius",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-08-25T06:03:20Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "3D Reconstruction for all",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 89,
+   "workflows": [
+    "ci.yml",
+    "release.yml",
+    "spelling_and_links.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 5720,
+    "badges": [
+     {
+      "url": "https://cdn-icons-png.flaticon.com/256/888/888846.png"
+     },
+     {
+      "url": "https://dcbadge.limes.pink/api/server/https://discord.gg/TbxJST2BbC"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "saffron-spring",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-09-14T13:25:25Z",
+   "default_branch": "dev",
+   "license": "Apache-2.0",
+   "description": "A python CAD programming library",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "benchmark.yml",
+    "coverage.yml",
+    "lint.yml",
+    "publish.yml",
+    "test.yml",
+    "type.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 11860,
+    "badges": [
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/build123d_logo/logo-banner.svg"
+     },
+     {
+      "label": "Documentation Status",
+      "url": "https://readthedocs.org/projects/build123d/badge/?version=latest"
+     },
+     {
+      "label": "tests",
+      "url": "https://github.com/gumyr/build123d/actions/workflows/test.yml/badge.svg"
+     },
+     {
+      "label": "pylint",
+      "url": "https://github.com/gumyr/build123d/actions/workflows/lint.yml/badge.svg"
+     },
+     {
+      "label": "mypy",
+      "url": "https://github.com/gumyr/build123d/actions/workflows/type.yml/badge.svg"
+     },
+     {
+      "label": "codecov",
+      "url": "https://codecov.io/gh/gumyr/build123d/branch/dev/graph/badge.svg"
+     },
+     {
+      "label": "Python Versions",
+      "url": "https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13%20|%203.14-blue"
+     },
+     {
+      "label": "Code style: black",
+      "url": "https://img.shields.io/badge/code%20style-black-000000.svg"
+     },
+     {
+      "label": "License",
+      "url": "https://img.shields.io/badge/license-Apache--2.0-blue.svg"
+     },
+     {
+      "label": "PyPI version",
+      "url": "https://img.shields.io/pypi/v/build123d.svg"
+     },
+     {
+      "label": "Downloads",
+      "url": "https://pepy.tech/badge/build123d"
+     },
+     {
+      "label": "Downloads/month",
+      "url": "https://pepy.tech/badge/build123d/month"
+     },
+     {
+      "label": "PyPI - Wheel",
+      "url": "https://img.shields.io/pypi/wheel/build123d.svg"
+     },
+     {
+      "label": "DOI",
+      "url": "https://zenodo.org/badge/510925389.svg"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/examples/toy_truck.png"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/examples/key_cap.png"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/ttt/ttt-23-02-02-sm_hanger_object.png"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/readme/create_1d.png"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/readme/upgrade_2d.png"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/readme/add_part.png"
+     },
+     {
+      "url": "https://github.com/gumyr/build123d/raw/dev/docs/assets/readme/extend.png"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "sage-beacon",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-24T22:16:01Z",
+   "default_branch": "main",
+   "license": "AGPL-3.0",
+   "description": "Eval harness for typed-decision-driven CAD design agents. Backend-agnostic: drives a CAD tool as a subprocess and scores its artifacts against a task's rubric.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 10428,
+    "badges": [
+     {
+      "label": "license",
+      "url": "https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg"
+     },
+     {
+      "label": "tests",
+      "url": "https://img.shields.io/badge/tests-20%20passing-brightgreen.svg"
+     },
+     {
+      "label": "evals",
+      "url": "https://img.shields.io/badge/evals-22-orange.svg"
+     },
+     {
+      "label": "status",
+      "url": "https://img.shields.io/badge/status-runs%20end%20to%20end-success.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "slate-console",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-04-11T05:48:51Z",
+   "default_branch": "master",
+   "description": "Bar Inventory Management System",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4905
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "spruce-gateway",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-09T07:09:07Z",
+   "default_branch": "main",
+   "description": "Certified FEA margins: float-speed simulation with provable rational error enclosures. Float solve in, proven [lo,hi] stress margins out. Core math, private while in development.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3353
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "summit-kernel",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-23T02:52:10Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 15
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "thistle-nexus",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:44Z",
+   "default_branch": "master",
+   "description": "Unified CSS",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 4697
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "tide-quarry",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-08-27T21:13:04Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "Local-first, agent-native control plane for ComfyUI \u2014 MCP server + sidebar agent that generates images, video & audio, authors and runs workflows, and edits your live graph in natural language on ANY LLM (Claude, ChatGPT, Gemini, offline Ollama, or any hosted model). 178 tools, 36 AI skills, 55 installer packs. Local, LAN, VPS, or Comfy Cloud.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 854,
+   "workflows": [
+    "build-runpod-image.yml",
+    "ci.yml",
+    "mcp-registry.yml",
+    "packs.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 53565,
+    "badges": [
+     {
+      "label": "npm version",
+      "url": "https://img.shields.io/npm/v/comfyui-mcp"
+     },
+     {
+      "label": "Node.js",
+      "url": "https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen"
+     },
+     {
+      "label": "License",
+      "url": "https://img.shields.io/npm/l/comfyui-mcp"
+     },
+     {
+      "label": "Documentation",
+      "url": "https://img.shields.io/badge/docs-comfyui--mcp.artokun.io-2563EB?logo=readthedocs&logoColor=white"
+     },
+     {
+      "label": "comfyui-mcp MCP server",
+      "url": "https://glama.ai/mcp/servers/artokun/comfyui-mcp/badges/card.svg"
+     },
+     {
+      "label": "comfyui-mcp MCP server",
+      "url": "https://glama.ai/mcp/servers/artokun/comfyui-mcp/badges/score.svg"
+     },
+     {
+      "label": "Deploy on RunPod",
+      "url": "https://img.shields.io/badge/Deploy_on-RunPod-673AB7?style=for-the-badge"
+     },
+     {
+      "label": "Join the Discord",
+      "url": "https://img.shields.io/badge/Discord-Join_%26_get_help-5865F2?style=for-the-badge&logo=discord&logoColor=white"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "timber-spindle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-14T05:16:38Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "Apple push and activation transport kernel: activation, APNs, bags, IDS",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 5868
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "topaz-atlas",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-03-05T06:57:15Z",
+   "default_branch": "main",
+   "description": "Hugo landing sites for custom boat parts domains",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 638
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "trail-compass",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-03-17T21:01:38Z",
+   "default_branch": "master",
+   "description": "John's Book Site",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 25
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "umber-garden",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-15T23:36:33Z",
+   "default_branch": "main",
+   "description": "Decision Catalog Protocol specification, examples, and implementation directory",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 2855
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "vale-keeper",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-02-11T00:01:47Z",
+   "default_branch": "main",
+   "description": "Self-hostable CI/CD pipeline agent for Docker Compose deployments",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 698
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "violet-mill",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-01-14T19:08:12Z",
+   "default_branch": "master",
+   "description": "Automatic Depthmap Creator",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "willow-prism",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:10Z",
+   "default_branch": "main",
+   "description": "Shared signed macOS desktop helpers and authenticated IPC for FPL applications",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 4085
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "zephyr-signal",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-05-19T13:59:24Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "A fast, minimal, responsive Hugo theme for blogs.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 5581,
+    "badges": [
+     {
+      "label": "screenshot.png",
+      "url": "https://raw.githubusercontent.com/austingebauer/devise/master/images/screenshot.png"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "amber-atlas",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-28T21:45:15Z",
+   "default_branch": "master",
+   "description": "PDF Invoice Generation Engine",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 4,
+   "workflows": [
+    "ci.yml",
+    "docker-publish.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 12596
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "basalt-compass",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2024-07-07T21:51:45Z",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "description": "Digital Speech Decoder",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "codeql-analysis.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 2366,
+    "badges": [
+     {
+      "label": "Build Status",
+      "url": "https://travis-ci.org/szechyjs/dsd.svg?branch=master"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cedar-garden",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-16T09:28:38Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 48,
+   "readme": {
+    "present": true,
+    "bytes": 22544
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cobalt-keeper",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-12T10:45:44Z",
+   "default_branch": "main",
+   "description": "Learn about systems",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 55
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "copper-mill",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-11T11:51:49Z",
+   "default_branch": "master",
+   "description": "AI Native Workflows",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 22,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 13716
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "delta-prism",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-19T12:21:53Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 13,
+   "readme": {
+    "present": true,
+    "bytes": 19619
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ember-signal",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-27T02:42:36Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Shared harness scaffolding for typed-decision-driven design-agent benchmarks (cadbench, pcbbench, and future siblings): Task/Criterion schema, Verdict/ScoreReport, a Backend trait, and a generalized task-soundness test.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "workflows": [
+    "viewer.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4750,
+    "badges": [
+     {
+      "label": "license",
+      "url": "https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg"
+     },
+     {
+      "label": "tests",
+      "url": "https://img.shields.io/badge/tests-9%20passing-brightgreen.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "falcon-api",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T11:15:54Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 71,
+   "workflows": [
+    "release-binaries.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 30058
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "flint-circuit",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2021-02-12T19:34:27Z",
+   "default_branch": "develop",
+   "license": "MIT",
+   "description": "Financial Information eXchange protocol implemented in Rust",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 5104,
+    "badges": [
+     {
+      "label": "Crates.io",
+      "url": "https://img.shields.io/crates/v/fefix"
+     },
+     {
+      "label": "Docs.rs",
+      "url": "https://img.shields.io/badge/docs.rs-v0.4.0-green"
+     },
+     {
+      "label": "License",
+      "url": "https://img.shields.io/badge/license-MIT-blue?style=flat"
+     },
+     {
+      "label": "Open issues",
+      "url": "https://img.shields.io/github/issues-raw/neysofu/ferrum-fix"
+     },
+     {
+      "label": "matrix.org",
+      "url": "https://img.shields.io/badge/matrix.org-%23ferrum--fix-blue"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "garnet-forge",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2021-02-01T21:53:11Z",
+   "default_branch": "master",
+   "license": "Apache-2.0",
+   "description": "A quantitative finance toolbox ",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2282
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "harbor-ingot",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-10-20T00:44:27Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "FlashInfer: Kernel Library for LLM Serving",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "build-doc.yml",
+    "ci-bot-commands.yml",
+    "claude-code-review.yml",
+    "claude.yml",
+    "issue-claim.yml",
+    "moe-ep-sm107.yml",
+    "new-issue.yml",
+    "nightly-release.yml",
+    "pr-api-doc-checks.yml",
+    "pr-api-doc-comment.yml",
+    "pr-labeler.yml",
+    "pr-test-run-cleanup.yml",
+    "pr-test.yml",
+    "pre-commit.yml",
+    "release-ci-docker.yml",
+    "release.yml",
+    "update-codeowners.yml",
+    "update-xfails-report.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 11205,
+    "badges": [
+     {
+      "url": "https://github.com/flashinfer-ai/web-data/blob/main/logo/FlashInfer-white-background.png?raw=true"
+     },
+     {
+      "label": "Build Status",
+      "url": "https://ci.tlcpack.ai/job/flashinfer-ci/job/main/badge/icon"
+     },
+     {
+      "label": "Documentation",
+      "url": "https://github.com/flashinfer-ai/flashinfer/actions/workflows/build-doc.yml/badge.svg"
+     },
+     {
+      "label": "GitHub Release",
+      "url": "https://img.shields.io/github/v/release/flashinfer-ai/flashinfer"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "indigo-mesa",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-29T02:37:05Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "FPL Agents: self-hosted agent workspace, harness and sandbox integrations, and native mobile clients. Derived from Rakazo.",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 12,
+   "workflows": [
+    "ci.yml",
+    "computer-replay.yml",
+    "desktop-macos-screenshot.yml",
+    "mobile-android-screenshots.yml",
+    "model-catalog-bump.yml",
+    "nightly-verification.yml",
+    "playwright.yml",
+    "publish-playwright-report.yml",
+    "publish-server-image.yml",
+    "release-android-apk.yml",
+    "release-desktop.yml",
+    "topology-verification.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 12938,
+    "badges": [
+     {
+      "label": "GitHub stars",
+      "url": "https://img.shields.io/github/stars/elie222/rakazo?labelColor=black&style=for-the-badge&color=2563EB"
+     },
+     {
+      "label": "Discord",
+      "url": "https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?labelColor=black&style=for-the-badge&logo=discord&logoColor=white"
+     },
+     {
+      "label": "Download on the App Store",
+      "url": "https://img.shields.io/badge/App%20Store-Download%20for%20iPhone-black?labelColor=black&style=for-the-badge&logo=apple&logoColor=white"
+     },
+     {
+      "label": "Download the Android APK",
+      "url": "https://img.shields.io/badge/Android-Download%20APK-black?labelColor=black&style=for-the-badge&logo=android&logoColor=white"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ivory-pilot",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-16T08:26:33Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 50,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 20359
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "juniper-shard",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-19T03:20:16Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 1397
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "kelp-vault",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-04-08T07:32:32Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3843
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "lantern-cascade",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-08-16T04:30:08Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 4062
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "larch-fabric",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-05T07:46:47Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 5762
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "maple-index",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-07T23:04:44Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 12,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 12033
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "marble-matrix",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:55Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 11376
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "meadow-pathway",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-28T04:52:10Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 2,
+   "branches": 8,
+   "readme": {
+    "present": true,
+    "bytes": 9815
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "nickel-sentry",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:15Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "FPL customer object storage and managed PostgreSQL control plane",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 10200
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "nimbus-summit",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:01Z",
+   "default_branch": "main",
+   "description": "Private FPL document templates, culture book, one-pagers and evidence-backed investor materials",
+   "releases": 0,
+   "open_pulls": 2,
+   "branches": 32,
+   "workflows": [
+    "check.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4750
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "oak-canopy",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2020-04-13T19:51:19Z",
+   "default_branch": "master",
+   "license": "Apache-2.0",
+   "description": "A Rust crate for accessing the Federal Reserve Bank of St. Louis FRED API.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "rust.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4842
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ochre-engine",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-04-15T03:09:26Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 506
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "onyx-haven",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:15:41Z",
+   "default_branch": "master",
+   "description": "Rust workspace turning a Honeywell scanner and thermal printer into a Raspberry Pi fulfillment appliance.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 4675
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "opal-loom",
+   "archived": true,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2019-03-15T00:32:50Z",
+   "default_branch": "master",
+   "description": "Potential website for Future Present Labs ",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 57
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "pebble-panel",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-01-13T08:11:39Z",
+   "default_branch": "master",
+   "description": "CNC GCode for FPL",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "pine-runner",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-02-05T16:05:37Z",
+   "default_branch": "main",
+   "description": "GSG Admin Metrics skill for OpenClaw - order lookups, KPIs, and proceeds tracking",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "quartz-studio",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-12T08:27:21Z",
+   "default_branch": "master",
+   "description": "API for GSG's e-commerce website",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 7,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 586
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "quill-cache",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:16:06Z",
+   "default_branch": "master",
+   "description": "GSG-0002 GSG Mfg LLC Websites",
+   "releases": 0,
+   "open_pulls": 3,
+   "branches": 13,
+   "readme": {
+    "present": true,
+    "bytes": 1651
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "raven-delta",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:41:55Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 10,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 3882
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "reef-harbor",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-05-06T21:29:43Z",
+   "default_branch": "master",
+   "description": "Wedding coordination website for Ange",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ridge-ledger",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-03-24T06:15:38Z",
+   "default_branch": "main",
+   "description": "Registry bridge and orchestrator for Claude Code sessions",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3597
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "river-outpost",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-03T21:40:51Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4803
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "rowan-relay",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-04-06T23:47:54Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 551
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "saffron-station",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-05-23T01:37:52Z",
+   "default_branch": "main",
+   "license": "CC0-1.0",
+   "description": "collection of guitar pedal PCB layouts in kicad",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "sage-bridge",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-07-15T00:40:46Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2969
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "slate-cradle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:18:58Z",
+   "default_branch": "main",
+   "description": "FPL lab procedures \u2014 interactive runbooks for fabrication and finishing processes",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2261
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "spruce-grove",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:15:35Z",
+   "default_branch": "main",
+   "description": "Lab TV \u2014 display-only production status board for the shop floor (Rust + Slint, Raspberry Pi kiosk). Reads from Chronologue.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 5763
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "summit-lattice",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-13T22:13:12Z",
+   "default_branch": "master",
+   "description": "FPL Landing Page",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 18
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "thistle-orchard",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:19:52Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 8
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "tide-radius",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-15T23:35:01Z",
+   "default_branch": "master",
+   "license": "AGPL-3.0",
+   "description": "SKiDL's are better with friends.",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 10,
+   "workflows": [
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 8171,
+    "badges": [
+     {
+      "label": "license",
+      "url": "https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg"
+     },
+     {
+      "label": "rust",
+      "url": "https://img.shields.io/badge/built%20with-Rust-dea584.svg?logo=rust"
+     },
+     {
+      "label": "kicad",
+      "url": "https://img.shields.io/badge/KiCad-9-314cb0.svg"
+     },
+     {
+      "label": "tests",
+      "url": "https://img.shields.io/badge/tests-572%20passing-brightgreen.svg"
+     },
+     {
+      "label": "families",
+      "url": "https://img.shields.io/badge/curated%20families-2-8a2be2.svg"
+     },
+     {
+      "label": "datasheets",
+      "url": "https://img.shields.io/badge/pinned%20datasheets-7-orange.svg"
+     },
+     {
+      "label": "benchmarked",
+      "url": "https://img.shields.io/badge/benchmarked%20by-PCBBench-black.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "timber-spring",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-10-02T21:32:51Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Open-source MCP server for LinkedIn. Give Claude and any MCP-compatible AI agent access to profiles, companies, jobs, and messages.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "check-attribution.yml",
+    "check-pr-title.yml",
+    "ci.yml",
+    "dependency-audit.yml",
+    "election-soak.yml",
+    "label-pr.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 56049,
+    "badges": [
+     {
+      "url": "https://img.shields.io/pypi/v/mcp-server-linkedin?color=blue"
+     },
+     {
+      "url": "https://github.com/stickerdaniel/linkedin-mcp-server/actions/workflows/ci.yml/badge.svg?branch=main"
+     },
+     {
+      "url": "https://github.com/stickerdaniel/linkedin-mcp-server/actions/workflows/release.yml/badge.svg?branch=main"
+     },
+     {
+      "url": "https://img.shields.io/badge/License-Apache%202.0-%233fb950?labelColor=32383f"
+     },
+     {
+      "url": "https://github.com/user-attachments/assets/8b8ffaf4-ac80-4943-bb14-88562d636a35"
+     },
+     {
+      "url": "https://github.com/user-attachments/assets/89ab8932-ae79-41c2-8416-a699e924218b"
+     },
+     {
+      "label": "uvx",
+      "url": "https://img.shields.io/badge/uvx-Quick_Install-de5fe9?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDEiIGhlaWdodD0iNDEiIHZpZXdCb3g9IjAgMCA0MSA0MSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTS01LjI4NjE5ZS0wNiAwLjE2ODYyOUwwLjA4NDMwOTggMjAuMTY4NUwwLjE1MTc2MiAzNi4xNjgzQzAuMTYxMDc1IDM4LjM3NzQgMS45NTk0NyA0MC4xNjA3IDQuMTY4NTkgNDAuMTUxNEwyMC4xNjg0IDQwLjA4NEwzMC4xNjg0IDQwLjA0MThMMzEuMTg1MiA0MC4wMzc1QzMzLjM4NzcgNDAuMDI4MiAzNS4xNjgzIDM4LjIwMjYgMzUuMTY4MyAzNlYzNkwzNy4wMDAzIDM2TDM3LjAwMDMgMzkuOTk5Mkw0MC4xNjgzIDM5Ljk5OTZMMzkuOTk5NiAtOS45NDY1M2UtMDdMMjEuNTk5OCAwLjA3NzU2ODlMMjEuNjc3NCAxNi4wMTg1TDIxLjY3NzQgMjUuOTk5OEwyMC4wNzc0IDI1Ljk5OThMMTguMzk5OCAyNS45OTk4TDE4LjQ3NzQgMTYuMDMyTDE4LjM5OTggMC4wOTEwNTkzTC01LjI4NjE5ZS0wNiAwLjE2ODYyOVoiIGZpbGw9IiNERTVGRTkiLz4KPC9zdmc+Cg=="
+     },
+     {
+      "label": "Install MCP Bundle",
+      "url": "https://img.shields.io/badge/Claude_Desktop_MCPB-d97757?style=for-the-badge&logo=anthropic"
+     },
+     {
+      "label": "Codex Plugin",
+      "url": "https://img.shields.io/badge/Codex-Plugin-24292f?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik04LjA4Ni40NTdhNi4xMDUgNi4xMDUgMCAwMTMuMDQ2LS40MTVjMS4zMzMuMTUzIDIuNTIxLjcyIDMuNTY0IDEuN2EuMTE3LjExNyAwIDAwLjEwNy4wMjljMS40MDgtLjM0NiAyLjc2Mi0uMjI0IDQuMDYxLjM2NmwuMDYzLjAzLjE1NC4wNzZjMS4zNTcuNzAzIDIuMzMgMS43NyAyLjkxOCAzLjE5OC4yNzguNjc5LjQxOCAxLjM4OC40MjEgMi4xMjZhNS42NTUgNS42NTUgMCAwMS0uMTggMS42MzEuMTY3LjE2NyAwIDAwLjA0LjE1NSA1Ljk4MiA1Ljk4MiAwIDAxMS41NzggMi44OTFjLjM4NSAxLjkwMS0uMDEgMy42MTUtMS4xODMgNS4xNGwtLjE4Mi4yMmE2LjA2MyA2LjA2MyAwIDAxLTIuOTM0IDEuODUxLjE2Mi4xNjIgMCAwMC0uMTA4LjEwMmMtLjI1NS43MzYtLjUxMSAxLjM2NC0uOTg3IDEuOTkyLTEuMTk5IDEuNTgyLTIuOTYyIDIuNDYyLTQuOTQ4IDIuNDUxLTEuNTgzLS4wMDgtMi45ODYtLjU4Ny00LjIxLTEuNzM2YS4xNDUuMTQ1IDAgMDAtLjE0LS4wMzJjLS41MTguMTY3LTEuMDQuMTkxLTEuNjA0LjE4NWE1LjkyNCA1LjkyNCAwIDAxLTIuNTk1LS42MjIgNi4wNTggNi4wNTggMCAwMS0yLjE0Ni0xLjc4MWMtLjIwMy0uMjY5LS40MDQtLjUyMi0uNTUxLS44MjFhNy43NCA3Ljc0IDAgMDEtLjQ5NS0xLjI4MyA2LjExIDYuMTEgMCAwMS0uMDE3LTMuMDY0LjE2Ni4xNjYgMCAwMC4wMDgtLjA3NC4xMTUuMTE1IDAgMDAtLjAzNy0uMDY0IDUuOTU4IDUuOTU4IDAgMDEtMS4zOC0yLjIwMiA1LjE5NiA1LjE5NiAwIDAxLS4zMzMtMS41ODkgNi45MTUgNi45MTUgMCAwMS4xODgtMi4xMzJjLjQ1LTEuNDg0IDEuMzA5LTIuNjQ4IDIuNTc3LTMuNDkzLjI4Mi0uMTg4LjU1LS4zMzQuODAyLS40MzguMjg2LS4xMi41NzMtLjIyLjg2MS0uMzA0YS4xMjkuMTI5IDAgMDAuMDg3LS4wODdBNi4wMTYgNi4wMTYgMCAwMTUuNjM1IDIuMzFDNi4zMTUgMS40NjQgNy4xMzIuODQ2IDguMDg2LjQ1N3ptLS44MDQgNy44NWEuODQ4Ljg0OCAwIDAwLTEuNDczLjg0MmwxLjY5NCAyLjk2NS0xLjY4OCAyLjg0OGEuODQ5Ljg0OSAwIDAwMS40Ni44NjRsMS45NC0zLjI3MmEuODQ5Ljg0OSAwIDAwLjAwNy0uODU0bC0xLjk0LTMuMzkzem01LjQ0NiA2LjI0YS44NDkuODQ5IDAgMDAwIDEuNjk1aDQuODQ4YS44NDkuODQ5IDAgMDAwLTEuNjk2aC00Ljg0OHoiLz48L3N2Zz4%3D"
+     },
+     {
+      "label": "Docker",
+      "url": "https://img.shields.io/badge/Docker-Universal_MCP-008fe2?style=for-the-badge&logo=docker&logoColor=008fe2"
+     },
+     {
+      "url": "https://github.com/user-attachments/assets/c413a236-a49f-4480-8dcc-b67de3093920"
+     },
+     {
+      "url": "https://github.com/user-attachments/assets/3daa30e1-ead1-4884-8388-b3024c026ba9"
+     },
+     {
+      "url": "https://contrib.rocks/image?repo=stickerdaniel/linkedin-mcp-server"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "topaz-beacon",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-28T23:29:14Z",
+   "default_branch": "master",
+   "description": "Subscription wire adapter: OpenAI-compatible in, provider subscription dialects out (Codex, ...)",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 7,
+   "readme": {
+    "present": true,
+    "bytes": 5765
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "trail-console",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-15T10:59:58Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "releases": 1,
+   "open_pulls": 1,
+   "branches": 31,
+   "workflows": [
+    "ci.yml",
+    "docker-publish.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 19995,
+    "badges": [
+     {
+      "url": "https://github.com/FuturePresentLabs/marbles/actions/workflows/ci.yml/badge.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/license-MIT-black"
+     },
+     {
+      "url": "https://img.shields.io/badge/rust-1.88%2B-black"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "umber-gateway",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-17T00:27:47Z",
+   "default_branch": "fpl-main",
+   "license": "Apache-2.0",
+   "releases": 4,
+   "open_pulls": 0,
+   "branches": 6,
+   "workflows": [
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 8713,
+    "badges": [
+     {
+      "label": "License",
+      "url": "https://img.shields.io/github/license/bostrot/mautrix-mattermost.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "vale-kernel",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-10T16:10:52Z",
+   "default_branch": "master",
+   "description": "FPL phone tool: staff directory, profiles, badges and org chart, derived from fpl-auth",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 4696
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "violet-nexus",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-07-15T23:46:28Z",
+   "default_branch": "master",
+   "description": "Meridian: Manage your ads in one place. Ads as Code.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 6126
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "willow-quarry",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-06-15T21:25:28Z",
+   "default_branch": "master",
+   "description": "MIA - Mutable Instruments Eurorack modules",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2715
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "zephyr-spindle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-07-04T21:49:22Z",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 0,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "amber-beacon",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-06-23T10:04:40Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 5,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 336
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "basalt-console",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-03-24T03:00:43Z",
+   "default_branch": "main",
+   "description": "Artist portfolio landing page for Nicole Henao",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cedar-gateway",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T02:00:04Z",
+   "default_branch": "master",
+   "description": "Team knowledge base and shared notes",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3009
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cobalt-kernel",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-09T17:00:42Z",
+   "default_branch": "main",
+   "description": "Future Present Labs Continuous Verification Bureau \u2014 independent Lean kernel verification of the 2026 Navier-Stokes / Euler resolutions, at pinned upstream SHAs. Trust the kernel, not the credentials.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "workflows": [
+    "verify-evidence.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 7773,
+    "badges": [
+     {
+      "label": "verify-evidence",
+      "url": "https://github.com/FuturePresentLabs/ns-verify/actions/workflows/verify-evidence.yml/badge.svg"
+     },
+     {
+      "label": "kernel verified",
+      "url": "https://img.shields.io/badge/kernel%20verified-8937a8f-2ea44f"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "copper-nexus",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:16:12Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 4691
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "delta-quarry",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:17:13Z",
+   "default_branch": "master",
+   "description": "OhmPhone Websites",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "workflows": [
+    "deploy.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 1223
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ember-spindle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T07:37:41Z",
+   "default_branch": "master",
+   "releases": 25,
+   "open_pulls": 1,
+   "branches": 53,
+   "workflows": [
+    "ci.yml",
+    "publish.yml",
+    "release-apk.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 12231
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "falcon-atlas",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-01-16T03:38:35Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 4004
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "flint-compass",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-10-21T09:30:35Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Rust client + type system for typed, calibrated decision models (Jev/Laya-compatible System One APIs). Bounded Choice/Score/Noul questions in, typed confidence-scored answers out.",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 18200,
+    "badges": [
+     {
+      "label": "license",
+      "url": "https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg"
+     },
+     {
+      "label": "tests",
+      "url": "https://img.shields.io/badge/tests-55%20passing-brightgreen.svg"
+     },
+     {
+      "label": "built on",
+      "url": "https://img.shields.io/badge/built%20on-typesafe.ai%20Jev-6b46c1.svg"
+     },
+     {
+      "label": "status",
+      "url": "https://img.shields.io/badge/status-in%20production-success.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "garnet-garden",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-09-15T19:12:02Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Fast, efficient, battle-tested at Alibaba's scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in multi-language ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI & Anthropic compatible.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "action-contract.yml",
+    "ci.yml",
+    "codeql.yml",
+    "deploy-pages.yml",
+    "ocr-review.yml",
+    "pages-ci.yml",
+    "plugin-contract.yml",
+    "release.yml",
+    "translation-sync.yml",
+    "vscode-ext.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 13176,
+    "badges": [
+     {
+      "url": "https://trendshift.io/api/badge/repositories/41087"
+     },
+     {
+      "url": "https://trendshift.io/api/badge/trendshift/repositories/41087/weekly?language=Go"
+     },
+     {
+      "url": "https://trendshift.io/api/badge/trendshift/repositories/41087/monthly?language=Go"
+     },
+     {
+      "url": "https://img.shields.io/npm/v/@alibaba-group/open-code-review?style=flat-square"
+     },
+     {
+      "url": "https://img.shields.io/github/actions/workflow/status/alibaba/open-code-review/release.yml?style=flat-square"
+     },
+     {
+      "url": "https://img.shields.io/github/license/alibaba/open-code-review?style=flat-square"
+     },
+     {
+      "url": "https://deepwiki.com/badge.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/OpenSSF-Gold-D4AF37?style=flat-square"
+     },
+     {
+      "url": "https://img.shields.io/badge/Windows-supported-blue.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/macOS-supported-blue.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/Linux-supported-blue.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/Claude_Code-supported-blueviolet.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/Codex-supported-blueviolet.svg"
+     },
+     {
+      "url": "https://img.shields.io/badge/Cursor-supported-blueviolet.svg"
+     },
+     {
+      "url": "https://huggingface.co/favicon.ico"
+     },
+     {
+      "url": "https://contrib.rocks/image?repo=alibaba/open-code-review"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "harbor-keeper",
+   "archived": true,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-14T03:23:45Z",
+   "default_branch": "main",
+   "description": "Configures opencode for the Bifrost gateway, with MCP owned by the FPL desktop bridge",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3675
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "indigo-mill",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T11:38:40Z",
+   "default_branch": "master",
+   "description": "An afterburner for your coding agent.",
+   "releases": 0,
+   "open_pulls": 2,
+   "branches": 19,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 13755
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ivory-prism",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2022-08-07T22:46:29Z",
+   "default_branch": "master",
+   "description": "Outrigger",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 1581
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "juniper-signal",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2021-03-19T16:34:25Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 291
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "kelp-api",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2019-05-05T23:50:39Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 89
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "lantern-circuit",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-13T23:58:02Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 5080
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "larch-forge",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-03-21T06:44:32Z",
+   "default_branch": "master",
+   "description": "LLM Powered Newsletter Engine",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2934
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "maple-ingot",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-09-23T21:04:59Z",
+   "default_branch": "master",
+   "license": "AGPL-3.0",
+   "description": "Eval harness for typed-decision-driven PCB design agents. Backend-agnostic; drives legion-of-bom's `lob` CLI today and scores its artifacts against a task's rubric.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 3896
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "marble-mesa",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-04-22T10:30:31Z",
+   "default_branch": "master",
+   "description": "PedalKernel Pro landing page - Professional VST3 plugin",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "meadow-pilot",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-02-05T02:05:28Z",
+   "default_branch": "main",
+   "description": "Player Aerospace - Precision Launch Systems Website",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "nickel-shard",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:57Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 11616
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "nimbus-vault",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:17:07Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 17
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "oak-cascade",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-05-19T14:00:17Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2356
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ochre-fabric",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-03T23:19:45Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 18,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "onyx-index",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2020-02-22T17:02:05Z",
+   "default_branch": "master",
+   "description": "Well documented, complete and easy to use bindings to Quandl's RESTful API for Rust.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3382,
+    "badges": [
+     {
+      "label": "Crates.io",
+      "url": "http://meritbadge.herokuapp.com/quandl-v3"
+     },
+     {
+      "label": "License: MPL 2.0",
+      "url": "https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg"
+     },
+     {
+      "label": "Travis Build Status",
+      "url": "https://travis-ci.org/Proksima/quandl.svg?branch=master"
+     },
+     {
+      "label": "Documentation",
+      "url": "https://img.shields.io/badge/docs-latest-C9893D.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "opal-matrix",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2021-02-02T18:28:19Z",
+   "default_branch": "main",
+   "description": "A QuiverQuant API Client for Rust",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 2226,
+    "badges": [
+     {
+      "label": "crates.io",
+      "url": "https://img.shields.io/crates/v/quiverquant.svg"
+     },
+     {
+      "label": "Docs",
+      "url": "https://docs.rs/quiverquant/badge.svg"
+     },
+     {
+      "label": "rustc",
+      "url": "https://img.shields.io/badge/rustc-1.44+-blue.svg"
+     },
+     {
+      "label": "License",
+      "url": "https://img.shields.io/crates/l/quiverquant"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "pebble-pathway",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-07-12T08:12:49Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 3639
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "pine-sentry",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-11T12:39:00Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 9,
+   "workflows": [
+    "ci-docker.yml",
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 10885
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "quartz-summit",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-03-31T06:54:07Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 153
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "quill-canopy",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-10-31T03:45:02Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Self-hostable Rust bridge: Rakazo agents as Beeper chats, with history, avatars and optional FPL SSO pairing.",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 31,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 18633
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "raven-engine",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:35:03Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "Evidence-first research infrastructure for the FPL Research Wing",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 5,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 2267
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "reef-haven",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-16T12:51:18Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 10,
+   "readme": {
+    "present": true,
+    "bytes": 4433
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ridge-loom",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-02-05T16:15:59Z",
+   "default_branch": "main",
+   "description": "Rush Aerospace - Precision Aerospace Manufacturing Website",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "river-panel",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2021-03-22T07:56:59Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "A K8S Rust Service Template complete with CI/CD, Multi-platform builds, Kustomize deployments and more.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 119
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "rowan-runner",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-18T00:07:53Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 1657
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "saffron-studio",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-06-29T03:41:51Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 2141
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "sage-cache",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:06Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 183,
+   "workflows": [
+    "iac-drift.yml",
+    "iac-plan.yml",
+    "infra-layout.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 3409
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "slate-delta",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-03T10:30:00Z",
+   "default_branch": "master",
+   "description": "FPL consulting playbooks, vertical theses, and manufacturing product strategy",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 1906
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "spruce-harbor",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-02-01T04:57:36Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 5024
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "summit-ledger",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T11:15:49Z",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "description": "MicroVM isolation and deployment runtime for FPL Cloud",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 15,
+   "workflows": [
+    "rust.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 18515
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "thistle-outpost",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2020-06-08T12:28:28Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "Actix Websocket based implementation of Signalr ",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 274
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "tide-relay",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-07-28T16:28:29Z",
+   "default_branch": "master",
+   "description": "Marketing Ideation Toolkit",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 8
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "timber-station",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-02T01:02:51Z",
+   "default_branch": "main",
+   "description": "Deterministic GPU workload scheduling and durable artifact orchestration",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 3418
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "topaz-bridge",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-02-14T08:04:18Z",
+   "default_branch": "master",
+   "description": "Sky Reach Tools - Weather, prediction, and planning tools for HAB and rocketry missions",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 6110
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "trail-cradle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-03-16T22:33:32Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 7,
+   "readme": {
+    "present": true,
+    "bytes": 2097
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "umber-grove",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-27T22:45:16Z",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 0,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "vale-lattice",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-04-11T06:01:18Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 14348
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "violet-orchard",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-10T16:21:25Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 6341
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "willow-radius",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2021-02-03T08:28:10Z",
+   "default_branch": "main",
+   "description": "Premium API Gateway and Access Manager",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 50
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "zephyr-spring",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-08-22T00:49:08Z",
+   "default_branch": "main",
+   "description": "Schematics of Super Synthesis production modules ",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 581
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "amber-bridge",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:41:53Z",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "description": "Deterministic isolated browser workers for FPL agents",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 7886
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "basalt-cradle",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-15T23:34:47Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "Write English. Make chips.",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 2,
+   "workflows": [
+    "black-book-protocol.yml",
+    "ci.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 11159
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cedar-grove",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:27Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 6910
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "cobalt-lattice",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2019-10-08T13:53:27Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "TA-lib bindings for Rust",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 8195,
+    "badges": [
+     {
+      "label": "Build Status",
+      "url": "https://travis-ci.org/CLevasseur/ta-lib-rust.svg?branch=master"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "copper-orchard",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-10-02T05:14:00Z",
+   "default_branch": "main",
+   "license": "BSD-3-Clause",
+   "description": "The easiest, most secure way to use WireGuard and 2FA.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1274,
+   "workflows": [
+    "bumpdep.yml",
+    "check-cherry-picks.yml",
+    "checklocks.yml",
+    "cigocacher.yml",
+    "codeql-analysis.yml",
+    "docker-base.yml",
+    "docker-file-build.yml",
+    "flakehub-publish-tagged.yml",
+    "gokrazy-bump.yml",
+    "golangci-lint.yml",
+    "govulncheck.yml",
+    "installer.yml",
+    "kubemanifests.yaml",
+    "natlab-basic.yml",
+    "natlab-test.yml",
+    "pin-github-actions.yml",
+    "policybot-test.yml",
+    "request-dataplane-review.yml",
+    "request-k8s-review.yml",
+    "ssh-integrationtest.yml",
+    "tailcat.yml",
+    "test.yml",
+    "update-flake.yml",
+    "update-webclient-prebuilt.yml",
+    "vet.yml",
+    "webclient.yml",
+    "zizmor.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 2977
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "delta-radius",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2021-02-08T15:44:52Z",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "description": "Database for L2 orderbook",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 12,
+   "workflows": [
+    "rust.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 8179,
+    "badges": [
+     {
+      "label": "build",
+      "url": "https://github.com/0b01/tectonicdb/workflows/Rust/badge.svg"
+     },
+     {
+      "label": "crate.io",
+      "url": "https://img.shields.io/crates/v/tdb-core.svg"
+     },
+     {
+      "label": "doc.rs",
+      "url": "https://docs.rs/tdb_core/badge.svg"
+     },
+     {
+      "label": "Minimum Rust version",
+      "url": "https://img.shields.io/badge/rustc-1.40+-yellow.svg"
+     },
+     {
+      "label": "Rust stable",
+      "url": "https://img.shields.io/badge/rust-stable-green.svg"
+     },
+     {
+      "label": "doc.rs",
+      "url": "https://docs.rs/tectonicdb/badge.svg"
+     },
+     {
+      "label": "crate.io",
+      "url": "https://img.shields.io/crates/v/tectonicdb.svg"
+     },
+     {
+      "label": "doc.rs",
+      "url": "https://docs.rs/tdb_core/badge.svg"
+     },
+     {
+      "label": "crate.io",
+      "url": "https://img.shields.io/crates/v/tdb-core.svg"
+     },
+     {
+      "label": "doc.rs",
+      "url": "https://docs.rs/tdb_server_core/badge.svg"
+     },
+     {
+      "label": "crate.io",
+      "url": "https://img.shields.io/crates/v/tdb-server-core.svg"
+     },
+     {
+      "label": "doc.rs",
+      "url": "https://docs.rs/tdb_cli/badge.svg"
+     },
+     {
+      "label": "crate.io",
+      "url": "https://img.shields.io/crates/v/tdb-cli.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ember-spring",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:15:23Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 1493
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "falcon-beacon",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T05:56:44Z",
+   "default_branch": "master",
+   "description": "Praise The Omnissiah!",
+   "releases": 0,
+   "open_pulls": 5,
+   "branches": 48,
+   "workflows": [
+    "hygiene.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 3282
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "flint-console",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-09T11:59:30Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Unified Memory Inference Engine for FPL and Bifrost",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 12,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 22842
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "garnet-gateway",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-06T06:52:09Z",
+   "default_branch": "master",
+   "license": "AGPL-3.0",
+   "description": "The layer beneath your site.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 5,
+   "readme": {
+    "present": true,
+    "bytes": 5937
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "harbor-kernel",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:17Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "workflows": [
+    "updog.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 2858
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "indigo-nexus",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-05T10:14:46Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "ivory-quarry",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:34:50Z",
+   "default_branch": "main",
+   "description": "Private Verk training methods, dataset tooling and release governance. Open-weight releases are separate.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 2097
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "juniper-spindle",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-05T23:40:25Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 10184
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "kelp-atlas",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:41:39Z",
+   "default_branch": "main",
+   "description": "Reusable config-driven waitlist and survey application",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 12646
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "lantern-compass",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-09-22T06:18:52Z",
+   "default_branch": "master",
+   "description": "Wideline: Your ads on drugs.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 3256
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "larch-garden",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T23:36:51Z",
+   "default_branch": "master",
+   "description": "Aggregates markdown from across FPL repositories and agent runs, renders it as HTML, and serves it under OIDC-enforced visibility.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 4,
+   "readme": {
+    "present": true,
+    "bytes": 18294
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "maple-keeper",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-15T09:22:46Z",
+   "default_branch": "main",
+   "releases": 6,
+   "open_pulls": 0,
+   "branches": 3,
+   "workflows": [
+    "ci.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 13933
+   }
+  },
+  {
+   "org": "northwind",
+   "name": "marble-mill",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-07-02T13:37:15Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "The Zoo Design Studio app.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "workflows": [
+    "build-apps.yml",
+    "build-wasm.yml",
+    "cargo-bench.yml",
+    "cargo-check.yml",
+    "cargo-clippy.yml",
+    "cargo-fmt.yml",
+    "cargo-test.yml",
+    "check-kcl-header.yml",
+    "codemirror-lang-kcl.yml",
+    "e2e-tests.yml",
+    "generate-machine-api-types.yml",
+    "generate-website-docs.yml",
+    "kcl-language-server.yml",
+    "kcl-python-bindings.yml",
+    "kcl-wasm-lib-build-publish.yml",
+    "label-issues.yml",
+    "nightly-rust-toolchain.toml",
+    "nix.yml",
+    "publish-apps.yml",
+    "ruff.yml",
+    "security.yml",
+    "static-analysis.yml",
+    "unit-tests.yml",
+    "update-python-stubs.yml",
+    "update-staging.yml",
+    "vector.toml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 3484
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "meadow-prism",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-15T23:42:01Z",
+   "default_branch": "master",
+   "releases": 0,
+   "open_pulls": 6,
+   "branches": 30,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 13666
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "nickel-signal",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-17T07:01:19Z",
+   "default_branch": "main",
+   "description": "Agent surfaces for fungOS: one normalized agent, whatever harness runs it",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 3996
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "nimbus-api",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-02T06:11:53Z",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "description": "Confluence: durable, per-source event log for fungOS \u2014 admission, append, replay, fan-out",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 3596
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "oak-circuit",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-04T00:11:22Z",
+   "default_branch": "master",
+   "license": "Apache-2.0",
+   "description": "Low-level cross-platform audio I/O library in Rust",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 7,
+   "workflows": [
+    "platforms.yml",
+    "quality.yml",
+    "sanitizers.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 14295,
+    "badges": [
+     {
+      "label": "Actions Status",
+      "url": "https://github.com/RustAudio/cpal/workflows/cpal/badge.svg"
+     },
+     {
+      "label": "Crates.io",
+      "url": "https://img.shields.io/crates/v/cpal.svg"
+     },
+     {
+      "label": "docs.rs",
+      "url": "https://docs.rs/cpal/badge.svg"
+     }
+    ]
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "ochre-forge",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-10-22T20:26:58Z",
+   "default_branch": "main",
+   "description": "A code repository designed to show the best GitHub has to offer.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "workflows": [
+    "auto-assign.yml",
+    "proof-html.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 305
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "onyx-ingot",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-05T08:33:03Z",
+   "default_branch": "main",
+   "description": "fungOS and Soil documentation",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 748
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "opal-mesa",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-17T08:42:08Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "fungOS: Debian-based mesh nodes with Mycelium enrollment, trusted updates, and optional Canvas/Unibus edge profiles",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 4655
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "pebble-pilot",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-11T03:26:55Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "fungOS SDK: Lua UI, composition, and Rust contracts for Spores",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "readme": {
+    "present": true,
+    "bytes": 5317
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "pine-shard",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-16T02:52:39Z",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "description": "Local-first content-addressed VFS for fungOS",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 14,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 38038
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "quartz-vault",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-14T00:16:52Z",
+   "default_branch": "main",
+   "description": "fungOS website and documentation \u2014 Linux for connected machines",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 5707
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "quill-cascade",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-15T12:06:16Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "GPUI extracted from the Zed monorepo as a standalone workspace, with the layout engine reworked to keep what did not change between frames",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 19,
+   "workflows": [
+    "ci.yml",
+    "release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4821
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "raven-fabric",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-15T12:12:13Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "Rust GUI components for building fantastic cross-platform desktop application by using GPUI.",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 71,
+   "workflows": [
+    "ci.yml",
+    "release-gpui.yml",
+    "release-shell.yml",
+    "release-website.yml",
+    "release.yml",
+    "test-docs.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 13409,
+    "badges": [
+     {
+      "url": "https://raw.githubusercontent.com/longbridge/gpui-kit/main/website/public/logo.svg"
+     },
+     {
+      "label": "Build Status",
+      "url": "https://github.com/longbridge/gpui-kit/actions/workflows/ci.yml/badge.svg"
+     },
+     {
+      "label": "Docs",
+      "url": "https://docs.rs/gpui-kit/badge.svg"
+     },
+     {
+      "label": "Crates.io",
+      "url": "https://img.shields.io/crates/v/gpui-kit.svg"
+     },
+     {
+      "url": "https://github.com/user-attachments/assets/e1ecb9c3-2dd3-431e-bd97-5a819c30e551"
+     }
+    ]
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "reef-index",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-10-20T15:03:40Z",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "description": "Libre bootloader for Qualcomm MSM8916/MSM8226/MSM8974/... devices",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "workflows": [
+    "build.yml",
+    "lk2nd-matrix.yml",
+    "lk2nd.yml",
+    "stock-matrix.yml",
+    "stock.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 4487
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "ridge-matrix",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-07T00:53:17Z",
+   "default_branch": "main",
+   "description": "no_std boot workspace + LZ4 pack tooling + CAT S22 kernel build scripts",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": false,
+    "bytes": 0
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "river-pathway",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-16T04:35:45Z",
+   "default_branch": "master",
+   "license": "MIT",
+   "description": "A sensing framework for your networks. Home, Cloud, anywhere.",
+   "releases": 3,
+   "open_pulls": 10,
+   "branches": 31,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 58350
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "rowan-sentry",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-16T08:10:15Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "Local-first PIM records for fungOS",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 2,
+   "readme": {
+    "present": true,
+    "bytes": 7560
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "saffron-summit",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-17T11:43:21Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "description": "WASM Runtime for fungOS Apps",
+   "releases": 0,
+   "open_pulls": 10,
+   "branches": 109,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 15408
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "sage-canopy",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-11T21:28:00Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "A hello-world Spore with a GPUI window, a wasi:cli command and a wasi:http endpoint \u2014 built to be forked",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 7271
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "slate-engine",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-17T10:39:21Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "description": "fungOS spores: one scene, three hosts, UI in hot-reloadable Lua (MIT)",
+   "releases": 0,
+   "open_pulls": 2,
+   "branches": 32,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 10063
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "spruce-haven",
+   "archived": false,
+   "fork": false,
+   "private": false,
+   "pushed_at": "2026-11-15T23:41:51Z",
+   "default_branch": "main",
+   "releases": 0,
+   "open_pulls": 1,
+   "branches": 12,
+   "workflows": [
+    "clean-build.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 6879
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "summit-loom",
+   "archived": false,
+   "fork": false,
+   "private": true,
+   "pushed_at": "2026-11-07T03:07:21Z",
+   "default_branch": "main",
+   "description": "Reproducible embedded userland and CAT S22 rootfs/Jarvis build",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 1,
+   "readme": {
+    "present": true,
+    "bytes": 4427
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "thistle-panel",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-02T22:18:12Z",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 11,
+   "workflows": [
+    "ci.yml",
+    "prepare-release.yml",
+    "publish-release.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 573
+   }
+  },
+  {
+   "org": "tinderbox",
+   "name": "tide-runner",
+   "archived": false,
+   "fork": true,
+   "private": false,
+   "pushed_at": "2026-11-10T10:53:51Z",
+   "default_branch": "main",
+   "license": "MIT",
+   "releases": 0,
+   "open_pulls": 0,
+   "branches": 3,
+   "workflows": [
+    "ci.yml"
+   ],
+   "readme": {
+    "present": true,
+    "bytes": 12412
+   }
+  }
+ ]
+}

@@ -11,7 +11,12 @@ publish = false
 
 # A standalone workspace: the package builds its own wasm32-wasip2 component and
 # nothing else in the fleet is involved.
+#
+# `view/` is excluded on purpose. It is a Spore, not a member: it pins the GPUI
+# fork and builds for a different surface, and making it a member would put the
+# GPU stack in every `cargo test` run of the evaluator.
 [workspace]
+exclude = ["view"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]

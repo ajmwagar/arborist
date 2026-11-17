@@ -1,0 +1,14 @@
+// The host world a GPUI Spore runs in.
+//
+// The Spore owns the view; the host owns the WebGPU device and the compositor
+// surface. No window, swapchain or native texture handle crosses this boundary:
+// the guest renders offscreen and hands over a texture the host already knows
+// how to present.
+package arborist:spore@0.1.0;
+
+world runner {
+  import soil:present/surface@0.1.0;
+  import soil:present/input@0.1.0;
+  import soil:present/cursor@0.1.0;
+  export run: async func() -> u32;
+}

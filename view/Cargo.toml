@@ -1,0 +1,34 @@
+[package]
+name = "arborist-view"
+description = "The fleet wall: arborist's report, drawn by GPUI inside a Spore"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/ajmwagar/arborist"
+publish = false
+
+# A Spore is its own workspace: it pins the GPUI fork the wasip2 branch was
+# built against, and the host's copy is not the one it compiles to.
+[workspace]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# The evaluator itself. The view renders the same `Report` the command prints,
+# so a drift between what CI gates on and what the wall shows is not a bug that
+# can be introduced — there is nothing to keep in step.
+arborist = { path = ".." }
+anyhow = "1"
+gpui = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "88679a2cdb4d255710256921238e45fa25c8b751", package = "gpui", default-features = false, features = ["headless"] }
+gpui_wgpu = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "88679a2cdb4d255710256921238e45fa25c8b751", package = "gpui_wgpu", features = ["headless"] }
+serde_json = "1"
+wgpu = { version = "30", default-features = false, features = ["wgsl"] }
+wgpu-wasi-webgpu = { git = "https://github.com/fungOS-linux/wgpu-wasi-webgpu", rev = "bec921356c366450408d5faee2d206b6a1b8061b" }
+wit-bindgen = "0.57"
+
+[lints.rust]
+# wit-bindgen emits unsafe shims and `export_name`; isolate that to the
+# generated guest glue. The view on the other side of the ABI is safe Rust.
+unsafe_code = "allow"

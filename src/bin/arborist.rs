@@ -28,6 +28,9 @@ USAGE
   arborist report --json < snapshot.json
   arborist explain OWNER/NAME < snapshot.json
 
+  # the paragraph a bus or a notification carries
+  arborist digest < snapshot.json
+
   # the vocabulary, and how to read it
   arborist checks
 
@@ -78,6 +81,7 @@ fn run(args: &[String]) -> Result<ExitCode, String> {
         "report" => Ok(report(&args[1..])),
         "ingest" => ingest(&args[1..]),
         "checks" => checks(&args[1..]),
+        "digest" => digest(&args[1..]),
         "template" => template(&args[1..]),
         "explain" => explain(&args[1..]),
         // A bare pipeline with flags and no verb is a report; that is the
@@ -239,6 +243,27 @@ fn ingest(args: &[String]) -> Result<ExitCode, String> {
         .map_err(|error| format!("render snapshot: {error}"))?;
     println!("{rendered}");
     let _ = std::io::stdout().flush();
+    Ok(ExitCode::SUCCESS)
+}
+
+/// The same report, selected down to what a notification can carry.
+fn digest(args: &[String]) -> Result<ExitCode, String> {
+    if args.iter().any(|arg| arg == "-h" || arg == "--help") {
+        print!("{USAGE}");
+        return Ok(ExitCode::SUCCESS);
+    }
+    let bytes = read_stdin()?;
+    let snapshot: Snapshot =
+        serde_json::from_slice(&bytes).map_err(|error| format!("read snapshot: {error}"))?;
+    let report = arborist::evaluate(&snapshot);
+    let body = arborist::digest(&report);
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&body).map_err(|error| format!("render: {error}"))?
+    );
+    let _ = std::io::stdout().flush();
+    // Not a gate: the digest is what goes on a bus, and the bus is not the
+    // place a build fails. `report` is the command with an exit code.
     Ok(ExitCode::SUCCESS)
 }
 

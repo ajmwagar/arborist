@@ -19,6 +19,7 @@
 pub mod badge;
 pub mod check;
 pub mod date;
+pub mod digest;
 pub mod ingest;
 pub mod policy;
 pub mod report;
@@ -27,6 +28,7 @@ pub mod template;
 
 pub use badge::{Badge, BadgeKind};
 pub use check::{Check, Severity, Status};
+pub use digest::{Digest, digest};
 pub use policy::{Finding, Policy, evaluate};
 pub use report::{
     RepoReport, Report, SkipReason, Skipped, render_json, render_repo, render_text,

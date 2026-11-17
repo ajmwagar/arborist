@@ -191,6 +191,21 @@ Policy travels inside the snapshot, so a report is reproducible from its bytes
 alone. An exemption is reported as `exempt` with its reason rather than dropped —
 a check that quietly disappears is one the next person cannot audit.
 
+## On a schedule, and on the bus
+
+```sh
+./collector/scan.sh FuturePresentLabs mycelium-linux     # one whole pass
+mycelium pulse add --id arborist.scan --schedule "0 6 * * *" \
+  --command "/path/to/arborist/collector/scan.sh FuturePresentLabs mycelium-linux" --write
+```
+
+`scan.sh` scores, keeps the report, and publishes `arborist digest` — counts, the
+failing checks, the repositories worth opening first, and one headline sentence —
+to unibus when `UNIBUS_CLIENT` points at a client config. The exit code is about
+the scan, not the fleet: a red fleet is a successful scan, and a scheduler whose
+runs go red every night teaches everyone to ignore red. See
+[`docs/schedule-and-bus.md`](docs/schedule-and-bus.md).
+
 ## Build
 
 ```sh
