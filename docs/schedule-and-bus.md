@@ -107,9 +107,48 @@ can carry.
 A consumer can render that without asking arborist anything else: `failing` is
 the verdict, `headline` is the notification, `worst` is what to open first.
 
-## What is not here
+## Making the producer real
 
-`unibus-publish` needs a `ClientConfig` — installation, producer, hub endpoint,
-zones, and a token file. Creating `arborist` as a producer with a grant that
-allows `arborist.scan` is a router-side decision, and a token is a credential:
-neither belongs in this repository.
+`unibus-publish` needs a `ClientConfig`, and the router needs to know the
+producer. Four things, all of them refusals the router will tell you about one at
+a time — this is what getting it wrong looks like, in order:
+
+1. **A token.** 32+ characters, `0600`, at a path the node entry names. The
+   router compares it constant-time against the file.
+2. **A capability.** The router refuses to start at all with
+   `node arborist has no capabilities`. A publisher still needs one; it is what
+   a message can be routed *to*. `arborist.publisher` is the name used here.
+3. **`publish_zones`**, not just `zones`. `zones` is where the node *is*;
+   `publish_zones` is what it may *target*. Without it a publication is refused
+   with `may not target zone default`.
+4. **A route.** Without one: `no route for kind 'arborist.scan'`. With one
+   pointing at a capability nobody holds: `matched no live node` — the frame is
+   accepted and dropped, which is a bus with no subscriber rather than a
+   mistake.
+
+The node entry:
+
+```json
+{
+  "producer_id": "arborist",
+  "token_file": "/Users/you/.config/unibus/tokens/arborist.token",
+  "zones": ["default"],
+  "capabilities": ["arborist.publisher"],
+  "publishes": ["arborist.scan"],
+  "publish_zones": ["default"]
+}
+```
+
+and the route:
+
+```json
+{ "kind": "arborist.scan", "target": { "mode": "capability", "name": "arborist.reader" } }
+```
+
+Nothing holds `arborist.reader` yet, so a scan is published, accepted, and
+delivered to nobody. That is the correct behaviour for a bus with no subscriber,
+and it is one capability declaration away from having one: whatever should read
+fleet health declares `arborist.reader` and starts receiving scans.
+
+The router reads its config **once, at startup** — there is no reload and
+`unibusctl` is diagnostics only, so a new node goes live on the next restart.

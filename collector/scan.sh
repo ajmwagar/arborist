@@ -68,9 +68,20 @@ if command -v timeout >/dev/null 2>&1; then
 elif command -v gtimeout >/dev/null 2>&1; then
   collect() { gtimeout "$deadline" "$here/collect.sh" "$@"; }
 else
-  # No timeout(1) on this box. Say so rather than pretending the cap exists.
-  echo "scan.sh: no timeout(1); collection is not bounded here" >&2
-  collect() { "$here/collect.sh" "$@"; }
+  # No timeout(1) on this box — macOS has none by default. A scheduler that
+  # kills the run at 60 seconds turns an unbounded collection into a scan with
+  # no report, so the bound is done here instead of being wished for.
+  collect() {
+    "$here/collect.sh" "$@" &
+    collector=$!
+    ( sleep "$deadline"; kill -TERM "$collector" 2>/dev/null ) &
+    watchdog=$!
+    wait "$collector"
+    status=$?
+    kill -TERM "$watchdog" 2>/dev/null
+    wait "$watchdog" 2>/dev/null
+    return $status
+  }
 fi
 
 if ! collect "$@" > "$work.pages"; then
