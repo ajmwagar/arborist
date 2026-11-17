@@ -1,0 +1,22 @@
+[package]
+name = "arborist-web"
+description = "The fleet wall in a browser tab, through gpui_web"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/ajmwagar/arborist"
+publish = false
+
+[workspace]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+arborist-wall = { path = "../wall" }
+gpui = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui", default-features = false }
+# `multithreaded` is the default and needs a nightly toolchain plus a
+# cross-origin-isolated page. The wall is a document; it renders on one thread.
+gpui_platform = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui_platform", default-features = false }
+wasm-bindgen = "=0.2.129"

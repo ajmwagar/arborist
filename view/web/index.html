@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>arborist</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0b0f14; color: #e6edf5; }
+  body { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; }
+  canvas { display: block; }
+  #fallback { padding: 40px; max-width: 60ch; line-height: 1.5; }
+  #fallback code { color: #a3be8c; }
+  #fallback[hidden] { display: none; }
+</style>
+</head>
+<body>
+<!--
+  The fleet wall, in a tab.
+
+  GPUI draws into a canvas it appends to the body; this page mounts it and owns
+  nothing else. The module and its glue are served from beside this file by the
+  web bridge (`GET /v1/spore/module.wasm` serves the component to anything that
+  wants it, and this page loads the browser build directly).
+
+  The page says so out loud when there is no WebGPU, because a blank rectangle
+  is the wrong way to report a missing adapter.
+-->
+<div id="fallback" hidden>
+  <p><strong>arborist</strong> needs WebGPU to draw.</p>
+  <p>This browser did not give one up. Try <code>chrome://flags/#enable-unsafe-webgpu</code>,
+  or open the page with <code>?backend=webgl</code>.</p>
+</div>
+<script type="module">
+  const fallback = document.getElementById('fallback');
+  if (!navigator.gpu) {
+    fallback.hidden = false;
+  } else {
+    const module = await import('./arborist_web.js');
+    await module.default();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+[package]
+name = "arborist-wall"
+description = "The fleet wall: arborist's report laid out by GPUI, hosted anywhere"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/ajmwagar/arborist"
+publish = false
+
+# Its own workspace: this crate is a library both hosts build, and neither
+# host's target flags belong in it.
+[workspace]
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+arborist = { path = "../.." }
+serde_json = "1"
+gpui = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui", default-features = false }

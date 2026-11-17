@@ -8,3 +8,10 @@
 # without a host that can present it, so it is built rather than shipped. The
 # CLI module IS tracked: the GitHub Action runs it straight out of the checkout.
 view/module.wasm
+
+# The browser build's glue and module are produced by `wasm-bindgen`, 13 MB
+# between them. `view/web/index.html` is authored and tracked; everything beside
+# it is generated. `view/README.md` has the two commands.
+view/web/arborist_web*.js
+view/web/arborist_web*.wasm
+view/web/*.d.ts
