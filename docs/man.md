@@ -92,6 +92,28 @@ A repository with no README is `unknown` here rather than a second failure: the
 `readme` check already owns that absence, and reporting one absence twice makes
 a report harder to read, not more thorough.
 
+# IN CI
+
+The repository ships a GitHub action, so the check is four lines in a workflow:
+
+```yaml
+- uses: ajmwagar/arborist@v1
+  with:
+    orgs: OWNER                   # or omit for a pull-request gate on this repo
+    fail-on: critical
+```
+
+`uses:` checks the action's own repository out, so the component is already
+there and only wasmtime is installed. The report goes to the job summary and to
+`arborist-report.json`.
+
+`marbles: true` files one task per repository that fails a critical check,
+through `mb` and the `soil:records` book — the same command a person runs, so
+there is no second route into the tracker. Tasks are titled `arborist:
+OWNER/NAME` and labelled `arborist`; a re-run leaves existing ones alone and
+closes the ones whose repository stopped failing. On a runner without `mb` the
+step fails rather than filing nothing.
+
 # TEMPLATES
 
 ```sh

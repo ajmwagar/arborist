@@ -50,3 +50,14 @@ jobs:
               sys.exit(f"bin/arborist.wasm is not a wasm component: {head!r}")
           print("bin/arborist.wasm is a component")
           PY
+
+  # The action auditing the repository it lives in. If this goes red the action
+  # is broken for everybody, and `fail-on: critical` makes it red for the same
+  # reasons it would be red for them: no licence, no workflow, no README.
+  self-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          fail-on: critical

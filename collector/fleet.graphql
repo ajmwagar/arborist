@@ -1,19 +1,8 @@
-# The one query a fleet collection is made of.
+# One owner's repositories, one page at a time.
 #
-# Every field here is a fact arborist cannot infer, and nothing here is a fact
-# it could derive. One node is one repository, so one page is that many
-# repositories for the cost of a single round trip: a per-repository REST crawl
-# is 300 requests for the same answer, which is the difference between a nightly
-# job and a rate limit.
-#
-# `branches` and `workflows` are aliases because GraphQL counts a ref prefix and
-# a tree listing separately; naming them here is what lets the collector read a
-# repository without a second request for each.
-#
-# The README is fetched whole and thrown away. Ingest keeps its size and the
-# badge URLs it embeds, because a badge that points at a deleted workflow is the
-# most common way a README starts lying — and the check that catches it needs
-# four URLs, not four kilobytes.
+# One node is one repository, so one page is that many repositories for the cost
+# of a single round trip: a per-repository REST crawl is 300 requests for the same
+# answer, which is the difference between a nightly job and a rate limit.
 #
 # 25 per page, not 100: a README is the one unbounded field here (median 4 KB,
 # worst seen 57 KB) and a page that carries 100 of them is answered with a 502
@@ -27,40 +16,7 @@ query Fleet($org: String!, $endCursor: String) {
         endCursor
       }
       nodes {
-        name
-        isArchived
-        isFork
-        isPrivate
-        pushedAt
-        description
-        licenseInfo {
-          spdxId
-        }
-        defaultBranchRef {
-          name
-        }
-        releases {
-          totalCount
-        }
-        pullRequests(states: OPEN) {
-          totalCount
-        }
-        branches: refs(refPrefix: "refs/heads/", first: 1) {
-          totalCount
-        }
-        workflows: object(expression: "HEAD:.github/workflows") {
-          ... on Tree {
-            entries {
-              name
-            }
-          }
-        }
-        readme: object(expression: "HEAD:README.md") {
-          ... on Blob {
-            byteSize
-            text
-          }
-        }
+        ...RepoFields
       }
     }
   }

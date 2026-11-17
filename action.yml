@@ -1,0 +1,167 @@
+# arborist as a GitHub check.
+#
+# Two shapes, one implementation:
+#
+#   - a pull-request gate on one repository, which is what `uses:` with no
+#     inputs gives you;
+#   - a scheduled audit of whole owners, which is what `orgs:` gives you.
+#
+# Both run the same component against the same checks, so a pull request and the
+# nightly run never disagree about a repository.
+name: arborist
+description: >-
+  Fleet source health: which repositories have no licence, no CI, no README, no
+  release, and badges that point at nothing. Gates a pull request or audits
+  whole owners.
+author: ajmwagar
+branding:
+  icon: activity
+  color: green
+
+inputs:
+  orgs:
+    description: >-
+      Owners to audit, space or comma separated. Empty audits one repository,
+      which is the pull-request gate.
+    required: false
+    default: ''
+  repo:
+    description: OWNER/NAME to audit when `orgs` is empty.
+    required: false
+    default: ''
+  fail-on:
+    description: 'Exit non-zero for findings at this level: critical, advisory, or none.'
+    required: false
+    default: critical
+  strict:
+    description: 'Treat a check with no evidence as a failure instead of as unknown.'
+    required: false
+    default: 'false'
+  report:
+    description: Where to write the JSON report.
+    required: false
+    default: arborist-report.json
+  marbles:
+    description: >-
+      File one Marbles task per repository that fails a critical check, through
+      `mb`. Needs a host with a records book; a GitHub-hosted runner has none and
+      this fails loudly rather than filing nothing.
+    required: false
+    default: 'false'
+  marbles-project:
+    description: Marbles project new tasks are filed in.
+    required: false
+    default: arborist
+  marbles-dry-run:
+    description: >-
+      Print what would be filed and closed, and file nothing. The first run over
+      a fleet that has never been audited is worth reading before it is real.
+    required: false
+    default: 'false'
+  marbles-limit:
+    description: >-
+      Most tasks to file in one run. A first audit of a large fleet fails
+      hundreds of checks, and filing them all at once buries the backlog it was
+      meant to create.
+    required: false
+    default: '25'
+  wasmtime:
+    description: Wasmtime release to run the component with.
+    required: false
+    default: v27.0.0
+
+outputs:
+  report:
+    description: Path to the JSON report.
+    value: ${{ steps.score.outputs.report }}
+  failing:
+    description: Repositories with at least one failing check.
+    value: ${{ steps.score.outputs.failing }}
+
+runs:
+  using: composite
+  steps:
+    - name: wasmtime
+      shell: bash
+      env:
+        VERSION: ${{ inputs.wasmtime }}
+      run: |
+        set -euo pipefail
+        case "${RUNNER_OS}-${RUNNER_ARCH}" in
+          Linux-X64)   triple=x86_64-linux ;;
+          Linux-ARM64) triple=aarch64-linux ;;
+          macOS-X64)   triple=x86_64-macos ;;
+          macOS-ARM64) triple=aarch64-macos ;;
+          *) echo "arborist: unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}" >&2; exit 1 ;;
+        esac
+        url="https://github.com/bytecodealliance/wasmtime/releases/download/${VERSION}/wasmtime-${VERSION}-${triple}.tar.xz"
+        mkdir -p "$RUNNER_TEMP/wasmtime"
+        curl -sSfL "$url" | tar -xJ -C "$RUNNER_TEMP/wasmtime"
+        echo "$RUNNER_TEMP/wasmtime/wasmtime-${VERSION}-${triple}" >> "$GITHUB_PATH"
+
+    - name: score
+      id: score
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        ORGS: ${{ inputs.orgs }}
+        REPO: ${{ inputs.repo }}
+        FAIL_ON: ${{ inputs.fail-on }}
+        STRICT: ${{ inputs.strict }}
+        REPORT_PATH: ${{ inputs.report }}
+      run: |
+        set -euo pipefail
+        here="$GITHUB_ACTION_PATH"
+        pages="$RUNNER_TEMP/arborist-pages.json"
+        snapshot="$RUNNER_TEMP/arborist-snapshot.json"
+
+        if [ -n "${ORGS//[[:space:],]/}" ]; then
+          owners=$(printf '%s' "$ORGS" | tr ',' ' ')
+          # shellcheck disable=SC2086 # word splitting is the point: a list of owners.
+          sh "$here/collector/collect.sh" $owners > "$pages"
+        else
+          sh "$here/collector/collect.sh" --repo "${REPO:-$GITHUB_REPOSITORY}" > "$pages"
+        fi
+
+        wasmtime run "$here/bin/arborist.wasm" ingest < "$pages" > "$snapshot"
+        # `--fail-on none` because this call writes an artifact, not a verdict.
+        # The gate is the call below, and having both exit codes in one shell
+        # under `set -e` would fail the step before the summary was written.
+        wasmtime run "$here/bin/arborist.wasm" report --json --fail-on none \
+          < "$snapshot" > "$REPORT_PATH"
+
+        strict=()
+        [ "$STRICT" = "true" ] && strict=(--strict)
+
+        # The gate runs on the same bytes as the report, and its exit code is the
+        # check's. `set +e` is deliberate: a red result is an answer, not an
+        # error, and the summary below has to be written either way.
+        set +e
+        wasmtime run "$here/bin/arborist.wasm" report --fail-on "$FAIL_ON" "${strict[@]}" \
+          < "$snapshot" > "$RUNNER_TEMP/arborist.txt"
+        code=$?
+        set -e
+
+        cat "$RUNNER_TEMP/arborist.txt" >> "$GITHUB_STEP_SUMMARY"
+        cat "$RUNNER_TEMP/arborist.txt"
+
+        failing=$(jq '[.repos[] | select([.findings[] | select(.status == "fail")] | length > 0)] | length' "$REPORT_PATH")
+        echo "failing=$failing" >> "$GITHUB_OUTPUT"
+        echo "report=$REPORT_PATH" >> "$GITHUB_OUTPUT"
+        exit "$code"
+
+    - name: file Marbles tasks
+      if: inputs.marbles == 'true'
+      shell: bash
+      env:
+        MARBLES_PROJECT: ${{ inputs.marbles-project }}
+        LIMIT: ${{ inputs.marbles-limit }}
+        DRY_RUN: ${{ inputs.marbles-dry-run }}
+        REPORT: ${{ inputs.report }}
+      run: |
+        set -euo pipefail
+        dry=()
+        [ "$DRY_RUN" = "true" ] && dry=(--dry-run)
+        bash "$GITHUB_ACTION_PATH/scripts/marbles.sh" \
+          --project "$MARBLES_PROJECT" --limit "$LIMIT" "${dry[@]}" \
+          < "$REPORT"

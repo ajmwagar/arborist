@@ -1,0 +1,13 @@
+# One repository, for a check that runs on a pull request.
+#
+# The same fields as the fleet query: a repository is either in shape for the
+# fleet audit or it is not, and a pull request gate that graded a different set
+# of facts would disagree with the nightly run about the same repository.
+query Repo($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    ...RepoFields
+    owner {
+      login
+    }
+  }
+}

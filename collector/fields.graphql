@@ -1,0 +1,47 @@
+# Every field arborist cannot infer, in one place, for one repository.
+#
+# A fragment rather than a copy in each query: the fleet query fetches a page of
+# these and the single-repository query fetches one, and two field lists that
+# have to stay in step are two field lists that eventually do not. `collect.sh`
+# prepends this file to whichever query it sends.
+#
+# The README is fetched whole and thrown away. Ingest keeps its size and the
+# badge URLs it embeds, because a badge that points at a deleted workflow is the
+# most common way a README starts lying — and the check that catches it needs
+# four URLs, not four kilobytes.
+fragment RepoFields on Repository {
+  name
+  isArchived
+  isFork
+  isPrivate
+  pushedAt
+  description
+  licenseInfo {
+    spdxId
+  }
+  defaultBranchRef {
+    name
+  }
+  releases {
+    totalCount
+  }
+  pullRequests(states: OPEN) {
+    totalCount
+  }
+  branches: refs(refPrefix: "refs/heads/", first: 1) {
+    totalCount
+  }
+  workflows: object(expression: "HEAD:.github/workflows") {
+    ... on Tree {
+      entries {
+        name
+      }
+    }
+  }
+  readme: object(expression: "HEAD:README.md") {
+    ... on Blob {
+      byteSize
+      text
+    }
+  }
+}

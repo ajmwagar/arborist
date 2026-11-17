@@ -31,87 +31,56 @@ impl Collector {
 
     /// Read one GraphQL response, adding the repositories it names.
     ///
-    /// A page that carries `errors` and no data is not an error here: a fleet
+    /// Two shapes arrive here and both are the same fact: a page of one owner's
+    /// repositories, and the single repository a pull-request gate asks about.
+    /// A page that carries `errors` and no data is not an error — a fleet
     /// collection is allowed to lose one owner and still produce a report, and
     /// the pages that did arrive are the evidence for the rest.
     pub fn absorb(&mut self, document: &Value) -> usize {
-        let parsed: GraphQlDocument = match serde_json::from_value(document.clone()) {
-            Ok(parsed) => parsed,
-            Err(_) => return 0,
-        };
-        let Some(owner) = parsed.data.and_then(|data| data.repository_owner) else {
+        let Ok(parsed) = serde_json::from_value::<GraphQlDocument>(document.clone()) else {
             return 0;
         };
-        let Some(login) = owner.login.filter(|login| !login.is_empty()) else {
+        let Some(data) = parsed.data else {
             return 0;
         };
-        if !self.orgs.iter().any(|org| org == &login) {
-            self.orgs.push(login.clone());
-        }
-        let Some(connection) = owner.repositories else {
-            return 0;
-        };
-
         let mut added = 0;
-        for node in connection.nodes.into_iter().flatten() {
-            let Some(name) = node.name.filter(|name| !name.is_empty()) else {
-                continue;
-            };
-            self.repos.insert(
-                format!("{login}/{name}"),
-                RepoState {
-                    org: login.clone(),
-                    name,
-                    archived: node.is_archived,
-                    fork: node.is_fork,
-                    private: node.is_private,
-                    pushed_at: non_empty(node.pushed_at),
-                    default_branch: node
-                        .default_branch_ref
-                        .and_then(|branch| non_empty(branch.name)),
-                    license: node
-                        .license_info
-                        .and_then(|license| non_empty(license.spdx_id)),
-                    description: node.description.filter(|text| !text.trim().is_empty()),
-                    releases: node.releases.map_or(0, |releases| releases.total_count),
-                    open_pulls: node.pull_requests.map_or(0, |pulls| pulls.total_count),
-                    branches: node.branches.map_or(0, |branches| branches.total_count),
-                    workflows: node
-                        .workflows
-                        .and_then(|tree| tree.entries)
-                        .map(|entries| {
-                            let mut names: Vec<String> = entries
-                                .into_iter()
-                                .flatten()
-                                .filter_map(|entry| entry.name)
-                                .collect();
-                            names.sort();
-                            names
-                        })
-                        .unwrap_or_default(),
-                    latest_run: None,
-                    links: None,
-                    readme: node.readme.map(|blob| match blob {
-                        None => crate::Readme {
-                            present: false,
-                            bytes: 0,
-                            badges: Vec::new(),
-                        },
-                        Some(blob) => {
-                            let text = blob.text.unwrap_or_default();
-                            crate::Readme {
-                                present: true,
-                                bytes: blob.byte_size.max(text.len() as u32),
-                                badges: crate::badge::extract(&text),
-                            }
-                        }
-                    }),
-                    exempt: BTreeMap::new(),
-                },
-            );
-            added += 1;
+
+        if let Some(owner) = data.repository_owner {
+            if let (Some(login), Some(connection)) = (non_empty(owner.login), owner.repositories) {
+                self.note_org(&login);
+                for node in connection.nodes.into_iter().flatten() {
+                    added += usize::from(self.offer(&login, node));
+                }
+            }
         }
+
+        if let Some(node) = data.repository {
+            let login = node
+                .owner
+                .as_ref()
+                .and_then(|owner| non_empty(owner.login.clone()));
+            if let Some(login) = login {
+                self.note_org(&login);
+                added += usize::from(self.offer(&login, node));
+            }
+        }
+
         added
+    }
+
+    fn note_org(&mut self, login: &str) {
+        if !self.orgs.iter().any(|org| org == login) {
+            self.orgs.push(login.to_string());
+        }
+    }
+
+    fn offer(&mut self, login: &str, mut node: Node) -> bool {
+        let Some(name) = non_empty(node.name.take()) else {
+            return false;
+        };
+        self.repos
+            .insert(format!("{login}/{name}"), repo_state(login, name, node));
+        true
     }
 
     /// Read every document in a stream, returning how many repositories arrived.
@@ -153,6 +122,59 @@ impl Collector {
     }
 }
 
+/// One node, whichever document it came from, as the fact sheet the checks read.
+fn repo_state(login: &str, name: String, node: Node) -> RepoState {
+    RepoState {
+        org: login.to_string(),
+        name,
+        archived: node.is_archived,
+        fork: node.is_fork,
+        private: node.is_private,
+        pushed_at: non_empty(node.pushed_at),
+        default_branch: node
+            .default_branch_ref
+            .and_then(|branch| non_empty(branch.name)),
+        license: node
+            .license_info
+            .and_then(|license| non_empty(license.spdx_id)),
+        description: node.description.filter(|text| !text.trim().is_empty()),
+        releases: node.releases.map_or(0, |releases| releases.total_count),
+        open_pulls: node.pull_requests.map_or(0, |pulls| pulls.total_count),
+        branches: node.branches.map_or(0, |branches| branches.total_count),
+        workflows: node
+            .workflows
+            .and_then(|tree| tree.entries)
+            .map(|entries| {
+                let mut names: Vec<String> = entries
+                    .into_iter()
+                    .flatten()
+                    .filter_map(|entry| entry.name)
+                    .collect();
+                names.sort();
+                names
+            })
+            .unwrap_or_default(),
+        latest_run: None,
+        links: None,
+        readme: node.readme.map(|blob| match blob {
+            None => crate::Readme {
+                present: false,
+                bytes: 0,
+                badges: Vec::new(),
+            },
+            Some(blob) => {
+                let text = blob.text.unwrap_or_default();
+                crate::Readme {
+                    present: true,
+                    bytes: blob.byte_size.max(text.len() as u32),
+                    badges: crate::badge::extract(&text),
+                }
+            }
+        }),
+        exempt: BTreeMap::new(),
+    }
+}
+
 fn non_empty(text: Option<String>) -> Option<String> {
     text.filter(|text| !text.trim().is_empty())
 }
@@ -168,6 +190,9 @@ struct GraphQlDocument {
 struct GraphQlData {
     #[serde(default)]
     repository_owner: Option<Owner>,
+    /// The single-repository shape, which is what a pull-request gate asks for.
+    #[serde(default)]
+    repository: Option<Node>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -194,6 +219,8 @@ struct Connection {
 struct Node {
     #[serde(default)]
     name: Option<String>,
+    #[serde(default)]
+    owner: Option<OwnerRef>,
     #[serde(default)]
     is_archived: bool,
     #[serde(default)]
@@ -244,6 +271,13 @@ struct Blob {
     byte_size: u32,
     #[serde(default)]
     text: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct OwnerRef {
+    #[serde(default)]
+    login: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -345,6 +379,44 @@ mod tests {
         collector.absorb_stream(PAGE.as_bytes()).unwrap();
         collector.absorb_stream(PAGE.as_bytes()).unwrap();
         assert_eq!(collector.len(), 2);
+    }
+
+    #[test]
+    fn a_single_repository_document_lands_in_the_same_snapshot() {
+        // What `collect.sh --repo` sends: the shape a pull-request gate asks
+        // for. It has to produce the same RepoState as the fleet query, or the
+        // gate and the nightly run would disagree about one repository.
+        let single = r#"{"data":{"repository":{"name":"bob","isArchived":false,
+          "isFork":false,"isPrivate":true,"description":"a build plane",
+          "licenseInfo":null,"defaultBranchRef":{"name":"main"},
+          "releases":{"totalCount":3},"pullRequests":{"totalCount":2},
+          "branches":{"totalCount":28},"pushedAt":"2026-11-17T10:54:14Z",
+          "workflows":{"entries":[{"name":"ci.yml"},{"name":"release.yml"}]},
+          "owner":{"login":"fpl"}}}}"#;
+        let mut collector = Collector::new();
+        assert_eq!(collector.absorb_stream(single.as_bytes()).unwrap(), 1);
+        let snapshot = collector.finish(None);
+        assert_eq!(snapshot.repos.len(), 1);
+        assert_eq!(snapshot.repos[0].slug(), "fpl/bob");
+        assert_eq!(snapshot.orgs(), vec!["fpl".to_string()]);
+
+        let mut fleet = Collector::new();
+        fleet.absorb_stream(PAGE.as_bytes()).unwrap();
+        let from_fleet = fleet.finish(None);
+        let bob = from_fleet
+            .repos
+            .iter()
+            .find(|repo| repo.name == "bob")
+            .expect("bob is on the page");
+        assert_eq!(&snapshot.repos[0], bob, "the two shapes agree");
+    }
+
+    #[test]
+    fn a_single_repository_without_an_owner_is_dropped_rather_than_guessed() {
+        let orphan = r#"{"data":{"repository":{"name":"bob"}}}"#;
+        let mut collector = Collector::new();
+        assert_eq!(collector.absorb_stream(orphan.as_bytes()).unwrap(), 0);
+        assert!(collector.is_empty());
     }
 
     #[test]

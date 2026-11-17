@@ -96,6 +96,60 @@ The templates are compiled into the component, so a shell with no filesystem can
 still print one, and the file a remedy names is the file that shipped rather than
 a copy that drifted.
 
+## Install it as a check
+
+The action is the same component, so a pull request and the nightly audit never
+disagree about a repository.
+
+```yaml
+# Gate a pull request on the repository it is in.
+- uses: ajmwagar/arborist@v1
+  with:
+    fail-on: critical
+```
+
+```yaml
+# Audit whole owners on a schedule.
+- uses: ajmwagar/arborist@v1
+  with:
+    orgs: FuturePresentLabs mycelium-linux
+    fail-on: advisory
+    strict: true
+```
+
+The report is written to the job summary and to `arborist-report.json`; the step
+fails with the gate's exit code, so it is a real check and not a decoration.
+
+`uses:` checks this repository out for you, so `bin/arborist.wasm` is already
+there — the action installs wasmtime and runs it. No release asset, no build
+step, no cache to keep warm.
+
+### Filing the findings as Marbles tasks
+
+Opt in and each repository that fails a critical check becomes one task,
+titled `arborist: OWNER/NAME` and labelled `arborist`:
+
+```yaml
+- uses: ajmwagar/arborist@v1
+  with:
+    orgs: FuturePresentLabs
+    marbles: true
+    marbles-project: arborist
+    marbles-limit: 25
+```
+
+It reconciles rather than appends: a task that already exists is left alone, and
+a task whose repository stopped failing is closed, so a nightly job does not
+produce a new backlog every night. `marbles-limit` exists because a first audit
+of a large fleet fails hundreds of checks at once, and filing them all buries
+the backlog it was meant to create.
+
+It talks to the tracker through `mb` — the Marbles command over `soil:records`
+that every host in the fleet already has — rather than an HTTP client or a
+service token. A GitHub-hosted runner has no records book, so on one of those the
+step **fails** rather than quietly filing nothing. Use a self-hosted runner, or
+leave `marbles` off.
+
 ## Use it
 
 ```sh
