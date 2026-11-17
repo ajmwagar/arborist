@@ -157,7 +157,11 @@ fn headline(report: &Report, by_check: &[CheckSlice]) -> String {
     format!(
         "{} of {total} repositories {} advisory finding{}: {}",
         summary.advisory,
-        if summary.advisory == 1 { "has an" } else { "have" },
+        if summary.advisory == 1 {
+            "has an"
+        } else {
+            "have"
+        },
         plural(summary.advisory),
         reasons.join(", ")
     )
