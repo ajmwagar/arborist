@@ -40,4 +40,4 @@ host = ["process", "secrets", "environment", "raw-filesystem", "clock"]
 [presentation]
 badge = "Ar"
 color = "#a3be8c"
-mark = "../assets/icon.svg"
+mark = "assets/icon.svg"

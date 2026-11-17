@@ -3,3 +3,8 @@
 # The module ships, so `bin/arborist.wasm` is tracked. Anything else built here
 # is not.
 *.rs.bk
+
+# The view's component is 9.7 MB of GPUI and WebGPU and nothing consumes it
+# without a host that can present it, so it is built rather than shipped. The
+# CLI module IS tracked: the GitHub Action runs it straight out of the checkout.
+view/module.wasm

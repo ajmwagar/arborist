@@ -41,6 +41,11 @@ const SNAPSHOT: &str = include_str!("../../fixtures/fleet.json");
 
 const HEADER_H: f32 = 64.0;
 const GAP: f32 = 18.0;
+/// Repositories named on the wall. The report carries all of them; a wall that
+/// scrolls is a wall that is read once.
+const ROWS: usize = 12;
+/// Checks shown per repository before the rest become a count.
+const CHIPS: usize = 4;
 
 const BG: u32 = 0x0b0f14;
 const PANEL: u32 = 0x111820;
@@ -90,7 +95,7 @@ impl Wall {
             .items_center()
             .justify_between()
             .px(px(28.0))
-            .bg(PANEL)
+            .bg(rgb(PANEL))
             .border_b(px(1.0))
             .border_color(rgb(BORDER))
             .child(
@@ -120,6 +125,31 @@ impl Wall {
                         "{} repositories · {} skipped",
                         self.report.summary.checked, self.report.summary.skipped
                     ))),
+            )
+            .into_any_element()
+    }
+
+    /// The one sentence the tool exists to produce, above the numbers that
+    /// support it. A wall whose first line is a count of repositories is a wall
+    /// nobody reads twice.
+    fn headline(&self) -> AnyElement {
+        let colour = if self.report.summary.critical > 0 {
+            CRITICAL
+        } else if self.report.summary.advisory > 0 {
+            ADVISORY
+        } else {
+            ACCENT
+        };
+        div()
+            .px(px(28.0))
+            .pt(px(18.0))
+            .child(
+                div()
+                    .text_size(px(15.0))
+                    .text_color(rgb(colour))
+                    .child(SharedString::from(
+                        arborist::digest::digest(&self.report).headline,
+                    )),
             )
             .into_any_element()
     }
@@ -160,14 +190,20 @@ impl Wall {
                     .child(SharedString::from("no repository failed a check")),
             );
         }
-        for repo in worst.iter().take(8) {
+        for repo in worst.iter().take(ROWS) {
             let mut chips = div().flex().items_center().gap(px(6.0));
             let mut worst_severity = Severity::Advisory;
-            for finding in repo.fails() {
+            let failures: Vec<_> = repo.fails().collect();
+            for finding in &failures {
                 if finding.severity > worst_severity {
                     worst_severity = finding.severity;
                 }
+            }
+            for finding in failures.iter().take(CHIPS) {
                 chips = chips.child(chip(finding.check.id(), finding.severity));
+            }
+            if failures.len() > CHIPS {
+                chips = chips.child(more(failures.len() - CHIPS));
             }
             list = list.child(
                 div()
@@ -212,7 +248,7 @@ fn stat(label: &str, value: usize, colour: u32) -> AnyElement {
         .flex_col()
         .gap(px(2.0))
         .p(px(16.0))
-        .bg(PANEL)
+        .bg(rgb(PANEL))
         .border(px(1.0))
         .border_color(rgb(BORDER))
         .child(
@@ -238,7 +274,7 @@ fn panel(title: &str, subtitle: &str) -> gpui::Div {
         .flex_col()
         .gap(px(14.0))
         .p(px(16.0))
-        .bg(PANEL)
+        .bg(rgb(PANEL))
         .border(px(1.0))
         .border_color(rgb(BORDER))
         .child(
@@ -265,7 +301,7 @@ fn panel(title: &str, subtitle: &str) -> gpui::Div {
 fn check_row(entry: &CheckSummary, checked: usize) -> AnyElement {
     let share = entry.fail as f32 / checked as f32;
     let colour = severity_colour(entry.severity);
-    let mut bar = div().w(px(180.0)).h(px(6.0)).bg(0x161f28u32 as u32);
+    let mut bar = div().w(px(180.0)).h(px(6.0)).bg(rgb(0x161f28));
     bar = bar.child(
         div()
             .w(px((180.0 * share).max(if entry.fail > 0 { 2.0 } else { 0.0 })))
@@ -306,6 +342,19 @@ fn check_row(entry: &CheckSummary, checked: usize) -> AnyElement {
         .into_any_element()
 }
 
+fn more(hidden: usize) -> AnyElement {
+    div()
+        .px(px(7.0))
+        .py(px(2.0))
+        .child(
+            div()
+                .text_size(px(10.0))
+                .text_color(rgb(MUTED))
+                .child(SharedString::from(format!("+{hidden}"))),
+        )
+        .into_any_element()
+}
+
 fn chip(check: &str, severity: Severity) -> AnyElement {
     div()
         .px(px(7.0))
@@ -329,8 +378,10 @@ impl Render for Wall {
             .bg(rgb(BG))
             .font_family("Lilex")
             .child(self.header())
+            .child(self.headline())
             .child(
                 div()
+                    .flex_1()
                     .flex()
                     .flex_col()
                     .gap(px(GAP))
@@ -338,6 +389,7 @@ impl Render for Wall {
                     .child(self.stats())
                     .child(
                         div()
+                            .flex_1()
                             .flex()
                             .gap(px(GAP))
                             .child(self.checks())
