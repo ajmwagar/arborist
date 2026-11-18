@@ -39,11 +39,15 @@ pub fn boot(report: Option<String>) {
     let _handle = gpui_platform::application_with_web_backend(
         gpui_platform::WebBackendPreference::Auto,
     )
-    .run_embedded(|cx: &mut gpui::App| {
+    .run_embedded(move |cx: &mut gpui::App| {
+        // The report has to be *owned* by the window closure, not borrowed from
+        // this stack frame: `open_window` keeps its builder past the call that
+        // made it, so a borrow here would not outlive `boot`.
+        let drawn = drawn.clone();
         // `run_embedded` takes a closure that builds the windows and returns
         // nothing; the handle the app hands back is the host's to keep alive.
-        let _ = cx.open_window(Default::default(), |_, cx| {
-            cx.new(|_| Wall::new(drawn.clone()))
+        let _ = cx.open_window(Default::default(), move |_, cx| {
+            cx.new(move |_| Wall::new(drawn))
         });
     });
 }
