@@ -71,6 +71,12 @@ jobs=8
 usage() {
   cat <<'USAGE'
 usage: arborist report --json | marbles.sh [options]
+       marbles.sh [options] REPORT.json...
+
+  A report on stdin, or one report file per argument. The schedules write one
+  report per owner, so pass them all: they are merged before anything is
+  decided, because a repository named the same in two owners is two
+  repositories and the project rule has to see every owner at once.
 
   --dry-run        print what would be filed and closed; change nothing
   --limit N        file at most N tasks in one run (default 0: no limit)
@@ -84,7 +90,9 @@ while [ "$#" -gt 0 ]; do
     --limit) limit=$2; shift 2 ;;
     --fail-on) fail_on=$2; shift 2 ;;
     -h|--help) usage; exit 0 ;;
-    *) echo "marbles.sh: unknown option $1" >&2; usage >&2; exit 2 ;;
+    --) shift; break ;;
+    -*) echo "marbles.sh: unknown option $1" >&2; usage >&2; exit 2 ;;
+    *) break ;;
   esac
 done
 
@@ -103,15 +111,36 @@ if ! command -v mb >/dev/null 2>&1; then
   exit 2
 fi
 
-report=$(cat)
-if [ -z "$report" ]; then
-  echo "marbles.sh: no report on stdin" >&2
-  exit 2
-fi
-
 work=${TMPDIR:-/tmp}/arborist-marbles.$$
 trap 'rm -f "$work".*' EXIT INT TERM
-printf '%s' "$report" > "$work.report"
+
+# One report in, one document out, however many owners the fleet has. `jq -s`
+# over the files is a merge and not a concatenation: `repos` stays one array, so
+# the name-collision rule below counts every owner's repositories together.
+if [ "$#" -gt 0 ]; then
+  for file in "$@"; do
+    if [ ! -r "$file" ]; then
+      echo "marbles.sh: cannot read $file" >&2
+      exit 2
+    fi
+  done
+  if ! jq -s '
+    {
+      schema: (.[0].schema // null),
+      collected_at: (.[0].collected_at // null),
+      policy: (.[0].policy // null),
+      repos: [.[].repos[]]
+    }' "$@" > "$work.report"; then
+    echo "marbles.sh: could not read the reports given" >&2
+    exit 2
+  fi
+else
+  cat > "$work.report"
+fi
+if [ ! -s "$work.report" ]; then
+  echo "marbles.sh: no report on stdin and none named on the command line" >&2
+  exit 2
+fi
 
 # Projects that already exist, lowercased slug -> slug as `mb` spells it.
 mb projects --json 2>/dev/null > "$work.projects" || echo '[]' > "$work.projects"
