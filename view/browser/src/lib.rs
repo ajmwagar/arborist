@@ -22,8 +22,19 @@ use wasm_bindgen::prelude::*;
 /// bridge is a change to these two lines.
 const SNAPSHOT: &str = include_str!("../../../fixtures/fleet.json");
 
-#[wasm_bindgen(start)]
-pub fn start() {
+/// Boot the wall on the report the page fetched, or on the compiled snapshot.
+///
+/// `#[wasm_bindgen(start)]` used to run this at module init, which meant the
+/// page could never hand it anything: the fixture was in the binary and the
+/// binary started itself. The page now fetches `report.json` first and calls
+/// this, and passes `None` when the fetch failed so the wall still draws
+/// something rather than a blank rectangle.
+#[wasm_bindgen]
+pub fn boot(report: Option<String>) {
+    let drawn = report
+        .as_deref()
+        .and_then(arborist_wall::report_from_document)
+        .unwrap_or_else(|| report_from(SNAPSHOT));
     gpui_platform::web_init();
     let _handle = gpui_platform::application_with_web_backend(
         gpui_platform::WebBackendPreference::Auto,
@@ -32,7 +43,7 @@ pub fn start() {
         // `run_embedded` takes a closure that builds the windows and returns
         // nothing; the handle the app hands back is the host's to keep alive.
         let _ = cx.open_window(Default::default(), |_, cx| {
-            cx.new(|_| Wall::new(report_from(SNAPSHOT)))
+            cx.new(|_| Wall::new(drawn.clone()))
         });
     });
 }

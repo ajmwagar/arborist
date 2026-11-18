@@ -37,6 +37,21 @@
   } else {
     const module = await import('./arborist_web.js');
     await module.default();
+    // The report the last scan wrote, served beside this page. `no-store`
+    // because a wall showing last night's numbers while the fleet has moved is
+    // the one failure mode this page cannot afford.
+    let report = null;
+    try {
+      const response = await fetch('./report.json', { cache: 'no-store' });
+      if (response.ok) report = await response.text();
+    } catch (error) {
+      console.warn('arborist: no live report, drawing the compiled snapshot', error);
+    }
+    // A bundle built before `boot` existed starts itself on init and draws the
+    // compiled snapshot; this page still works against one, it just isn't live.
+    if (typeof module.boot === 'function') {
+      module.boot(report);
+    }
   }
 </script>
 </body>

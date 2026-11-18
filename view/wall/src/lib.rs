@@ -31,6 +31,20 @@ pub fn report_from(json: &str) -> Report {
     arborist::evaluate(&snapshot)
 }
 
+/// The report `arborist report --json` wrote, as the wall draws it.
+///
+/// The view renders the same [`Report`] the gate reads, so a page that fetched
+/// the file needs no evaluator and no snapshot: the numbers on the wall are the
+/// numbers the command printed, character for character.
+///
+/// `None` when the text is not a report — a 404 page, a proxy error, a half
+/// written file. The caller falls back to the compiled-in snapshot rather than
+/// drawing a wall of zeroes that looks like a healthy fleet.
+#[must_use]
+pub fn report_from_document(json: &str) -> Option<Report> {
+    serde_json::from_str(json).ok()
+}
+
 const HEADER_H: f32 = 64.0;
 const GAP: f32 = 18.0;
 /// Repositories named on the wall. The report carries all of them; a wall that

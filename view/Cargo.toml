@@ -29,7 +29,6 @@ arborist-wall = { path = "wall" }
 # inherit that, so `headless` is asked for here and not in the wall.
 gpui = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui", default-features = false, features = ["headless"] }
 anyhow = "1"
-gpui = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui", default-features = false, features = ["headless"] }
 gpui_wgpu = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui_wgpu", features = ["headless"] }
 serde_json = "1"
 wgpu = { version = "30", default-features = false, features = ["wgsl"] }
