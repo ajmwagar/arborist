@@ -82,12 +82,19 @@ pulse run's `detail`, which is why the headline line is the last thing printed:
 Two constraints from `myceliumd/src/pulse.rs`, both of which shaped the script:
 
 - **`RUN_TIMEOUT` is 60 seconds.** `scan.sh` caps collection at `FLEET_DEADLINE`
-  (default 50s) with `timeout(1)` and says so out loud when `timeout(1)` is
-  missing, so a big fleet ends with a report rather than being killed with none.
-  A measured two-owner run (192 repositories, 13 GraphQL pages, wasm component)
-  takes **42 seconds**, which leaves less headroom than it looks: at that rate a
-  slower API day hits the 60-second wall before the deadline helps. Two owners is
-  the honest limit of one pulse today.
+  (default 50s) — `timeout(1)` where it exists, a POSIX watchdog where it does
+  not, which is every macOS box in the fleet — so a big owner ends with a report
+  rather than being killed with none. A measured two-owner run (150
+  repositories, eight GraphQL pages, wasm component) takes **32 seconds** with
+  the owners collected in parallel.
+- **Owners are parallel, pages are not.** Two owners are two independent
+  queries, so they cost the slower one instead of the sum: 46s became 32s when
+  that landed. One owner's pages cannot be parallelised at all — the cursor is
+  the only way to ask for the next page — and a larger page is not faster.
+  Measured on 133 repositories: `first: 25` is 34–44s every run, `first: 50`
+  gave 34, 39, 74 and 109s, and `first: 100` failed outright. The retries in
+  `collect.sh` turn a slow page into a slow success, which is worse than a fast
+  failure for a job with a deadline, so the page stayed at 25.
 - **The command is bounded at 8 KiB and is not a shell session.** It runs with
   the daemon's environment, so `ARBORIST_WASM`, `ARBORIST_REPORT` and
   `UNIBUS_CLIENT` must be set where the daemon runs, not in your shell.

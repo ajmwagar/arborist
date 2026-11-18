@@ -4,9 +4,18 @@
 # of a single round trip: a per-repository REST crawl is 300 requests for the same
 # answer, which is the difference between a nightly job and a rate limit.
 #
-# 25 per page, not 100: a README is the one unbounded field here (median 4 KB,
-# worst seen 57 KB) and a page that carries 100 of them is answered with a 502
-# often enough to make a nightly job unreliable.
+# 25 per page, and the number was measured rather than guessed. A README is the
+# one unbounded field here (median 4 KB, worst seen 57 KB), so the page is mostly
+# prose and the forge's cost is mostly assembling it:
+#
+#   25   ~34-44s for 133 repositories, every run, seven pages
+#   50   34s, 39s, 74s and 109s on four runs — the retries in collect.sh turn a
+#        slow page into a slow success, which is worse than a fast failure for a
+#        job with a deadline
+#   100  65s and a collection that failed outright
+#
+# A larger page is not faster, it is the same bytes with more to lose when one
+# request goes wrong.
 query Fleet($org: String!, $endCursor: String) {
   repositoryOwner(login: $org) {
     login
