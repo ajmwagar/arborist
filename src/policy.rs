@@ -268,6 +268,35 @@ fn evaluate_one(
                 )
             }
         },
+        Check::Metrics => match &repo.service {
+            None => Finding::unknown(check, "no manifest was read"),
+            // A library or a command has no endpoint to scrape. Failing it
+            // would drown the services that do in the ones that could not.
+            Some(service) if !service.serves() => Finding::pass(check),
+            Some(service) if !service.metrics.is_empty() => Finding::pass(check),
+            Some(service) => Finding::fail(
+                check,
+                format!(
+                    "serves HTTP ({}) with no Prometheus client in the manifests",
+                    service.http.join(", ")
+                ),
+            ),
+        },
+        Check::Alerts => match &repo.service {
+            None => Finding::unknown(check, "no manifest was read"),
+            // Nothing is exported, so there is nothing to alert on. A rule for
+            // a series nobody publishes fires never or fires wrong.
+            Some(service) if service.metrics.is_empty() => Finding::pass(check),
+            Some(service) if !service.alerts.is_empty() => Finding::pass(check),
+            Some(service) => Finding::fail(
+                check,
+                format!(
+                    "exports {} with no alert rules; {}",
+                    service.metrics.join(", "),
+                    crate::service::ALERT_PATHS.join(", ")
+                ),
+            ),
+        },
         Check::Active => match (collected_at, repo.pushed_at.as_deref()) {
             (None, _) => Finding::unknown(check, "the snapshot has no collected_at"),
             (_, None) => Finding::unknown(check, "no push date was collected"),
@@ -449,6 +478,74 @@ mod tests {
         assert!(find(&report, Check::Ci).status.is_fail());
         assert!(find(&report, Check::Release).status.is_fail());
         assert!(find(&report, Check::Description).status.is_fail());
+    }
+
+    fn with_service(repo: &mut RepoState, http: &[&str], metrics: &[&str], alerts: &[&str]) {
+        repo.service = Some(crate::Service {
+            http: http.iter().map(|s| (*s).to_string()).collect(),
+            metrics: metrics.iter().map(|s| (*s).to_string()).collect(),
+            alerts: alerts.iter().map(|s| (*s).to_string()).collect(),
+        });
+    }
+
+    #[test]
+    fn a_library_is_not_asked_for_metrics_or_alerts() {
+        // Nothing listens, so there is nothing to scrape and nothing to page
+        // on. Failing here would drown the services in the libraries.
+        let mut library = repo();
+        with_service(&mut library, &[], &[], &[]);
+        let report = evaluate(&snapshot(vec![library]));
+        assert_eq!(find(&report, Check::Metrics).status, Status::Pass);
+        assert_eq!(find(&report, Check::Alerts).status, Status::Pass);
+    }
+
+    #[test]
+    fn a_service_that_serves_without_a_metrics_client_fails_and_says_which_server() {
+        let mut server = repo();
+        with_service(&mut server, &["axum"], &[], &[]);
+        let report = evaluate(&snapshot(vec![server]));
+        match &find(&report, Check::Metrics).status {
+            Status::Fail { detail } => assert!(detail.contains("axum"), "{detail}"),
+            other => panic!("expected a failure, got {other:?}"),
+        }
+        // Nothing is exported, so there is nothing to alert on yet.
+        assert_eq!(find(&report, Check::Alerts).status, Status::Pass);
+    }
+
+    #[test]
+    fn exporting_metrics_without_rules_fails_and_names_where_the_file_goes() {
+        let mut server = repo();
+        with_service(&mut server, &["axum"], &["prometheus"], &[]);
+        let report = evaluate(&snapshot(vec![server]));
+        assert_eq!(find(&report, Check::Metrics).status, Status::Pass);
+        match &find(&report, Check::Alerts).status {
+            Status::Fail { detail } => {
+                assert!(detail.contains("prometheus"), "{detail}");
+                assert!(detail.contains("deploy/prometheus/alerts.yml"), "{detail}");
+            }
+            other => panic!("expected a failure, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_scrapable_service_with_rules_passes_both() {
+        let mut server = repo();
+        with_service(
+            &mut server,
+            &["axum"],
+            &["prometheus"],
+            &["deploy/prometheus/alerts.yml"],
+        );
+        let report = evaluate(&snapshot(vec![server]));
+        assert_eq!(find(&report, Check::Metrics).status, Status::Pass);
+        assert_eq!(find(&report, Check::Alerts).status, Status::Pass);
+    }
+
+    #[test]
+    fn a_snapshot_that_never_read_a_manifest_is_unknown_not_clean() {
+        let report = evaluate(&snapshot(vec![repo()]));
+        assert!(find(&report, Check::Metrics).status.is_unknown());
+        assert!(find(&report, Check::Alerts).status.is_unknown());
     }
 
     #[test]

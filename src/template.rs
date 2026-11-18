@@ -20,8 +20,12 @@ pub const CI: &str = include_str!("../templates/ci.yml");
 /// the fleet left behind.
 pub const TRACKER: &str = include_str!("../templates/AGENTS.md");
 
+/// Alert rules for the metrics a service exports, in the place the `alerts`
+/// check reads them.
+pub const ALERTS: &str = include_str!("../templates/alerts.yml");
+
 /// The templates this build carries.
-pub const NAMES: [&str; 3] = ["readme", "ci", "tracker"];
+pub const NAMES: [&str; 4] = ["readme", "ci", "tracker", "alerts"];
 
 /// One template's text, or `None` for a name this build does not carry.
 #[must_use]
@@ -30,13 +34,14 @@ pub fn get(name: &str) -> Option<&'static str> {
         "readme" | "README" | "README.md" => Some(README),
         "ci" | "ci.yml" => Some(CI),
         "tracker" | "agents" | "AGENTS.md" => Some(TRACKER),
+        "alerts" | "alerts.yml" => Some(ALERTS),
         _ => None,
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{CI, NAMES, README, TRACKER, get};
+    use super::{ALERTS, CI, NAMES, README, TRACKER, get};
 
     #[test]
     fn every_named_template_is_present_and_not_empty() {
@@ -60,6 +65,16 @@ mod tests {
             "{TRACKER}"
         );
         assert!(TRACKER.contains("`mb`"), "{TRACKER}");
+    }
+
+    #[test]
+    fn the_alerts_template_lands_where_the_check_looks_and_holds_rules() {
+        assert!(
+            crate::service::ALERT_PATHS.contains(&"deploy/prometheus/alerts.yml"),
+            "the remedy names a path the scanner reads"
+        );
+        assert!(ALERTS.contains("alert:"), "{ALERTS}");
+        assert!(ALERTS.contains("groups:"), "{ALERTS}");
     }
 
     #[test]

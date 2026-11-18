@@ -57,4 +57,49 @@ fragment RepoFields on Repository {
       text
     }
   }
+  # The dependency manifests, read for the names they contain: a service that
+  # depends on `axum` listens, one that depends on `prometheus` can be scraped.
+  # Four ecosystems, because the question is the same in all of them.
+  cargoToml: object(expression: "HEAD:Cargo.toml") {
+    ... on Blob {
+      text
+    }
+  }
+  goMod: object(expression: "HEAD:go.mod") {
+    ... on Blob {
+      text
+    }
+  }
+  packageJson: object(expression: "HEAD:package.json") {
+    ... on Blob {
+      text
+    }
+  }
+  pyprojectToml: object(expression: "HEAD:pyproject.toml") {
+    ... on Blob {
+      text
+    }
+  }
+  # Where the fleet keeps alert rules. A short list: `arborist template alerts`
+  # writes the first one, so the file a remedy names is a file this reads.
+  alertsRoot: object(expression: "HEAD:alerts.yml") {
+    ... on Blob {
+      text
+    }
+  }
+  alertsPrometheus: object(expression: "HEAD:prometheus/alerts.yml") {
+    ... on Blob {
+      text
+    }
+  }
+  alertsDeploy: object(expression: "HEAD:deploy/prometheus/alerts.yml") {
+    ... on Blob {
+      text
+    }
+  }
+  alertsMonitoring: object(expression: "HEAD:monitoring/alerts.yml") {
+    ... on Blob {
+      text
+    }
+  }
 }

@@ -172,8 +172,53 @@ fn repo_state(login: &str, name: String, node: Node) -> RepoState {
             }
         }),
         tracker: tracker_from(node.agents, node.claude),
+        service: service_from(
+            [
+                ("Cargo.toml", node.cargo_toml),
+                ("go.mod", node.go_mod),
+                ("package.json", node.package_json),
+                ("pyproject.toml", node.pyproject_toml),
+            ],
+            [
+                ("alerts.yml", node.alerts_root),
+                ("prometheus/alerts.yml", node.alerts_prometheus),
+                ("deploy/prometheus/alerts.yml", node.alerts_deploy),
+                ("monitoring/alerts.yml", node.alerts_monitoring),
+            ],
+        ),
         exempt: BTreeMap::new(),
     }
+}
+
+/// The service picture from the manifests and rule files a page carried.
+///
+/// `None` when the page asked for none of them — an older collector, whose
+/// answer is `unknown` rather than a repository wrongly called unwatched.
+fn service_from(
+    manifests: [(&str, Option<Option<Blob>>); 4],
+    rules: [(&str, Option<Option<Blob>>); 4],
+) -> Option<crate::Service> {
+    let read = |paths: [(&str, Option<Option<Blob>>); 4]| -> (bool, Vec<(String, String)>) {
+        let mut asked = false;
+        let mut found = Vec::new();
+        for (path, blob) in paths {
+            if blob.is_some() {
+                asked = true;
+            }
+            if let Some(Some(blob)) = blob
+                && let Some(text) = blob.text
+            {
+                found.push((path.to_string(), text));
+            }
+        }
+        (asked, found)
+    };
+    let (asked_manifests, manifest_text) = read(manifests);
+    let (asked_rules, rule_text) = read(rules);
+    if !asked_manifests && !asked_rules {
+        return None;
+    }
+    Some(crate::service::classify(&manifest_text, &rule_text))
 }
 
 /// The tracker evidence from the instruction files a page carried.
@@ -286,6 +331,24 @@ struct Node {
     agents: Option<Option<Blob>>,
     #[serde(default, deserialize_with = "double_option")]
     claude: Option<Option<Blob>>,
+    // The dependency manifests and alert-rule files, read for the names they
+    // contain. Same double `Option`: "not asked" is not "not there".
+    #[serde(default, deserialize_with = "double_option")]
+    cargo_toml: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    go_mod: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    package_json: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    pyproject_toml: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    alerts_root: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    alerts_prometheus: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    alerts_deploy: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    alerts_monitoring: Option<Option<Blob>>,
 }
 
 fn double_option<'de, D, T>(deserializer: D) -> Result<Option<Option<T>>, D::Error>

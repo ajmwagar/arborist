@@ -41,6 +41,7 @@ USAGE
   arborist template readme
   arborist template ci
   arborist template tracker
+  arborist template alerts
 
 OPTIONS
   --json          print the report as JSON instead of text

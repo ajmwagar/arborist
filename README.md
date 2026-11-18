@@ -37,6 +37,8 @@ whole reason a check is written once instead of twice.
 | `description` | advisory | does the forge description say what it is |
 | `docs-links` | advisory | do the documentation links resolve |
 | `tracker` | critical | do the agent instructions name marbles rather than beads |
+| `metrics` | advisory | does the service it runs export Prometheus metrics |
+| `alerts` | advisory | does it define alert rules for the metrics it exports |
 | `active` | advisory | was it pushed to inside the staleness window |
 | `branches` | advisory | are branches under the limit |
 | `open-pulls` | advisory | are open pull requests under the limit |
@@ -60,6 +62,8 @@ readme            26        -   ████                      17%
 badges           135       13   ██████████████████████    90%
 docs-links         0      150                              0%
 tracker           36        -   ██████                    24%
+metrics           34        -   ██████                    23%
+alerts             5        -   █                          3%
 active            46        -   ███████                   31%
 branches           4        -   █                          3%
 
@@ -93,6 +97,7 @@ Every remedy names a file you can have:
 arborist template readme   # a README whose badge points at a workflow that exists
 arborist template ci       # the workflow that badge points at
 arborist template tracker  # the marbles block that replaces the one naming beads
+arborist template alerts   # alert rules, where the alerts check reads them
 ```
 
 The templates are compiled into the component, so a shell with no filesystem can

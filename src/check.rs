@@ -95,6 +95,10 @@ pub enum Check {
     DocsLinks,
     /// The agent instructions point at the tracker the fleet uses.
     Tracker,
+    /// A service exports Prometheus metrics.
+    Metrics,
+    /// The metrics a service exports have alert rules.
+    Alerts,
     /// It was pushed to recently.
     Active,
     /// Branches are not accumulating.
@@ -105,7 +109,7 @@ pub enum Check {
 
 impl Check {
     /// Every check, in the order a report prints them.
-    pub const ALL: [Self; 12] = [
+    pub const ALL: [Self; 14] = [
         Self::License,
         Self::Ci,
         Self::CiGreen,
@@ -115,6 +119,8 @@ impl Check {
         Self::Description,
         Self::DocsLinks,
         Self::Tracker,
+        Self::Metrics,
+        Self::Alerts,
         Self::Active,
         Self::Branches,
         Self::OpenPulls,
@@ -132,6 +138,8 @@ impl Check {
             Self::Description => "description",
             Self::DocsLinks => "docs-links",
             Self::Tracker => "tracker",
+            Self::Metrics => "metrics",
+            Self::Alerts => "alerts",
             Self::Active => "active",
             Self::Branches => "branches",
             Self::OpenPulls => "open-pulls",
@@ -148,6 +156,8 @@ impl Check {
             | Self::Release
             | Self::Description
             | Self::DocsLinks
+            | Self::Metrics
+            | Self::Alerts
             | Self::Active
             | Self::Branches
             | Self::OpenPulls => Severity::Advisory,
@@ -167,6 +177,8 @@ impl Check {
             Self::Description => "does the forge description say what it is",
             Self::DocsLinks => "do the documentation links resolve",
             Self::Tracker => "do the agent instructions name marbles rather than beads",
+            Self::Metrics => "does the service it runs export Prometheus metrics",
+            Self::Alerts => "does it define alert rules for the metrics it exports",
             Self::Active => "was it pushed to inside the staleness window",
             Self::Branches => "are branches under the limit",
             Self::OpenPulls => "are open pull requests under the limit",
@@ -186,6 +198,8 @@ impl Check {
             Self::Description => "set the repository description",
             Self::DocsLinks => "fix or remove the dead link",
             Self::Tracker => "replace the beads block: `arborist template tracker`",
+            Self::Metrics => "scrape it: add a Prometheus client and serve /metrics",
+            Self::Alerts => "add the rules: `arborist template alerts`",
             Self::Active => "archive it, or push the work that is sitting locally",
             Self::Branches => "delete merged branches",
             Self::OpenPulls => "land it, close it, or mark it draft with a reason",

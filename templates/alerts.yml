@@ -1,0 +1,42 @@
+# Alert rules for the metrics this service exports.
+#
+# Prometheus loads this file; an alert that never fires is a rule that does not
+# exist, so every rule here has a `for:` and a runbook link.
+groups:
+  - name: service
+    rules:
+      # The process is up but answering nothing. The shortest window that is
+      # still longer than a scrape interval, so a rolling restart does not page.
+      - alert: ServiceDown
+        expr: up{job="service"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.instance }} is not being scraped"
+          runbook: https://github.com/OWNER/NAME#runbook
+
+      # Requests are failing faster than 5% of the time for ten minutes.
+      # Ratio, not a count: a count pages a busy service that is healthy and
+      # stays quiet for a quiet one that is not.
+      - alert: ErrorRateHigh
+        expr: |
+          sum(rate(http_requests_total{job="service",status=~"5.."}[5m]))
+            / sum(rate(http_requests_total{job="service"}[5m])) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "more than 5% of requests are failing"
+          runbook: https://github.com/OWNER/NAME#runbook
+
+      # The scrape target has stopped arriving at all. This is the one rule that
+      # catches a service nobody remembered to add an alert for.
+      - alert: NoMetrics
+        expr: absent(up{job="service"})
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "no scrape target named service exists"
+          runbook: https://github.com/OWNER/NAME#runbook

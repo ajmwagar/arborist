@@ -67,6 +67,8 @@ failing test instead of a silently empty column.
 | `description` | advisory | does the forge description say what it is |
 | `docs-links` | advisory | do the documentation links resolve |
 | `tracker` | critical | do the agent instructions name marbles rather than beads |
+| `metrics` | advisory | does the service it runs export Prometheus metrics |
+| `alerts` | advisory | does it define alert rules for the metrics it exports |
 | `active` | advisory | was it pushed to inside the staleness window |
 | `branches` | advisory | are branches under the limit |
 | `open-pulls` | advisory | are open pull requests under the limit |
@@ -122,6 +124,7 @@ the step fails rather than filing nothing.
 arborist template readme
 arborist template ci
 arborist template tracker
+arborist template alerts
 ```
 
 The files a repository needs to stop failing `readme`, `badges`, `ci` and

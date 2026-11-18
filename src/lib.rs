@@ -24,6 +24,7 @@ pub mod events;
 pub mod ingest;
 pub mod policy;
 pub mod report;
+pub mod service;
 pub mod snapshot;
 pub mod template;
 pub mod tracker;
@@ -37,5 +38,6 @@ pub use report::{
     RepoReport, Report, SkipReason, Skipped, render_json, render_repo, render_text,
     render_text_with_limit,
 };
+pub use service::Service;
 pub use snapshot::{Link, Readme, RepoState, Run, SCHEMA, Snapshot};
 pub use tracker::{Stale, Tracker};
