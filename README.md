@@ -209,12 +209,20 @@ mycelium pulse add --id arborist.scan --schedule "0 6 * * *" \
   --command "/path/to/arborist/collector/scan.sh FuturePresentLabs mycelium-linux" --write
 ```
 
-`scan.sh` scores, keeps the report, and publishes `arborist digest` — counts, the
-failing checks, the repositories worth opening first, and one headline sentence —
-to unibus when `UNIBUS_CLIENT` points at a client config. The exit code is about
-the scan, not the fleet: a red fleet is a successful scan, and a scheduler whose
-runs go red every night teaches everyone to ignore red. See
-[`docs/schedule-and-bus.md`](docs/schedule-and-bus.md).
+`scan.sh` scores, keeps the report, and publishes two shapes to unibus when
+`UNIBUS_CLIENT` points at a client config:
+
+* `arborist.scan` — the digest: counts, the failing checks, the repositories
+  worth opening first, and one headline sentence. One message a person or a
+  dashboard reads whole.
+* `arborist.finding` — one message per repository that fails something, from
+  `arborist events`. Level-triggered, so it says what is failing now rather than
+  what changed; a subscriber that was down for the scan still learns the truth
+  on the next one.
+
+The exit code is about the scan, not the fleet: a red fleet is a successful
+scan, and a scheduler whose runs go red every night teaches everyone to ignore
+red. See [`docs/schedule-and-bus.md`](docs/schedule-and-bus.md).
 
 ## Build
 

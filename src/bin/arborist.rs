@@ -31,6 +31,9 @@ USAGE
   # the paragraph a bus or a notification carries
   arborist digest < snapshot.json
 
+  # one message per failing repository, one JSON object per line, for a bus
+  arborist events < snapshot.json
+
   # the vocabulary, and how to read it
   arborist checks
 
@@ -46,6 +49,11 @@ OPTIONS
   --strict        treat a check with no evidence as a failure
   --fail-on LEVEL exit non-zero for findings at LEVEL: critical | advisory | none
   --at RFC3339    the collection time to record (default: now)
+
+EVENTS
+  `arborist events` writes one JSON object per line, one line per repository
+  that fails something. That is the unit `unibus-publish` takes: one message,
+  one body, one id. --limit N takes the first N, for a budgeted first run.
   -h, --help      this page
   -V, --version   the version
 
@@ -83,6 +91,7 @@ fn run(args: &[String]) -> Result<ExitCode, String> {
         "ingest" => ingest(&args[1..]),
         "checks" => checks(&args[1..]),
         "digest" => digest(&args[1..]),
+        "events" => events(&args[1..]),
         "template" => template(&args[1..]),
         "explain" => explain(&args[1..]),
         // A bare pipeline with flags and no verb is a report; that is the
@@ -248,6 +257,49 @@ fn ingest(args: &[String]) -> Result<ExitCode, String> {
 }
 
 /// The same report, selected down to what a notification can carry.
+/// One JSON object per line: the shape `unibus-publish` takes, one message at a
+/// time, and the shape a `while read` loop can publish without a parser.
+fn events(args: &[String]) -> Result<ExitCode, String> {
+    let mut limit = 0usize;
+    let mut index = 0;
+    while index < args.len() {
+        match args[index].as_str() {
+            "--limit" => {
+                index += 1;
+                let value = args.get(index).ok_or("--limit N")?;
+                limit = value
+                    .parse()
+                    .map_err(|_| format!("--limit expects a number, got {value:?}"))?;
+            }
+            "-h" | "--help" => {
+                print!("{USAGE}");
+                return Ok(ExitCode::SUCCESS);
+            }
+            other => return Err(format!("unknown option {other:?}. Try `arborist --help`.")),
+        }
+        index += 1;
+    }
+
+    let bytes = read_stdin()?;
+    let snapshot: Snapshot =
+        serde_json::from_slice(&bytes).map_err(|error| format!("read snapshot: {error}"))?;
+    let report = arborist::evaluate(&snapshot);
+
+    let mut events = arborist::events(&report);
+    if limit > 0 && events.len() > limit {
+        events.truncate(limit);
+    }
+    let stdout = std::io::stdout();
+    let mut out = std::io::BufWriter::new(stdout.lock());
+    for event in &events {
+        let line = serde_json::to_string(event).map_err(|error| format!("render: {error}"))?;
+        writeln!(out, "{line}").map_err(|error| format!("write: {error}"))?;
+    }
+    out.flush().map_err(|error| format!("write: {error}"))?;
+    // Not a gate: publishing is not where a build fails. `report` is that.
+    Ok(ExitCode::SUCCESS)
+}
+
 fn digest(args: &[String]) -> Result<ExitCode, String> {
     if args.iter().any(|arg| arg == "-h" || arg == "--help") {
         print!("{USAGE}");

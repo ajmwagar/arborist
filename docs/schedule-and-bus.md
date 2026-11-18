@@ -5,7 +5,7 @@ Two things turn arborist from something you run into something that tells you:
 ```text
    mycelium pulse            scan.sh                 unibus
    (cron, bounded)  ───────► collect → score ─────►  arborist.scan
-                                   │
+                                   │                 arborist.finding
                                    └─► report.json   (kept for the view)
 ```
 
@@ -22,8 +22,28 @@ as every other integration in this thread.
 ```
 
 It collects, ingests, scores, writes the report to
-`~/.local/state/arborist/report.json`, prints the headline, and publishes a
-[digest](../src/digest.rs) when `UNIBUS_CLIENT` is set.
+`~/.local/state/arborist/report.json`, prints the headline, and publishes when
+`UNIBUS_CLIENT` is set.
+
+## What goes on the bus
+
+Two kinds, because the bus serves two kinds of reader:
+
+| kind | body | for |
+|---|---|---|
+| `arborist.scan` | the [digest](../src/digest.rs): counts, failing checks, the ten repositories to open first, one headline | a person, a dashboard, a notification |
+| `arborist.finding` | one [event](../src/events.rs) per repository that fails something: its failing checks with details, and the checks it has no evidence for | a subscriber that owns one repository |
+
+`arborist events` renders the second as one JSON object per line, which is what
+`unibus-publish` takes and what a `while read` loop can publish without a
+parser. The events are **level-triggered**: an event says what is failing now,
+not what changed since the last scan, so a subscriber that was down still learns
+the truth on the next one. Working out the transition is the subscriber's
+business, and the report file is there for it.
+
+A repository that fails nothing is not an event. Neither is one whose only
+unknown checks are missing evidence — "the collector did not say" is not
+something a person can fix by opening the repository.
 
 **The exit code is about the scan, not the fleet.** A red fleet is a successful
 scan:

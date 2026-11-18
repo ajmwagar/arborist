@@ -24,13 +24,20 @@
 #   ARBORIST_REPORT  where the JSON report is written
 #                    (default: ~/.local/state/arborist/report.json)
 #   UNIBUS_CLIENT    a ClientConfig JSON; publishing is skipped when unset
-#   UNIBUS_KIND      the message kind (default: arborist.scan)
+#   UNIBUS_KIND      the message kind for the digest (default: arborist.scan)
+#   UNIBUS_EVENTS_KIND  the kind for per-repository events (default:
+#                    arborist.finding)
+#   UNIBUS_EVENTS    set to 0 to publish only the digest, not the events
+#   UNIBUS_JOBS      how many events are in flight at once (default: 8)
 #   FLEET_DEADLINE   seconds allowed for collection (default: 50)
 set -eu
 
 here=$(dirname "$0")
 report=${ARBORIST_REPORT:-${XDG_STATE_HOME:-$HOME/.local/state}/arborist/report.json}
 kind=${UNIBUS_KIND:-arborist.scan}
+events_kind=${UNIBUS_EVENTS_KIND:-arborist.finding}
+events_on=${UNIBUS_EVENTS:-1}
+jobs=${UNIBUS_JOBS:-8}
 deadline=${FLEET_DEADLINE:-50}
 work=${TMPDIR:-/tmp}/arborist-scan.$$
 mkdir -p "$(dirname "$report")" || {
@@ -112,13 +119,62 @@ echo "arborist: report at $report"
 
 # 4. Publish, when there is somewhere to publish to. Silence would be a lie
 #    here: a scan nobody hears about is the thing this is supposed to fix.
-if [ -n "${UNIBUS_CLIENT:-}" ]; then
-  if ! unibus-publish --config "$UNIBUS_CLIENT" --kind "$kind" < "$work.digest" >/dev/null; then
-    echo "scan.sh: the scan finished but could not be published" >&2
+#
+#    Two shapes, because the bus serves two kinds of reader. The digest is one
+#    message a person or a dashboard reads whole. The events are one message per
+#    failing repository, so a subscriber that owns one repository receives that
+#    one and does not have to filter the fleet out of a summary that names ten.
+if [ -z "${UNIBUS_CLIENT:-}" ]; then
+  echo "scan.sh: UNIBUS_CLIENT is unset; nothing was published" >&2
+  exit 0
+fi
+
+if ! unibus-publish --config "$UNIBUS_CLIENT" --kind "$kind" < "$work.digest" >/dev/null; then
+  echo "scan.sh: the scan finished but could not be published" >&2
+  exit 1
+fi
+published=1
+
+if [ "$events_on" != "0" ]; then
+  if ! arborist events < "$work.snapshot" > "$work.events"; then
+    echo "scan.sh: the scan finished but the events could not be rendered" >&2
     exit 1
   fi
-else
-  echo "scan.sh: UNIBUS_CLIENT is unset; nothing was published" >&2
+
+  # Bounded concurrency for the same reason a bounded collection: 150 messages
+  # is 150 process starts and connections, and the scheduler's budget does not
+  # grow because the fleet did.
+  running=0
+  : > "$work.failures"
+  # The loop reads on fd 3, not stdin: a publisher that reads stdin would
+  # otherwise eat the events it has not been handed yet, and the loop would end
+  # early having published one message and reported success.
+  while IFS= read -r line <&3; do
+    (
+      if printf '%s' "$line" \
+        | unibus-publish --config "$UNIBUS_CLIENT" --kind "$events_kind" >/dev/null 2>&1
+      then exit 0
+      else echo x >> "$work.failures"
+      fi
+    ) </dev/null &
+    running=$((running + 1))
+    if [ "$running" -ge "$jobs" ]; then
+      wait || true
+      running=0
+    fi
+  done 3< "$work.events"
+  wait || true
+
+  sent=$(wc -l < "$work.events" | tr -d ' ')
+  failures=0
+  if [ -f "$work.failures" ]; then
+    failures=$(wc -l < "$work.failures" | tr -d ' ')
+  fi
+  if [ "$failures" -gt 0 ]; then
+    echo "scan.sh: $failures of $sent events could not be published" >&2
+    exit 1
+  fi
+  echo "scan.sh: published $sent event(s) as $events_kind"
 fi
 
 exit 0
