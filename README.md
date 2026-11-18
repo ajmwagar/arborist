@@ -36,6 +36,7 @@ whole reason a check is written once instead of twice.
 | `badges` | advisory | do its badges point at something that still exists |
 | `description` | advisory | does the forge description say what it is |
 | `docs-links` | advisory | do the documentation links resolve |
+| `tracker` | critical | do the agent instructions name marbles rather than beads |
 | `active` | advisory | was it pushed to inside the staleness window |
 | `branches` | advisory | are branches under the limit |
 | `open-pulls` | advisory | are open pull requests under the limit |
@@ -58,6 +59,7 @@ release          145        -   ████████████████
 readme            26        -   ████                      17%
 badges           135       13   ██████████████████████    90%
 docs-links         0      150                              0%
+tracker           36        -   ██████                    24%
 active            46        -   ███████                   31%
 branches           4        -   █                          3%
 
@@ -90,6 +92,7 @@ Every remedy names a file you can have:
 ```sh
 arborist template readme   # a README whose badge points at a workflow that exists
 arborist template ci       # the workflow that badge points at
+arborist template tracker  # the marbles block that replaces the one naming beads
 ```
 
 The templates are compiled into the component, so a shell with no filesystem can
@@ -126,23 +129,30 @@ step, no cache to keep warm.
 
 ### Filing the findings as Marbles tasks
 
-Opt in and each repository that fails a critical check becomes one task,
-titled `arborist: OWNER/NAME` and labelled `arborist`:
+Opt in and each failing critical check becomes one task, in the project of the
+repository that failed it:
 
 ```yaml
 - uses: ajmwagar/arborist@v1
   with:
     orgs: FuturePresentLabs
     marbles: true
-    marbles-project: arborist
     marbles-limit: 25
 ```
 
-It reconciles rather than appends: a task that already exists is left alone, and
-a task whose repository stopped failing is closed, so a nightly job does not
-produce a new backlog every night. `marbles-limit` exists because a first audit
-of a large fleet fails hundreds of checks at once, and filing them all buries
-the backlog it was meant to create.
+A repository is resolved to the project for its `OWNER/NAME` when the registry
+has one, else its bare name when that is unambiguous, else `OWNER/NAME`, which
+`mb` creates on first use. A task in one central project says "a repository
+somewhere is missing a licence"; nobody owns it and nothing runs `mb ready` on
+it. A task in the repository's own project is in front of the person who can fix
+it.
+
+It reconciles rather than appends: a task that already exists is left alone, a
+task whose check now passes is closed, and a task titled after a repository
+rather than a check — the shape this used to file — is closed as superseded. So
+a nightly job does not produce a new backlog every night. `marbles-limit` exists
+because a first audit of a large fleet fails hundreds of checks at once, and
+filing them all buries the backlog it was meant to create.
 
 It talks to the tracker through `mb` — the Marbles command over `soil:records`
 that every host in the fleet already has — rather than an HTTP client or a

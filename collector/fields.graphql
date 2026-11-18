@@ -44,4 +44,17 @@ fragment RepoFields on Repository {
       text
     }
   }
+  # The instruction files are read for the words they use, not their prose: the
+  # tracker check needs to know whether a file still says `bd`, and keeping the
+  # text would make a snapshot megabytes wide to answer one question.
+  agents: object(expression: "HEAD:AGENTS.md") {
+    ... on Blob {
+      text
+    }
+  }
+  claude: object(expression: "HEAD:CLAUDE.md") {
+    ... on Blob {
+      text
+    }
+  }
 }

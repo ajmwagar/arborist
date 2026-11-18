@@ -66,6 +66,7 @@ failing test instead of a silently empty column.
 | `badges` | advisory | do its badges point at something that still exists |
 | `description` | advisory | does the forge description say what it is |
 | `docs-links` | advisory | do the documentation links resolve |
+| `tracker` | critical | do the agent instructions name marbles rather than beads |
 | `active` | advisory | was it pushed to inside the staleness window |
 | `branches` | advisory | are branches under the limit |
 | `open-pulls` | advisory | are open pull requests under the limit |
@@ -107,21 +108,24 @@ The repository ships a GitHub action, so the check is four lines in a workflow:
 there and only wasmtime is installed. The report goes to the job summary and to
 `arborist-report.json`.
 
-`marbles: true` files one task per repository that fails a critical check,
-through `mb` and the `soil:records` book — the same command a person runs, so
-there is no second route into the tracker. Tasks are titled `arborist:
-OWNER/NAME` and labelled `arborist`; a re-run leaves existing ones alone and
-closes the ones whose repository stopped failing. On a runner without `mb` the
-step fails rather than filing nothing.
+`marbles: true` files one task per failing critical check, in the project of the
+repository that failed it, through `mb` and the `soil:records` book — the same
+command a person runs, so there is no second route into the tracker. Tasks are
+titled `arborist: <check>` and labelled `arborist`; a re-run leaves existing
+ones alone, closes the ones whose check now passes, and closes a task titled
+after a repository rather than a check as superseded. On a runner without `mb`
+the step fails rather than filing nothing.
 
 # TEMPLATES
 
 ```sh
 arborist template readme
 arborist template ci
+arborist template tracker
 ```
 
-The two files a repository needs to stop failing `readme`, `badges` and `ci`.
+The files a repository needs to stop failing `readme`, `badges`, `ci` and
+`tracker`.
 They are compiled into the component, so they are reachable from a shell with no
 filesystem, and the file a remedy names is the file that shipped.
 

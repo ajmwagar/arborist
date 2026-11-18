@@ -93,6 +93,8 @@ pub enum Check {
     Description,
     /// The documentation links in the repository resolve.
     DocsLinks,
+    /// The agent instructions point at the tracker the fleet uses.
+    Tracker,
     /// It was pushed to recently.
     Active,
     /// Branches are not accumulating.
@@ -103,7 +105,7 @@ pub enum Check {
 
 impl Check {
     /// Every check, in the order a report prints them.
-    pub const ALL: [Self; 11] = [
+    pub const ALL: [Self; 12] = [
         Self::License,
         Self::Ci,
         Self::CiGreen,
@@ -112,6 +114,7 @@ impl Check {
         Self::Badges,
         Self::Description,
         Self::DocsLinks,
+        Self::Tracker,
         Self::Active,
         Self::Branches,
         Self::OpenPulls,
@@ -128,6 +131,7 @@ impl Check {
             Self::Badges => "badges",
             Self::Description => "description",
             Self::DocsLinks => "docs-links",
+            Self::Tracker => "tracker",
             Self::Active => "active",
             Self::Branches => "branches",
             Self::OpenPulls => "open-pulls",
@@ -137,7 +141,9 @@ impl Check {
     #[must_use]
     pub fn severity(self) -> Severity {
         match self {
-            Self::License | Self::Ci | Self::CiGreen | Self::Readme => Severity::Critical,
+            Self::License | Self::Ci | Self::CiGreen | Self::Readme | Self::Tracker => {
+                Severity::Critical
+            }
             Self::Badges
             | Self::Release
             | Self::Description
@@ -160,6 +166,7 @@ impl Check {
             Self::Badges => "do its badges point at something that still exists",
             Self::Description => "does the forge description say what it is",
             Self::DocsLinks => "do the documentation links resolve",
+            Self::Tracker => "do the agent instructions name marbles rather than beads",
             Self::Active => "was it pushed to inside the staleness window",
             Self::Branches => "are branches under the limit",
             Self::OpenPulls => "are open pull requests under the limit",
@@ -178,6 +185,7 @@ impl Check {
             Self::Badges => "point the badge at a workflow that exists: `arborist template readme`",
             Self::Description => "set the repository description",
             Self::DocsLinks => "fix or remove the dead link",
+            Self::Tracker => "replace the beads block: `arborist template tracker`",
             Self::Active => "archive it, or push the work that is sitting locally",
             Self::Branches => "delete merged branches",
             Self::OpenPulls => "land it, close it, or mark it draft with a reason",

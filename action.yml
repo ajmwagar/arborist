@@ -43,15 +43,12 @@ inputs:
     default: arborist-report.json
   marbles:
     description: >-
-      File one Marbles task per repository that fails a critical check, through
-      `mb`. Needs a host with a records book; a GitHub-hosted runner has none and
-      this fails loudly rather than filing nothing.
+      File one Marbles task per failing critical check, in the project of the
+      repository that failed it, through `mb`. Needs a host with a records book; a
+      GitHub-hosted runner has none and this fails loudly rather than filing
+      nothing.
     required: false
     default: 'false'
-  marbles-project:
-    description: Marbles project new tasks are filed in.
-    required: false
-    default: arborist
   marbles-dry-run:
     description: >-
       Print what would be filed and closed, and file nothing. The first run over
@@ -154,7 +151,6 @@ runs:
       if: inputs.marbles == 'true'
       shell: bash
       env:
-        MARBLES_PROJECT: ${{ inputs.marbles-project }}
         LIMIT: ${{ inputs.marbles-limit }}
         DRY_RUN: ${{ inputs.marbles-dry-run }}
         REPORT: ${{ inputs.report }}
@@ -163,5 +159,4 @@ runs:
         dry=()
         [ "$DRY_RUN" = "true" ] && dry=(--dry-run)
         bash "$GITHUB_ACTION_PATH/scripts/marbles.sh" \
-          --project "$MARBLES_PROJECT" --limit "$LIMIT" "${dry[@]}" \
-          < "$REPORT"
+          --limit "$LIMIT" "${dry[@]}" < "$REPORT"

@@ -13,6 +13,7 @@ use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
 use crate::badge::Badge;
+use crate::tracker::Tracker;
 
 /// The snapshot schema this build reads and writes.
 pub const SCHEMA: u32 = 1;
@@ -66,6 +67,10 @@ pub struct RepoState {
     /// snapshot megabytes wide to answer a question about four URLs.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub readme: Option<Readme>,
+    /// Whether the agent instructions still name the tracker the fleet left.
+    /// The words, not the prose, for the same reason the README keeps badges.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tracker: Option<Tracker>,
     /// Checks this repository does not need, and why. Reviewed like a grant:
     /// intent is written down, so `license: "proprietary, see legal"` is a
     /// decision instead of a hole the report cannot see.

@@ -234,6 +234,40 @@ fn evaluate_one(
                 }
             }
         },
+        Check::Tracker => match &repo.tracker {
+            None => Finding::unknown(check, "no agent instructions were read"),
+            // No AGENTS.md and no CLAUDE.md is a repository whose instructions
+            // are certainly not stale. Whether it *should* carry instructions
+            // is a different question, and one this check does not ask.
+            Some(tracker) if !tracker.unread.is_empty() && tracker.stale.is_empty() => {
+                Finding::unknown(
+                    check,
+                    format!(
+                        "the forge would not return {} as text",
+                        tracker.unread.join(", ")
+                    ),
+                )
+            }
+            Some(tracker) if tracker.stale.is_empty() => Finding::pass(check),
+            Some(tracker) => {
+                let sample: Vec<String> = tracker
+                    .stale
+                    .iter()
+                    .take(3)
+                    .map(|stale| format!("`{}` in {}", stale.token, stale.path))
+                    .collect();
+                Finding::fail(
+                    check,
+                    format!(
+                        "{} stale reference(s) to a tracker the fleet left: {}. \
+                         The fleet uses {}",
+                        tracker.stale.len(),
+                        sample.join("; "),
+                        crate::tracker::CURRENT
+                    ),
+                )
+            }
+        },
         Check::Active => match (collected_at, repo.pushed_at.as_deref()) {
             (None, _) => Finding::unknown(check, "the snapshot has no collected_at"),
             (_, None) => Finding::unknown(check, "no push date was collected"),
@@ -415,6 +449,67 @@ mod tests {
         assert!(find(&report, Check::Ci).status.is_fail());
         assert!(find(&report, Check::Release).status.is_fail());
         assert!(find(&report, Check::Description).status.is_fail());
+    }
+
+    #[test]
+    fn an_instruction_file_that_still_says_bd_fails_and_names_where() {
+        let mut stale = repo();
+        stale.tracker = Some(crate::Tracker {
+            files: vec!["AGENTS.md".into()],
+            stale: crate::tracker::scan("AGENTS.md", "Run `bd prime` first."),
+            unread: Vec::new(),
+        });
+        let report = evaluate(&snapshot(vec![stale]));
+        match &find(&report, Check::Tracker).status {
+            Status::Fail { detail } => {
+                assert!(detail.contains("AGENTS.md"), "{detail}");
+                assert!(detail.contains("`bd`"), "{detail}");
+                assert!(detail.contains("marbles"), "{detail}");
+            }
+            other => panic!("expected a failure, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn instruction_files_that_say_mb_pass() {
+        let mut clean = repo();
+        clean.tracker = Some(crate::Tracker {
+            files: vec!["AGENTS.md".into()],
+            stale: Vec::new(),
+            unread: Vec::new(),
+        });
+        let report = evaluate(&snapshot(vec![clean]));
+        assert_eq!(find(&report, Check::Tracker).status, Status::Pass);
+    }
+
+    #[test]
+    fn a_repository_with_no_instructions_is_not_a_failure() {
+        // The check asks whether the instructions that exist are stale. It
+        // deliberately does not ask a second question — "should there be
+        // instructions at all" — because one failure with two fixes is a
+        // failure nobody knows how to close.
+        let mut bare = repo();
+        bare.tracker = Some(crate::Tracker::default());
+        let report = evaluate(&snapshot(vec![bare]));
+        assert_eq!(find(&report, Check::Tracker).status, Status::Pass);
+    }
+
+    #[test]
+    fn instructions_the_forge_would_not_return_are_unknown_not_clean() {
+        let mut hidden = repo();
+        hidden.tracker = Some(crate::Tracker {
+            files: Vec::new(),
+            stale: Vec::new(),
+            unread: vec!["AGENTS.md".into()],
+        });
+        let report = evaluate(&snapshot(vec![hidden]));
+        assert!(find(&report, Check::Tracker).status.is_unknown());
+    }
+
+    #[test]
+    fn a_snapshot_collected_before_the_check_existed_is_unknown() {
+        let report = evaluate(&snapshot(vec![repo()]));
+        assert!(find(&report, Check::Tracker).status.is_unknown());
     }
 
     #[test]

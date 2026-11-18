@@ -37,6 +37,7 @@ USAGE
   # the fix, ready to paste
   arborist template readme
   arborist template ci
+  arborist template tracker
 
 OPTIONS
   --json          print the report as JSON instead of text
@@ -307,6 +308,7 @@ fn template(args: &[String]) -> Result<ExitCode, String> {
         println!("templates: {}", arborist::template::NAMES.join(", "));
         println!("  arborist template readme   a README with a badge that points at a workflow");
         println!("  arborist template ci       the workflow that badge points at");
+        println!("  arborist template tracker  the marbles block that replaces the beads one");
         return Ok(ExitCode::SUCCESS);
     };
     match arborist::template::get(name) {

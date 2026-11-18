@@ -13,8 +13,8 @@
 //! the whole reason a check is written down once instead of twice.
 //!
 //! The rules live in [`policy`], the vocabulary in [`check`], the documents in
-//! [`snapshot`] and [`report`], the forge adapter in [`ingest`], and the fixes it
-//! hands back in [`template`].
+//! [`snapshot`] and [`report`], the forge adapter in [`ingest`], the fixes it
+//! hands back in [`template`], and the tracker vocabulary in [`tracker`].
 
 pub mod badge;
 pub mod check;
@@ -25,6 +25,7 @@ pub mod policy;
 pub mod report;
 pub mod snapshot;
 pub mod template;
+pub mod tracker;
 
 pub use badge::{Badge, BadgeKind};
 pub use check::{Check, Severity, Status};
@@ -35,3 +36,4 @@ pub use report::{
     render_text_with_limit,
 };
 pub use snapshot::{Link, Readme, RepoState, Run, SCHEMA, Snapshot};
+pub use tracker::{Stale, Tracker};

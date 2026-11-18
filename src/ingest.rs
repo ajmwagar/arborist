@@ -171,8 +171,36 @@ fn repo_state(login: &str, name: String, node: Node) -> RepoState {
                 }
             }
         }),
+        tracker: tracker_from(node.agents, node.claude),
         exempt: BTreeMap::new(),
     }
+}
+
+/// The tracker evidence from the instruction files a page carried.
+///
+/// `None` means the page never asked for them — an older collector, whose
+/// answer is `unknown` rather than a repository wrongly called clean.
+fn tracker_from(
+    agents: Option<Option<Blob>>,
+    claude: Option<Option<Blob>>,
+) -> Option<crate::Tracker> {
+    if agents.is_none() && claude.is_none() {
+        return None;
+    }
+    let mut tracker = crate::Tracker::default();
+    for (path, blob) in [("AGENTS.md", agents), ("CLAUDE.md", claude)] {
+        let Some(Some(blob)) = blob else { continue };
+        match blob.text {
+            Some(text) => {
+                tracker.files.push(path.to_string());
+                tracker.stale.extend(crate::tracker::scan(path, &text));
+            }
+            // The forge returns a blob without `text` when it will not inline
+            // it, which is the one case where a missing word is not evidence.
+            None => tracker.unread.push(path.to_string()),
+        }
+    }
+    Some(tracker)
 }
 
 fn non_empty(text: Option<String>) -> Option<String> {
@@ -251,6 +279,13 @@ struct Node {
     // read.
     #[serde(default, deserialize_with = "double_option")]
     readme: Option<Option<Blob>>,
+    // The same double `Option` for the same reason: a page that did not ask for
+    // AGENTS.md and a page that asked and got null are different facts, and the
+    // tracker check reads them differently.
+    #[serde(default, deserialize_with = "double_option")]
+    agents: Option<Option<Blob>>,
+    #[serde(default, deserialize_with = "double_option")]
+    claude: Option<Option<Blob>>,
 }
 
 fn double_option<'de, D, T>(deserializer: D) -> Result<Option<Option<T>>, D::Error>
@@ -379,6 +414,53 @@ mod tests {
         collector.absorb_stream(PAGE.as_bytes()).unwrap();
         collector.absorb_stream(PAGE.as_bytes()).unwrap();
         assert_eq!(collector.len(), 2);
+    }
+
+    #[test]
+    fn instruction_files_are_read_for_the_tracker_words_they_use() {
+        let page = r#"{"data":{"repositoryOwner":{"login":"fpl","repositories":{"nodes":[
+          {"name":"stale","agents":{"text":"Run `bd prime` before you start."},
+           "claude":{"text":"work lives in `.beads/dolt`"}},
+          {"name":"clean","agents":{"text":"Track work with `mb` in marbles."}},
+          {"name":"nothing"}
+        ]}}}}"#;
+        let mut collector = Collector::new();
+        collector.absorb_stream(page.as_bytes()).unwrap();
+        let snapshot = collector.finish(None);
+
+        // `finish` sorts by slug, so find the nodes by the name the page gave.
+        let by_name = |name: &str| {
+            snapshot
+                .repos
+                .iter()
+                .find(|repo| repo.name == name)
+                .expect("the page named this repository")
+        };
+
+        let tracker = by_name("stale").tracker.as_ref().expect("the page asked");
+        assert_eq!(tracker.files, vec!["AGENTS.md", "CLAUDE.md"]);
+        let words: Vec<&str> = tracker.stale.iter().map(|s| s.token.as_str()).collect();
+        assert_eq!(words, vec!["bd", "beads"], "vocabulary order, one per word");
+        assert!(tracker.unread.is_empty());
+
+        let clean = by_name("clean").tracker.as_ref().expect("the page asked");
+        assert!(clean.stale.is_empty());
+        assert_eq!(clean.files, vec!["AGENTS.md"]);
+
+        // A page that never asked is not a page that found nothing.
+        assert!(by_name("nothing").tracker.is_none());
+    }
+
+    #[test]
+    fn a_file_the_forge_will_not_inline_is_unread_rather_than_clean() {
+        let page = r#"{"data":{"repository":{"owner":{"login":"fpl"},"name":"bob",
+          "agents":{"byteSize":9000000,"text":null}}}}"#;
+        let mut collector = Collector::new();
+        collector.absorb_stream(page.as_bytes()).unwrap();
+        let snapshot = collector.finish(None);
+        let tracker = snapshot.repos[0].tracker.as_ref().expect("the page asked");
+        assert_eq!(tracker.unread, vec!["AGENTS.md"]);
+        assert!(tracker.stale.is_empty());
     }
 
     #[test]
