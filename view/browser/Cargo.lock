@@ -153,6 +153,7 @@ name = "arborist-web"
 version = "0.1.0"
 dependencies = [
  "arborist-wall",
+ "console_error_panic_hook",
  "gpui",
  "gpui_platform",
  "wasm-bindgen",

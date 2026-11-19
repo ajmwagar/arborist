@@ -22,6 +22,21 @@ use wasm_bindgen::prelude::*;
 /// bridge is a change to these two lines.
 const SNAPSHOT: &str = include_str!("../../../fixtures/fleet.json");
 
+/// The rendering backend a page may ask for.
+///
+/// `Auto` tries WebGPU and falls back to WebGL, which is right for a browser
+/// that has both. Safari has `navigator.gpu` and an adapter, and still cannot
+/// run this pipeline — the wall asks for texture-compression features WebKit
+/// does not expose — so the page can name WebGL and get a picture instead of a
+/// trap. A wrong name is `Auto`: a typo should render, not refuse.
+fn backend(name: Option<&str>) -> gpui_platform::WebBackendPreference {
+    match name {
+        Some("webgl") | Some("gl") => gpui_platform::WebBackendPreference::WebGl,
+        Some("webgpu") => gpui_platform::WebBackendPreference::WebGpu,
+        _ => gpui_platform::WebBackendPreference::Auto,
+    }
+}
+
 /// Boot the wall on the report the page fetched, or on the compiled snapshot.
 ///
 /// `#[wasm_bindgen(start)]` used to run this at module init, which meant the
@@ -30,15 +45,14 @@ const SNAPSHOT: &str = include_str!("../../../fixtures/fleet.json");
 /// this, and passes `None` when the fetch failed so the wall still draws
 /// something rather than a blank rectangle.
 #[wasm_bindgen]
-pub fn boot(report: Option<String>) {
+pub fn boot(report: Option<String>, rendering: Option<String>) {
+    console_error_panic_hook::set_once();
     let drawn = report
         .as_deref()
         .and_then(arborist_wall::report_from_document)
         .unwrap_or_else(|| report_from(SNAPSHOT));
     gpui_platform::web_init();
-    let _handle = gpui_platform::application_with_web_backend(
-        gpui_platform::WebBackendPreference::Auto,
-    )
+    let _handle = gpui_platform::application_with_web_backend(backend(rendering.as_deref()))
     .run_embedded(move |cx: &mut gpui::App| {
         // The report has to be *owned* by the window closure, not borrowed from
         // this stack frame: `open_window` keeps its builder past the call that

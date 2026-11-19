@@ -7,7 +7,10 @@
 <style>
   html, body { margin: 0; height: 100%; background: #0b0f14; color: #e6edf5; }
   body { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; }
-  canvas { display: block; }
+  /* GPUI appends its own canvas; without a size it is a zero-sized element and
+     the page is a black rectangle with no error anywhere. */
+  canvas { display: block; width: 100vw; height: 100vh; }
+  #status { position: fixed; left: 12px; bottom: 10px; color: #6b7d90; }
   #fallback { padding: 40px; max-width: 60ch; line-height: 1.5; }
   #fallback code { color: #a3be8c; }
   #fallback[hidden] { display: none; }
@@ -25,18 +28,45 @@
   The page says so out loud when there is no WebGPU, because a blank rectangle
   is the wrong way to report a missing adapter.
 -->
+<div id="status">arborist: starting…</div>
 <div id="fallback" hidden>
-  <p><strong>arborist</strong> needs WebGPU to draw.</p>
-  <p>This browser did not give one up. Try <code>chrome://flags/#enable-unsafe-webgpu</code>,
-  or open the page with <code>?backend=webgl</code>.</p>
+  <p id="reason"><strong>arborist</strong> did not start.</p>
+  <p id="hint">Safari can have WebGPU and still not run this pipeline; open the page
+  with <code>?backend=webgl</code>. Chrome runs WebGPU as-is.</p>
 </div>
 <script type="module">
+  const status = document.getElementById('status');
   const fallback = document.getElementById('fallback');
-  if (!navigator.gpu) {
+
+  // A black rectangle is the wrong way to report a failure. Every path that can
+  // fail says so, in the corner and in the panel, with the reason.
+  const fail = (reason) => {
+    status.textContent = 'arborist: ' + reason;
+    status.style.color = '#e06c75';
     fallback.hidden = false;
-  } else {
+    document.getElementById('reason').textContent = 'arborist did not start: ' + reason;
+  };
+  window.addEventListener('error', (event) => fail(event.message));
+  window.addEventListener('unhandledrejection', (event) => fail(String(event.reason)));
+
+  const backend = new URLSearchParams(location.search).get('backend');
+  const wantsGl = backend === 'webgl' || backend === 'gl';
+  status.textContent = 'arborist: backend ' + (backend || 'auto') +
+    ' · webgpu ' + (navigator.gpu ? 'present' : 'absent');
+
+  try {
+    // Asking for WebGL and then probing WebGPU would fail a page that was about
+    // to work: Safari reports both an adapter and an unusable pipeline.
+    if (!wantsGl) {
+      if (!navigator.gpu) throw new Error('no navigator.gpu — try ?backend=webgl');
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) throw new Error('no WebGPU adapter — try ?backend=webgl');
+      status.textContent += ' · adapter ok';
+    }
+
     const module = await import('./arborist_web.js');
     await module.default();
+
     // The report the last scan wrote, served beside this page. `no-store`
     // because a wall showing last night's numbers while the fleet has moved is
     // the one failure mode this page cannot afford.
@@ -47,11 +77,14 @@
     } catch (error) {
       console.warn('arborist: no live report, drawing the compiled snapshot', error);
     }
-    // A bundle built before `boot` existed starts itself on init and draws the
-    // compiled snapshot; this page still works against one, it just isn't live.
-    if (typeof module.boot === 'function') {
-      module.boot(report);
+
+    if (typeof module.boot !== 'function') {
+      throw new Error('this bundle predates boot(); rebuild view/browser');
     }
+    module.boot(report, backend);
+    status.textContent += ' · booted' + (report ? ' with the live report' : ' on the snapshot');
+  } catch (error) {
+    fail(error && error.message ? error.message : String(error));
   }
 </script>
 </body>

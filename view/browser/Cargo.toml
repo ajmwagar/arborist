@@ -20,3 +20,7 @@ gpui = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad
 # cross-origin-isolated page. The wall is a document; it renders on one thread.
 gpui_platform = { git = "https://github.com/fungOS-linux/gpui-fast", rev = "60ebb175729ad2a17acf59d8e988e794ff4b7eb4", package = "gpui_platform", default-features = false }
 wasm-bindgen = "=0.2.129"
+# A panic in wasm traps as "unreachable" and says nothing. This turns it into a
+# stack trace in the console, which is the difference between a bug you can see
+# and a black page.
+console_error_panic_hook = "0.1"
