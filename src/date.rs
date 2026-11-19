@@ -81,6 +81,15 @@ pub fn days_between(earlier: &str, later: &str) -> Option<i64> {
     Some((later - earlier).div_euclid(86_400))
 }
 
+/// Whole hours between two RFC 3339 timestamps, or `None` if either is
+/// unreadable. Truncating like [`days_between`], so a branch 11.9 hours old does
+/// not cross a twelve-hour threshold.
+pub fn hours_between(earlier: &str, later: &str) -> Option<i64> {
+    let earlier = parse_rfc3339(earlier)?;
+    let later = parse_rfc3339(later)?;
+    Some((later - earlier).div_euclid(3_600))
+}
+
 fn digits(text: &str) -> Option<i64> {
     if text.is_empty() || !text.bytes().all(|byte| byte.is_ascii_digit()) {
         return None;

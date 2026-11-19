@@ -23,6 +23,10 @@ pub struct Policy {
     pub max_branches: u32,
     /// Open pull requests per repository before the count is worth a look.
     pub max_open_pulls: u32,
+    /// How long a branch may carry work nobody has opened a pull request for.
+    /// Twelve hours is one working day: a branch pushed this morning is a
+    /// branch in progress, and one pushed yesterday is work nobody can review.
+    pub stale_branch_hours: i64,
     /// Whether an archived repository is skipped. Off by default because an
     /// archived repository is a decision somebody already made.
     pub check_archived: bool,
@@ -41,6 +45,7 @@ impl Default for Policy {
             stale_days: 90,
             max_branches: 50,
             max_open_pulls: 10,
+            stale_branch_hours: 12,
             check_archived: false,
             check_forks: false,
             min_readme_bytes: 256,
@@ -309,6 +314,54 @@ fn evaluate_one(
                 Some(_) => Finding::pass(check),
             },
         },
+        Check::StaleBranches => match &repo.branch_list {
+            None => Finding::unknown(check, "no branch list was collected"),
+            Some(branches) => {
+                // The default branch is where work lands, not work waiting.
+                let looked_at = branches
+                    .iter()
+                    .filter(|branch| Some(branch.name.as_str()) != repo.default_branch.as_deref())
+                    .collect::<Vec<_>>();
+                let unmerged = looked_at.iter().filter(|branch| !branch.merged).count();
+                let stale: Vec<&crate::Branch> = looked_at
+                    .iter()
+                    .copied()
+                    .filter(|branch| branch.pulls == 0)
+                    .filter(
+                        |branch| match (collected_at, branch.committed_at.as_deref()) {
+                            (Some(collected_at), Some(committed_at)) => {
+                                crate::date::hours_between(committed_at, collected_at)
+                                    .is_some_and(|hours| hours > policy.stale_branch_hours)
+                            }
+                            // An unreadable date is not evidence of staleness.
+                            _ => false,
+                        },
+                    )
+                    .collect();
+
+                if stale.is_empty() {
+                    Finding::pass(check)
+                } else {
+                    let names: Vec<String> = stale
+                        .iter()
+                        .take(3)
+                        .map(|branch| branch.name.clone())
+                        .collect();
+                    Finding::fail(
+                        check,
+                        format!(
+                            "{} branch(es) with no pull request for over {}h ({}); \
+                             {} of {} unmerged",
+                            stale.len(),
+                            policy.stale_branch_hours,
+                            names.join(", "),
+                            unmerged,
+                            looked_at.len()
+                        ),
+                    )
+                }
+            }
+        },
         Check::Branches => {
             if repo.branches > policy.max_branches {
                 Finding::fail(
@@ -486,6 +539,86 @@ mod tests {
             metrics: metrics.iter().map(|s| (*s).to_string()).collect(),
             alerts: alerts.iter().map(|s| (*s).to_string()).collect(),
         });
+    }
+
+    fn branch(name: &str, committed_at: &str, pulls: u32, merged: bool) -> crate::Branch {
+        crate::Branch {
+            name: name.into(),
+            committed_at: Some(committed_at.into()),
+            pulls,
+            merged,
+        }
+    }
+
+    #[test]
+    fn a_branch_with_no_pull_request_across_a_working_day_fails() {
+        // `collected_at` in these tests is 2026-11-17T12:00:00Z.
+        let mut repo = repo();
+        repo.branch_list = Some(vec![
+            branch("feature/half-done", "2026-11-16T00:00:00Z", 0, false),
+            branch("feature/opened", "2026-11-10T00:00:00Z", 1, false),
+        ]);
+        let report = evaluate(&snapshot(vec![repo]));
+        match &find(&report, Check::StaleBranches).status {
+            Status::Fail { detail } => {
+                assert!(detail.contains("feature/half-done"), "{detail}");
+                assert!(!detail.contains("feature/opened"), "{detail}");
+                // Both are unmerged: one because nobody opened a pull request,
+                // one because it is still open. The count answers "how much
+                // work is not landed", which is the question being asked.
+                assert!(detail.contains("2 of 2 unmerged"), "{detail}");
+            }
+            other => panic!("expected a failure, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn a_branch_pushed_this_morning_is_work_in_progress_not_a_finding() {
+        let mut repo = repo();
+        repo.branch_list = Some(vec![branch(
+            "feature/now",
+            "2026-11-17T09:00:00Z",
+            0,
+            false,
+        )]);
+        let report = evaluate(&snapshot(vec![repo]));
+        assert_eq!(find(&report, Check::StaleBranches).status, Status::Pass);
+    }
+
+    #[test]
+    fn the_default_branch_is_never_the_one_waiting_for_review() {
+        let mut repo = repo();
+        repo.default_branch = Some("main".into());
+        repo.branch_list = Some(vec![branch("main", "2026-01-01T00:00:00Z", 0, false)]);
+        let report = evaluate(&snapshot(vec![repo]));
+        assert_eq!(find(&report, Check::StaleBranches).status, Status::Pass);
+    }
+
+    #[test]
+    fn a_merged_branch_nobody_deleted_is_not_waiting_for_review() {
+        let mut repo = repo();
+        repo.branch_list = Some(vec![branch(
+            "feature/landed",
+            "2026-11-01T00:00:00Z",
+            1,
+            true,
+        )]);
+        let report = evaluate(&snapshot(vec![repo]));
+        assert_eq!(find(&report, Check::StaleBranches).status, Status::Pass);
+    }
+
+    #[test]
+    fn an_unreadable_commit_date_is_not_evidence_of_staleness() {
+        let mut repo = repo();
+        repo.branch_list = Some(vec![branch("odd", "not a date", 0, false)]);
+        let report = evaluate(&snapshot(vec![repo]));
+        assert_eq!(find(&report, Check::StaleBranches).status, Status::Pass);
+    }
+
+    #[test]
+    fn a_snapshot_without_a_branch_list_is_unknown() {
+        let report = evaluate(&snapshot(vec![repo()]));
+        assert!(find(&report, Check::StaleBranches).status.is_unknown());
     }
 
     #[test]

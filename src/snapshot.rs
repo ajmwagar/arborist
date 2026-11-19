@@ -72,6 +72,11 @@ pub struct RepoState {
     /// The words, not the prose, for the same reason the README keeps badges.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tracker: Option<Tracker>,
+    /// The branches themselves, once somebody has looked. `None` means nobody
+    /// did; the count in `branches` does not say whether any of them has a
+    /// pull request or is finished with.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub branch_list: Option<Vec<Branch>>,
     /// Whether this repository can be watched: what it serves, what it exports,
     /// and what it would alert on.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -89,6 +94,24 @@ impl RepoState {
     pub fn slug(&self) -> String {
         format!("{}/{}", self.org, self.name)
     }
+}
+
+/// One branch, as far as anyone can tell from the forge.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Branch {
+    pub name: String,
+    /// When the tip was committed. The branch's age, which is not the same as
+    /// when it was created: a branch pushed to an hour ago is not stale.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub committed_at: Option<String>,
+    /// Pull requests whose head is this branch, any state.
+    #[serde(default)]
+    pub pulls: u32,
+    /// Whether any of those has been merged — a branch that is finished with,
+    /// whether or not somebody deleted it.
+    #[serde(default)]
+    pub merged: bool,
 }
 
 /// The last workflow run on the default branch.

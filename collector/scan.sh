@@ -15,8 +15,10 @@
 #     the published event and in the report file.
 #
 #   * **it must fit in the scheduler's budget.** Pulse bounds a run at 60
-#     seconds. `FLEET_DEADLINE` caps the collection at 50 by default so the
-#     scan ends with a report instead of being killed with none.
+#     seconds. `FLEET_DEADLINE` caps the collection at 55 by default so the scan
+#     ends with a report instead of being killed with none. It was 50 until the
+#     branch audit: asking for the branches themselves costs about seventeen
+#     seconds, and a measured two-owner run now takes 49.
 #
 # Environment:
 #   ARBORIST_BIN     a native arborist binary (default: `arborist` on PATH)
@@ -29,7 +31,7 @@
 #                    arborist.finding)
 #   UNIBUS_EVENTS    set to 0 to publish only the digest, not the events
 #   UNIBUS_JOBS      how many events are in flight at once (default: 8)
-#   FLEET_DEADLINE   seconds allowed for collection (default: 50)
+#   FLEET_DEADLINE   seconds allowed for collection (default: 55)
 set -eu
 
 here=$(dirname "$0")
@@ -38,7 +40,7 @@ kind=${UNIBUS_KIND:-arborist.scan}
 events_kind=${UNIBUS_EVENTS_KIND:-arborist.finding}
 events_on=${UNIBUS_EVENTS:-1}
 jobs=${UNIBUS_JOBS:-8}
-deadline=${FLEET_DEADLINE:-50}
+deadline=${FLEET_DEADLINE:-55}
 work=${TMPDIR:-/tmp}/arborist-scan.$$
 mkdir -p "$(dirname "$report")" || {
   echo "scan.sh: cannot create $(dirname "$report")" >&2

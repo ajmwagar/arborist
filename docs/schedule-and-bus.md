@@ -82,11 +82,12 @@ pulse run's `detail`, which is why the headline line is the last thing printed:
 Two constraints from `myceliumd/src/pulse.rs`, both of which shaped the script:
 
 - **`RUN_TIMEOUT` is 60 seconds.** `scan.sh` caps collection at `FLEET_DEADLINE`
-  (default 50s) — `timeout(1)` where it exists, a POSIX watchdog where it does
+  (default 55s) — `timeout(1)` where it exists, a POSIX watchdog where it does
   not, which is every macOS box in the fleet — so a big owner ends with a report
   rather than being killed with none. A measured two-owner run (150
   repositories, eight GraphQL pages, wasm component) takes **32 seconds** with
-  the owners collected in parallel.
+  the owners collected in parallel, and **49** once the branch audit asks for
+  the branches themselves.
 - **Owners are parallel, pages are not.** Two owners are two independent
   queries, so they cost the slower one instead of the sum: 46s became 32s when
   that landed. One owner's pages cannot be parallelised at all — the cursor is

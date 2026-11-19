@@ -39,5 +39,5 @@ pub use report::{
     render_text_with_limit,
 };
 pub use service::Service;
-pub use snapshot::{Link, Readme, RepoState, Run, SCHEMA, Snapshot};
+pub use snapshot::{Branch, Link, Readme, RepoState, Run, SCHEMA, Snapshot};
 pub use tracker::{Stale, Tracker};

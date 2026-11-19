@@ -31,6 +31,33 @@ fragment RepoFields on Repository {
   branches: refs(refPrefix: "refs/heads/", first: 1) {
     totalCount
   }
+  # The branches, not just how many. A count cannot say whether a branch has a
+  # pull request or is finished with, and those are the two questions worth
+  # asking: a branch nobody opened a PR for is work nobody can review.
+  #
+  # Twenty, newest first: a repository with seventy branches is a repository
+  # with a branch problem the count above already reports, and fetching all
+  # seventy would make the page expensive to answer a question the first twenty
+  # have already answered. The check says how many it looked at.
+  branchList: refs(
+    refPrefix: "refs/heads/"
+    first: 20
+    orderBy: { field: TAG_COMMIT_DATE, direction: DESC }
+  ) {
+    nodes {
+      name
+      target {
+        ... on Commit {
+          committedDate
+        }
+      }
+      associatedPullRequests(first: 3) {
+        nodes {
+          state
+        }
+      }
+    }
+  }
   workflows: object(expression: "HEAD:.github/workflows") {
     ... on Tree {
       entries {

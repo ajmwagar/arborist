@@ -172,6 +172,9 @@ fn repo_state(login: &str, name: String, node: Node) -> RepoState {
             }
         }),
         tracker: tracker_from(node.agents, node.claude),
+        branch_list: node
+            .branch_list
+            .map(|connection| connection.map(branches).unwrap_or_default()),
         service: service_from(
             [
                 ("Cargo.toml", node.cargo_toml),
@@ -188,6 +191,35 @@ fn repo_state(login: &str, name: String, node: Node) -> RepoState {
         ),
         exempt: BTreeMap::new(),
     }
+}
+
+/// The branch nodes as branches.
+fn branches(connection: RefConnection) -> Vec<crate::Branch> {
+    connection
+        .nodes
+        .into_iter()
+        .flatten()
+        .filter_map(|node| {
+            let name = node.name.filter(|name| !name.trim().is_empty())?;
+            let states: Vec<String> = node
+                .associated_pull_requests
+                .map(|connection| {
+                    connection
+                        .nodes
+                        .into_iter()
+                        .flatten()
+                        .filter_map(|pull| pull.state)
+                        .collect()
+                })
+                .unwrap_or_default();
+            Some(crate::Branch {
+                name,
+                committed_at: node.target.and_then(|target| target.committed_date),
+                pulls: states.len() as u32,
+                merged: states.iter().any(|state| state == "MERGED"),
+            })
+        })
+        .collect()
 }
 
 /// The service picture from the manifests and rule files a page carried.
@@ -331,6 +363,10 @@ struct Node {
     agents: Option<Option<Blob>>,
     #[serde(default, deserialize_with = "double_option")]
     claude: Option<Option<Blob>>,
+    // The branch nodes. `None` is "not asked", `Some` with an empty list is
+    // "asked, and this repository has none".
+    #[serde(default, deserialize_with = "double_option")]
+    branch_list: Option<Option<RefConnection>>,
     // The dependency manifests and alert-rule files, read for the names they
     // contain. Same double `Option`: "not asked" is not "not there".
     #[serde(default, deserialize_with = "double_option")]
@@ -397,6 +433,42 @@ struct BranchRef {
 struct Count {
     #[serde(default)]
     total_count: u32,
+}
+
+#[derive(Debug, Deserialize)]
+struct RefConnection {
+    #[serde(default)]
+    nodes: Vec<Option<RefNode>>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RefNode {
+    #[serde(default)]
+    name: Option<String>,
+    #[serde(default)]
+    target: Option<CommitRef>,
+    #[serde(default)]
+    associated_pull_requests: Option<PullConnection>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct CommitRef {
+    #[serde(default)]
+    committed_date: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct PullConnection {
+    #[serde(default)]
+    nodes: Vec<Option<PullNode>>,
+}
+
+#[derive(Debug, Deserialize)]
+struct PullNode {
+    #[serde(default)]
+    state: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]

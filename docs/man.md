@@ -69,6 +69,7 @@ failing test instead of a silently empty column.
 | `tracker` | critical | do the agent instructions name marbles rather than beads |
 | `metrics` | advisory | does the service it runs export Prometheus metrics |
 | `alerts` | advisory | does it define alert rules for the metrics it exports |
+| `stale-branches` | advisory | is there work on a branch that nobody can review |
 | `active` | advisory | was it pushed to inside the staleness window |
 | `branches` | advisory | are branches under the limit |
 | `open-pulls` | advisory | are open pull requests under the limit |

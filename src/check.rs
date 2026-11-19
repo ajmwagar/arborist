@@ -105,11 +105,13 @@ pub enum Check {
     Branches,
     /// Pull requests are not accumulating.
     OpenPulls,
+    /// Branches are not sitting unpushed-at and unreviewed.
+    StaleBranches,
 }
 
 impl Check {
     /// Every check, in the order a report prints them.
-    pub const ALL: [Self; 14] = [
+    pub const ALL: [Self; 15] = [
         Self::License,
         Self::Ci,
         Self::CiGreen,
@@ -124,6 +126,7 @@ impl Check {
         Self::Active,
         Self::Branches,
         Self::OpenPulls,
+        Self::StaleBranches,
     ];
 
     #[must_use]
@@ -143,6 +146,7 @@ impl Check {
             Self::Active => "active",
             Self::Branches => "branches",
             Self::OpenPulls => "open-pulls",
+            Self::StaleBranches => "stale-branches",
         }
     }
 
@@ -160,7 +164,8 @@ impl Check {
             | Self::Alerts
             | Self::Active
             | Self::Branches
-            | Self::OpenPulls => Severity::Advisory,
+            | Self::OpenPulls
+            | Self::StaleBranches => Severity::Advisory,
         }
     }
 
@@ -182,6 +187,7 @@ impl Check {
             Self::Active => "was it pushed to inside the staleness window",
             Self::Branches => "are branches under the limit",
             Self::OpenPulls => "are open pull requests under the limit",
+            Self::StaleBranches => "is there work on a branch that nobody can review",
         }
     }
 
@@ -203,6 +209,7 @@ impl Check {
             Self::Active => "archive it, or push the work that is sitting locally",
             Self::Branches => "delete merged branches",
             Self::OpenPulls => "land it, close it, or mark it draft with a reason",
+            Self::StaleBranches => "open a pull request, or delete the branch",
         }
     }
 }
