@@ -1,0 +1,75 @@
+# arborist-ui: the fleet's source health as a server-rendered page.
+#
+# One report, one page, no client state. The Spore reads a snapshot the host
+# mounts, evaluates it with the same `evaluate` the command uses, and answers
+# with HTML. The host owns routing and bytes; the Spore owns the report and the
+# layout.
+schema = 1
+
+[spore]
+id = "dev.fungos.arborist-ui"
+name = "arborist-ui"
+title = "Arborist"
+version = "0.1.0"
+license = "MIT"
+summary = "What every repository in the fleet is missing, and what has rotted"
+description = "The arborist report as a server-rendered web page: the four numbers, the shape of every check's distribution, the repositories worth opening first, and every finding with its detail. Reads a mounted snapshot or report; evaluates it with the same arborist library the command prints."
+homepage = "https://github.com/ajmwagar/arborist"
+
+[docs]
+man = "README.md"
+
+[catalog]
+categories = ["developer-tools"]
+keywords = ["ci", "licence", "audit", "fleet", "repositories", "bitrot", "ssr"]
+
+[engine]
+soil = ">=0.1"
+target = "wasm32-wasip2"
+abi = { vfs = "1.0.0", http = "0.2.12" }
+
+[module]
+path = "module.wasm"
+
+[http]
+hosts = [
+  "arborist.myc",
+  "arborist.local",
+  "arborist.localhost",
+  "arborist.fpl.dev",
+  "127.0.0.1",
+  "localhost",
+]
+routes = [
+  { methods = ["GET"], path = "/" },
+  { methods = ["GET"], path = "/checks" },
+  { methods = ["GET"], path = "/repo" },
+  { methods = ["GET"], path = "/report.json" },
+  { methods = ["GET"], path = "/healthz" },
+]
+
+[launch]
+default = "web"
+surfaces = ["web"]
+
+[grants]
+"soil:vfs" = "read a mounted snapshot.json or report.json; the fixture is compiled in"
+"wasi:http" = "answer the name the host routes here"
+"wasi:io" = "the response body stream"
+"wasi:clocks" = "the HTTP types carry a monotonic clock"
+# The floor the Rust standard library links in, not authority this Spore uses.
+"wasi:cli" = "Rust std diagnostics; no args, environment, or process launch"
+
+[denied]
+# A check that could fetch would be a check whose answer depends on the network
+# at the moment somebody asks. Evidence is collected once, by the collector;
+# this page only scores the document the host mounts.
+"soil:http" = ["scoring never fetches; the snapshot is collected elsewhere"]
+"soil:records" = ["the report is a document, not a book"]
+transport = ["socket", "quic", "iroh", "ssh"]
+host = ["process", "secrets", "environment", "raw-filesystem"]
+
+[presentation]
+badge = "Ar"
+color = "#a3be8c"
+mark = "assets/icon.svg"

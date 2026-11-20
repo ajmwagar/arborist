@@ -1,0 +1,31 @@
+[package]
+name = "arborist-ui"
+description = "The arborist report as a server-rendered page"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/ajmwagar/arborist"
+publish = false
+
+# A Spore is its own workspace: it targets `wasm32-wasip2` and is not part of
+# the evaluator's `cargo test` run.
+[workspace]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# The evaluator. This page renders the same `Report` the command prints, so a
+# drift between what CI gates on and what the page shows cannot be introduced.
+arborist = { path = "../.." }
+maud = "0.27"
+serde_json = "1"
+
+[target.'cfg(target_family = "wasm")'.dependencies]
+wit-bindgen = "0.41"
+
+[lints.rust]
+# wit-bindgen emits the `unsafe` export shims; isolate that to the generated
+# guest glue. The pages on the other side of the ABI are safe Rust.
+unsafe_code = "allow"
