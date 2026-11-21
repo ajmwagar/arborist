@@ -27,6 +27,13 @@ It computes nothing. There is no second evaluator here — a wall that did its o
 arithmetic would eventually disagree with the gate, and the wall is the thing
 people believe.
 
+## Three surfaces, one report
+
+`ssr/` is the server-rendered surface served at `arborist.myc`: an HTTP Spore
+that evaluates a mounted snapshot with the same `arborist::evaluate` and
+answers with HTML. It shares the report, not the layout, with the GPUI wall.
+See [`ssr/README.md`](ssr/README.md).
+
 ## Two hosts, one view
 
 `wall/` is the view — layout, colours, text, and nothing else. `browser/` and

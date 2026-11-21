@@ -1,0 +1,12 @@
+// `arborist.myc`: the fleet's source health as a server-rendered page.
+//
+// The Spore owns the HTML and the projections under it. The host owns routing
+// and the VFS: a snapshot may be mounted, and a Spore that finds none renders
+// the fixture compiled into it.
+package fungos:arborist-ui@0.1.0;
+
+world arborist-ui {
+  import soil:vfs/vfs@1.0.0;
+
+  export wasi:http/incoming-handler@0.2.12;
+}

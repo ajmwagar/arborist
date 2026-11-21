@@ -15,3 +15,7 @@ view/module.wasm
 view/web/arborist_web*.js
 view/web/arborist_web*.wasm
 view/web/*.d.ts
+
+# The SSR component is built, not shipped: the package in the install tree
+# carries the module, and the source tree carries how to make it.
+view/ssr/module.wasm
