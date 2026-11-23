@@ -22,8 +22,9 @@
       (and (= (field repo :fork) #t) #t)))
 
 (defun ar/check-ids ()
-  (list "license" "ci" "ci-green" "release" "readme"
-        "description" "active" "branches" "open-pulls"))
+  (list "license" "ci" "ci-green" "release" "readme" "badges"
+        "description" "docs-links" "tracker" "metrics" "alerts"
+        "active" "branches" "open-pulls" "stale-branches"))
 
 (defun ar/severity (id)
   (if (or (= id "license") (= id "ci") (= id "ci-green")
@@ -39,6 +40,106 @@
 
 (defun ar/days-between (from to)
   (date/floor-div (- to from) 86400000))
+
+(defun ar/link-broken? (link)
+  (let ((status (ar/option link :status)))
+    (or (not (nil? (ar/option link :error)))
+        (nil? status)
+        (< status 200)
+        (>= status 400))))
+
+(defun ar/broken-links (links)
+  (filter 'ar/link-broken? links))
+
+(defun ar/branch-default? (branch repo)
+  (= (field branch :name) (ar/option repo :default_branch)))
+
+(defun ar/branch-unmerged? (branch)
+  (not (= (field branch :merged) #t)))
+
+(defun ar/branch-stale? (branch collected)
+  (and (= 0 (or (field branch :pulls) 0))
+       (let ((at (ar/option branch :committed_at)))
+         (if (nil? at) #f
+             (let ((at-ms (ar/date-ms at))
+                   (collected-ms (ar/date-ms collected)))
+               (if (or (nil? at-ms) (nil? collected-ms)) #f
+                   (> (date/floor-div (- collected-ms at-ms) 3600000) 12)))))))
+
+(defun ar/drop-prefix (text prefix)
+  (let ((chars (string-chars text))
+        (wanted (string-chars prefix)))
+    (if (= (take (length wanted) chars) wanted)
+        (string-join (drop (length wanted) chars) "")
+        text)))
+
+(defun ar/split-slash (chars current parts)
+  (cond
+    ((nil? chars) (reverse (if (nil? current) parts (cons (string-join (reverse current) "") parts))))
+    ((= (first chars) "/")
+      (ar/split-slash (rest chars) nil
+        (if (nil? current) parts (cons (string-join (reverse current) "") parts))))
+    (else (ar/split-slash (rest chars) (cons (first chars) current) parts))))
+
+(defun ar/url-segments (url)
+  (let ((rest (ar/drop-prefix (ar/drop-prefix url "https://") "http://")))
+    (let ((chars (string-chars rest)))
+      (ar/split-slash (take-while (lambda (ch) (and (not (= ch "?")) (not (= ch "#")))) chars) nil nil))))
+
+(defun ar/dead-host? (host)
+  (or (= host "travis-ci.org") (= host "travis-ci.com")
+      (= host "api.travis-ci.com") (= host "www.travis-ci.org")))
+
+(defun ar/live-ci-host? (host)
+  (let ((host (ar/drop-prefix host "www.")))
+    (or (= host "circleci.com") (= host "app.circleci.com")
+        (= host "buildkite.com") (= host "gitlab.com") (= host "codecov.io"))))
+
+(defun ar/badge-kind (url)
+  (let ((segments (ar/url-segments url)))
+    (let ((host (if (nil? segments) "" (first segments))))
+      (cond
+        ((ar/dead-host? host) "dead")
+        ((and (= host "github.com") (>= (length segments) 7)
+              (= (nth 3 segments) "actions") (= (nth 4 segments) "workflows"))
+          (str "actions:" (nth 5 segments)))
+        ((and (= host "github.com") (>= (length segments) 6)
+              (= (nth 3 segments) "workflows"))
+          "actions-legacy")
+        ((and (= host "img.shields.io") (>= (length segments) 8)
+              (= (nth 1 segments) "github") (= (nth 2 segments) "actions")
+              (= (nth 3 segments) "workflow") (= (nth 4 segments) "status"))
+          (str "actions:" (nth 7 segments)))
+        ((ar/live-ci-host? host) "ci")
+        (else "other")))))
+
+(defun ar/prefix? (text prefix)
+  (= (take (length (string-chars prefix)) (string-chars text))
+     (string-chars prefix)))
+
+(defun ar/badge-status (repo badges dead live missing)
+  (if (nil? badges)
+      (cond
+        ((not (nil? dead)) "fail")
+        ((= live 0) "fail")
+        ((not (nil? missing)) "fail")
+        ((nil? (or-empty (field repo :workflows))) "fail")
+        (else "pass"))
+      (let ((badge (first badges)))
+        (let ((kind (ar/badge-kind (field badge :url))))
+          (cond
+            ((= kind "dead")
+              (ar/badge-status repo (rest badges) (cons (field badge :url) dead)
+                live missing))
+            ((ar/prefix? kind "actions:")
+              (let ((workflow (string-join (drop 8 (string-chars kind)) "")))
+                (if (ar/member? workflow (or-empty (field repo :workflows)))
+                    (ar/badge-status repo (rest badges) dead (+ live 1) missing)
+                    (ar/badge-status repo (rest badges) dead (+ live 1)
+                      (cons workflow missing)))))
+            ((or (= kind "actions-legacy") (= kind "ci"))
+              (ar/badge-status repo (rest badges) dead (+ live 1) missing))
+            (else (ar/badge-status repo (rest badges) dead live missing)))))))
 
 (defun ar/status (check repo collected)
   (cond
@@ -63,9 +164,52 @@
           ((not (= (field readme :present) #t)) "fail")
           ((< (or (field readme :bytes) 0) 256) "fail")
           (else "pass"))))
+    ((= check "badges")
+      (let ((readme (ar/option repo :readme)))
+        (cond
+          ((nil? readme) "unknown")
+          ((not (= (field readme :present) #t)) "unknown")
+          (else (ar/badge-status repo (field readme :badges) nil 0 nil)))))
     ((= check "description")
       (let ((description (ar/option repo :description)))
         (if (and (string? description) (not (= description ""))) "pass" "fail")))
+    ((= check "docs-links")
+      (let ((links (ar/option repo :links)))
+        (if (nil? links) "unknown"
+            (if (nil? (ar/broken-links links)) "pass" "fail"))))
+    ((= check "tracker")
+      (let ((tracker (ar/option repo :tracker)))
+        (cond
+          ((nil? tracker) "unknown")
+          ((and (not (nil? (or-empty (field tracker :unread))))
+                (nil? (or-empty (field tracker :stale)))) "unknown")
+          ((nil? (or-empty (field tracker :stale))) "pass")
+          (else "fail"))))
+    ((= check "metrics")
+      (let ((service (ar/option repo :service)))
+        (cond
+          ((nil? service) "unknown")
+          ((and (nil? (or-empty (field service :http)))
+                (nil? (or-empty (field service :metrics)))) "pass")
+          ((not (nil? (or-empty (field service :metrics)))) "pass")
+          (else "fail"))))
+    ((= check "alerts")
+      (let ((service (ar/option repo :service)))
+        (cond
+          ((nil? service) "unknown")
+          ((nil? (or-empty (field service :metrics))) "pass")
+          ((not (nil? (or-empty (field service :alerts)))) "pass")
+          (else "fail"))))
+    ((= check "stale-branches")
+      (let ((branches (ar/option repo :branch_list)))
+        (if (nil? branches) "unknown"
+            (let ((looked (filter (lambda (branch)
+                                     (not (ar/branch-default? branch repo)))
+                                   branches)))
+              (if (nil? (filter (lambda (branch)
+                                   (ar/branch-stale? branch collected))
+                                looked))
+                  "pass" "fail")))))
     ((= check "active")
       (let ((pushed (ar/option repo :pushed_at)))
         (if (or (nil? pushed) (nil? collected)) "unknown"
